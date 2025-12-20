@@ -487,6 +487,12 @@ node -c ~/.claude-code-router/intent-router.js
 
 ---
 
+## Attribution
+
+This configuration package is designed for use with [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router), an excellent tool that enables Claude Code functionality with multiple AI providers.
+
+The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic and provider configurations to help users get started quickly.
+
 ## Resources
 
 - [GitHub - musistudio/claude-code-router](https://github.com/musistudio/claude-code-router)

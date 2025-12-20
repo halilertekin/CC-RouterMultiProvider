@@ -1,6 +1,8 @@
 # Logs
 logs/
 *.log
+npm-debug.log*
+yarn-error.log
 
 # Runtime files
 *.pid
@@ -24,3 +26,16 @@ Thumbs.db
 
 # Node
 node_modules/
+.npm
+.yarn-integrity
+
+# NPM packaging
+*.tgz
+
+# Test coverage
+coverage/
+.nyc_output
+
+# Build output
+dist/
+build/

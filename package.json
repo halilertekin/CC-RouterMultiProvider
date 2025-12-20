@@ -1,7 +1,7 @@
 {
   "name": "claude-code-router-config",
   "version": "1.0.0",
-  "description": "Multi-provider configuration for Claude Code Router with intent-based routing",
+  "description": "Configuration package for @musistudio/claude-code-router with multi-provider intent-based routing",
   "main": "install.js",
   "bin": {
     "ccr-setup": "install.js"
@@ -30,21 +30,23 @@
     "copilot",
     "claude-code",
     "cli",
-    "automation"
+    "automation",
+    "configuration"
   ],
   "author": {
-    "name": "Claude Code Router Config",
-    "email": "noreply@example.com"
+    "name": "Halil Ertekin",
+    "email": "halil@ertekin.me",
+    "url": "https://github.com/halilertekin"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/claude-code-router-config.git"
+    "url": "https://github.com/halilertekin/claude-code-router-config.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/claude-code-router-config/issues"
+    "url": "https://github.com/halilertekin/claude-code-router-config/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/claude-code-router-config#readme",
+  "homepage": "https://github.com/halilertekin/claude-code-router-config#readme",
   "engines": {
     "node": ">=16.0.0"
   },

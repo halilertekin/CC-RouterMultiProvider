@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Claude Code Router Config
+Copyright (c) 2025 Halil Ertekin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+## Attribution
+
+This package provides configuration for @musistudio/claude-code-router.
+Original project: https://github.com/musistudio/claude-code-router
+
+The configuration files and intent-based routing logic in this package are designed to work with the original Claude Code Router created by musistudio.

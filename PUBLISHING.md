@@ -1,11 +1,18 @@
-# Publishing Guide
+# Claude Code Router Config - Publishing Guide
+
+## Attribution
+
+This package provides configuration for @musistudio/claude-code-router.
+Original project: https://github.com/musistudio/claude-code-router
 
 ## NPM Publishing
 
 ### 1. Update package.json
 ```bash
-# Update YOUR_USERNAME with your actual GitHub username
-# Update version number if needed
+# Already updated with:
+# - username: halilertekin
+# - email: halil@ertekin.me
+# - attribution to @musistudio/claude-code-router
 ```
 
 ### 2. Build and Test
@@ -50,7 +57,7 @@ shasum -a 256 claude-code-router-config-1.0.0.tar.gz
 # Fork https://github.com/Homebrew/homebrew-core
 
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/homebrew-core.git
+git clone https://github.com/halilertekin/homebrew-core.git
 cd homebrew-core
 
 # Create branch
@@ -84,7 +91,7 @@ Instead of homebrew-core, you can create your own tap:
 ### 1. Create Tap Repository
 ```bash
 # Create GitHub repo: homebrew-tap
-git clone https://github.com/YOUR_USERNAME/homebrew-tap.git
+git clone https://github.com/halilertekin/homebrew-tap.git
 cd homebrew-tap
 ```
 
@@ -101,7 +108,7 @@ git commit -m "Add claude-code-router-config"
 git push origin main
 
 # Users can install with:
-brew tap YOUR_USERNAME/homebrew-tap
+brew tap halilertekin/homebrew-tap
 brew install claude-code-router-config
 ```
 
@@ -126,7 +133,7 @@ brew install claude-code-router-config
 
 ### Option 3: Manual
 ```bash
-git clone https://github.com/YOUR_USERNAME/claude-code-router-config.git
+git clone https://github.com/halilertekin/claude-code-router-config.git
 cd claude-code-router-config
 ./install.sh
 ```

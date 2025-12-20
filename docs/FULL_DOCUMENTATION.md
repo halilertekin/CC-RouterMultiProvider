@@ -472,6 +472,12 @@ node -c ~/.claude-code-router/intent-router.js
 
 ---
 
+## Atıf (Attribution)
+
+Bu yapılandırma paketi [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) için tasarlanmıştır. Bu, Claude Code'u birden fazla AI sağlayıcısıyla kullanmanızı sağlayan mükemmel bir araçtır.
+
+Orijinal Claude Code Router projesi musistudio tarafından geliştirilmektedir ve bakımı yapılmaktadır. Bu paket, kullanıcıların hızla başlamasına yardımcı olmak için önceden yapılandırılmış routing mantığı ve sağlayıcı konfigürasyonları içermektedir.
+
 ## Kaynaklar
 
 - [GitHub - musistudio/claude-code-router](https://github.com/musistudio/claude-code-router)

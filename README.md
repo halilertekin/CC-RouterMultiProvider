@@ -24,7 +24,7 @@ Use Claude Code as a single interface to access multiple AI providers with inten
 ## Quick Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/claude-code-router-config.git
+git clone https://github.com/halilertekin/claude-code-router-config.git
 cd claude-code-router-config
 chmod +x install.sh
 ./install.sh
@@ -133,6 +133,16 @@ claude "Help me debug this React component" # → GitHub Copilot
 - [Setup Prompt (EN)](docs/SETUP_PROMPT_EN.md)
 - [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
 
+## Attribution
+
+This package provides configuration for [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router), an excellent tool that enables Claude Code functionality with multiple AI providers.
+
+The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic and provider configurations to help users get started quickly.
+
 ## License
 
-MIT
+MIT © [Halil Ertekin](https://github.com/halilertekin)
+
+---
+
+**Note**: This is a configuration package. To use it, you need to install the original [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) package.
