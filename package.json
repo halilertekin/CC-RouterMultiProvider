@@ -1,7 +1,7 @@
 {
   "name": "claude-code-router-config",
-  "version": "1.0.0",
-  "description": "Configuration package for @musistudio/claude-code-router with multi-provider intent-based routing",
+  "version": "1.0.1",
+  "description": "Multi-provider configuration for Claude Code Router with intent-based routing. Setup OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, and GitHub Copilot with intelligent routing.",
   "main": "install.js",
   "bin": {
     "ccr-setup": "install.js"
@@ -9,13 +9,16 @@
   "scripts": {
     "install": "node install.js",
     "setup": "chmod +x install.sh && ./install.sh",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.js",
+    "test": "node test/test.js"
   },
   "files": [
     "config/",
     "install.sh",
     ".env.example",
-    "docs/"
+    "docs/",
+    "LICENSE",
+    "README.md"
   ],
   "keywords": [
     "claude",
@@ -31,7 +34,10 @@
     "claude-code",
     "cli",
     "automation",
-    "configuration"
+    "configuration",
+    "homebrew",
+    "intent-based",
+    "llm"
   ],
   "author": {
     "name": "Halil Ertekin",
@@ -41,12 +47,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/halilertekin/claude-code-router-config.git"
+    "url": "https://github.com/halilertekin/CC-RouterMultiProvider.git"
   },
   "bugs": {
-    "url": "https://github.com/halilertekin/claude-code-router-config/issues"
+    "url": "https://github.com/halilertekin/CC-RouterMultiProvider/issues"
   },
-  "homepage": "https://github.com/halilertekin/claude-code-router-config#readme",
+  "homepage": "https://github.com/halilertekin/CC-RouterMultiProvider#readme",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -55,5 +61,8 @@
     "chalk": "^5.3.0",
     "fs-extra": "^11.1.1",
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
