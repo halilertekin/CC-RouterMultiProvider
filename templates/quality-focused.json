@@ -1,0 +1,105 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "debug",
+  "API_TIMEOUT_MS": 60000,
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+
+  "Providers": [
+    {
+      "name": "anthropic",
+      "api_base_url": "https://api.anthropic.com/v1/messages",
+      "api_key": "$ANTHROPIC_API_KEY",
+      "models": ["claude-sonnet-4-latest", "claude-3-5-sonnet-latest"],
+      "transformer": {
+        "use": ["Anthropic"]
+      },
+      "priority": 1,
+      "description": "Highest reasoning and analytical capability",
+      "estimatedCost": "$15.00 per 1M input tokens"
+    },
+    {
+      "name": "openai",
+      "api_base_url": "https://api.openai.com/v1/chat/completions",
+      "api_key": "$OPENAI_API_KEY",
+      "models": ["gpt-4o", "o1", "gpt-4-turbo"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 2,
+      "description": "Strong coding and problem-solving abilities",
+      "estimatedCost": "$5.00 per 1M input tokens"
+    },
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
+      "transformer": {
+        "use": ["gemini"]
+      },
+      "priority": 3,
+      "description": "Good balance of quality and speed",
+      "estimatedCost": "$1.25 per 1M input tokens"
+    },
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "anthropic/claude-3.5-sonnet",
+        "openai/gpt-4-turbo",
+        "google/gemini-pro-1.5"
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      },
+      "priority": 4,
+      "description": "Access to specialized high-quality models",
+      "estimatedCost": "Variable"
+    }
+  ],
+
+  "Router": {
+    "default": "anthropic,claude-sonnet-4-latest",
+    "background": "gemini,gemini-2.5-pro",
+    "think": "openai,o1",
+    "longContext": "gemini,gemini-2.5-pro",
+    "longContextThreshold": 200000,
+    "QualityOptimization": {
+      "enabled": true,
+      "preferAccuracy": true,
+      "maxRetries": 3,
+      "temperature": 0.3,
+      "topP": 0.9
+    }
+  },
+
+  "QualitySettings": {
+    "temperature": 0.3,
+    "maxTokens": 4096,
+    "topP": 0.9,
+    "frequencyPenalty": 0.1,
+    "presencePenalty": 0.1,
+    "responseFormat": "auto"
+  },
+
+  "EnhancedReasoning": {
+    "enabled": true,
+    "chainOfThought": true,
+    "selfCritique": true,
+    "multiplePerspectives": true
+  },
+
+  "description": "Quality-focused configuration prioritizing accuracy and capabilities over cost/speed",
+  "useCase": "Best for critical applications, complex reasoning, research, and professional work",
+  "expectedQuality": "Highest available",
+  "costProfile": "High",
+  "expectedLatency": "3-10 seconds",
+  "recommendedFor": [
+    "Complex analysis",
+    "Creative writing",
+    "Code review",
+    "Strategic planning",
+    "Research tasks"
+  ]
+}

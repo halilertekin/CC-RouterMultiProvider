@@ -1,0 +1,88 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "API_TIMEOUT_MS": 20000,
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+
+  "Providers": [
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-flash"],
+      "transformer": {
+        "use": ["gemini"]
+      },
+      "priority": 1,
+      "description": "Fastest responses for time-critical tasks"
+    },
+    {
+      "name": "openai",
+      "api_base_url": "https://api.openai.com/v1/chat/completions",
+      "api_key": "$OPENAI_API_KEY",
+      "models": ["gpt-4o-mini", "gpt-4o"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 2,
+      "description": "Balance of speed and capability"
+    },
+    {
+      "name": "qwen",
+      "api_base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "api_key": "$QWEN_API_KEY",
+      "models": ["qwen-turbo", "qwen-plus"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 3,
+      "description": "Fast for simple tasks"
+    },
+    {
+      "name": "anthropic",
+      "api_base_url": "https://api.anthropic.com/v1/messages",
+      "api_key": "$ANTHROPIC_API_KEY",
+      "models": ["claude-3-5-haiku-latest", "claude-sonnet-4-latest"],
+      "transformer": {
+        "use": ["Anthropic"]
+      },
+      "priority": 4,
+      "description": "High quality when needed"
+    }
+  ],
+
+  "Router": {
+    "default": "gemini,gemini-2.5-flash",
+    "background": "qwen,qwen-turbo",
+    "think": "openai,gpt-4o-mini",
+    "longContext": "gemini,gemini-2.5-flash",
+    "longContextThreshold": 100000,
+    "Performance": {
+      "enabled": true,
+      "timeoutMs": 15000,
+      "retryAttempts": 2,
+      "preferLowLatency": true
+    }
+  },
+
+  "PerformanceOptimization": {
+    "enableCaching": true,
+    "cacheTTL": 300,
+    "maxConcurrentRequests": 5,
+    "compressionEnabled": true,
+    "smartTimeout": true
+  },
+
+  "HealthChecks": {
+    "enabled": true,
+    "interval": 30000,
+    "timeout": 5000,
+    "failureThreshold": 3,
+    "recoveryTimeout": 60000
+  },
+
+  "description": "Performance-optimized configuration prioritizing speed and low latency",
+  "useCase": "Best for real-time applications, chatbots, and time-sensitive tasks",
+  "expectedLatency": "500-2000ms",
+  "costProfile": "Low to Medium"
+}

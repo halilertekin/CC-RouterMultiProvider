@@ -1,0 +1,104 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "debug",
+  "API_TIMEOUT_MS": 15000,
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+
+  "Providers": [
+    {
+      "name": "openai",
+      "api_base_url": "https://api.openai.com/v1/chat/completions",
+      "api_key": "$OPENAI_API_KEY",
+      "models": ["gpt-4o-mini", "gpt-4o"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 1,
+      "description": "Excellent for coding and development tasks"
+    },
+    {
+      "name": "anthropic",
+      "api_base_url": "https://api.anthropic.com/v1/messages",
+      "api_key": "$ANTHROPIC_API_KEY",
+      "models": ["claude-3-5-sonnet-latest"],
+      "transformer": {
+        "use": ["Anthropic"]
+      },
+      "priority": 2,
+      "description": "Great for debugging and architecture"
+    },
+    {
+      "name": "qwen",
+      "api_base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "api_key": "$QWEN_API_KEY",
+      "models": ["qwen3-coder-plus", "qwen-plus"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 3,
+      "description": "Specialized for coding tasks"
+    },
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-flash"],
+      "transformer": {
+        "use": ["gemini"]
+      },
+      "priority": 4,
+      "description": "Quick for documentation and simple queries"
+    }
+  ],
+
+  "Router": {
+    "default": "openai,gpt-4o-mini",
+    "background": "gemini,gemini-2.5-flash",
+    "think": "anthropic,claude-3-5-sonnet-latest",
+    "longContext": "gemini,gemini-2.5-flash",
+    "longContextThreshold": 50000,
+    "Development": {
+      "enabled": true,
+      "preferCodingModels": true,
+      "codeContextAware": true
+    }
+  },
+
+  "DevelopmentFeatures": {
+    "codeContext": true,
+    "projectAwareness": true,
+    "debugMode": true,
+    "verboseLogging": true,
+    "testMode": false
+  },
+
+  "CodeAssistance": {
+    "languages": ["javascript", "python", "typescript", "java", "go", "rust", "cpp"],
+    "frameworks": ["react", "vue", "angular", "nodejs", "django", "flask", "spring"],
+    "specializedModels": {
+      "coding": "qwen3-coder-plus",
+      "debugging": "anthropic,claude-3-5-sonnet-latest",
+      "architecture": "anthropic,claude-sonnet-4-latest",
+      "documentation": "openai,gpt-4o"
+    }
+  },
+
+  "Testing": {
+    "mockMode": false,
+    "localTesting": true,
+    "apiValidation": true,
+    "responseCaching": true
+  },
+
+  "description": "Development-optimized configuration for coding, debugging, and software engineering tasks",
+  "useCase": "Best for developers, coding assistance, debugging, and software development workflows",
+  "optimizedFor": [
+    "Code generation",
+    "Debugging",
+    "Code review",
+    "Documentation",
+    "Architecture design"
+  ],
+  "costProfile": "Medium",
+  "expectedLatency": "2-5 seconds"
+}

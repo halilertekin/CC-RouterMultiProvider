@@ -1,0 +1,111 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "API_TIMEOUT_MS": 30000,
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+
+  "Providers": [
+    {
+      "name": "openai",
+      "api_base_url": "https://api.openai.com/v1/chat/completions",
+      "api_key": "$OPENAI_API_KEY",
+      "models": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 1,
+      "description": "Versatile performer for most tasks",
+      "strengths": ["coding", "reasoning", "general"]
+    },
+    {
+      "name": "anthropic",
+      "api_base_url": "https://api.anthropic.com/v1/messages",
+      "api_key": "$ANTHROPIC_API_KEY",
+      "models": ["claude-3-5-sonnet-latest", "claude-sonnet-4-latest"],
+      "transformer": {
+        "use": ["Anthropic"]
+      },
+      "priority": 2,
+      "description": "Excellent for analysis and complex reasoning",
+      "strengths": ["analysis", "writing", "reasoning"]
+    },
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
+      "transformer": {
+        "use": ["gemini"]
+      },
+      "priority": 3,
+      "description": "Fast with large context and good quality",
+      "strengths": ["speed", "context", "multilingual"]
+    },
+    {
+      "name": "qwen",
+      "api_base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "api_key": "$QWEN_API_KEY",
+      "models": ["qwen-plus", "qwen-max"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 4,
+      "description": "Cost-effective with good performance",
+      "strengths": ["cost", "multilingual", "coding"]
+    },
+    {
+      "name": "glm",
+      "api_base_url": "https://api.z.ai/api/paas/v4/chat/completions",
+      "api_key": "$GLM_API_KEY",
+      "models": ["glm-4.6", "glm-4.5"],
+      "transformer": {
+        "use": []
+      },
+      "priority": 5,
+      "description": "Specialized in Chinese and multilingual tasks",
+      "strengths": ["multilingual", "translation", "chinese"]
+    }
+  ],
+
+  "Router": {
+    "default": "openai,gpt-4o",
+    "background": "gemini,gemini-2.5-flash",
+    "think": "anthropic,claude-3-5-sonnet-latest",
+    "longContext": "gemini,gemini-2.5-pro",
+    "longContextThreshold": 100000,
+    "Balanced": {
+      "enabled": true,
+      "adaptiveRouting": true,
+      "costAware": true,
+      "performanceAware": true
+    }
+  },
+
+  "BalancedOptimization": {
+    "costQualityRatio": 0.7,
+    "performanceWeight": 0.6,
+    "fallbackStrategy": "cost_first",
+    "adaptiveThreshold": true
+  },
+
+  "AutoOptimization": {
+    "enabled": true,
+    "learningPeriod": 7,
+    "performanceTracking": true,
+    "costMonitoring": true,
+    "automaticTuning": false
+  },
+
+  "description": "Balanced configuration providing good mix of cost, speed, and quality",
+  "useCase": "Best for general use cases, balanced workloads, and users who want it all",
+  "optimizationTarget": "Balanced cost-performance-quality ratio",
+  "costProfile": "Medium",
+  "expectedLatency": "2-4 seconds",
+  "qualityLevel": "High",
+  "recommendedFor": [
+    "General chat",
+    "Mixed workloads",
+    "Everyday tasks",
+    "Balanced requirements"
+  ]
+}

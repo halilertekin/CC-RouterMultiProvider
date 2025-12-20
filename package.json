@@ -1,19 +1,29 @@
 {
   "name": "claude-code-router-config",
-  "version": "1.0.1",
-  "description": "Multi-provider configuration for Claude Code Router with intent-based routing. Setup OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, and GitHub Copilot with intelligent routing.",
+  "version": "1.1.0",
+  "description": "Multi-provider configuration for Claude Code Router with intent-based routing, advanced CLI tools, analytics, and smart routing. Setup OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, and GitHub Copilot with intelligent routing.",
   "main": "install.js",
   "bin": {
-    "ccr-setup": "install.js"
+    "ccr-setup": "install.js",
+    "ccr": "cli/commands.js",
+    "ccr-benchmark": "cli/benchmark.js",
+    "ccr-analytics": "cli/analytics.js"
   },
   "scripts": {
     "install": "node install.js",
     "setup": "chmod +x install.sh && ./install.sh",
     "postinstall": "node postinstall.js",
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "cli": "node cli/commands.js",
+    "benchmark": "node cli/benchmark.js",
+    "analytics": "node cli/analytics.js",
+    "health": "node logging/health-monitor.js"
   },
   "files": [
     "config/",
+    "cli/",
+    "logging/",
+    "templates/",
     "install.sh",
     ".env.example",
     "docs/",
@@ -37,7 +47,15 @@
     "configuration",
     "homebrew",
     "intent-based",
-    "llm"
+    "llm",
+    "smart-routing",
+    "analytics",
+    "benchmarking",
+    "performance-monitoring",
+    "health-checks",
+    "cost-optimization",
+    "quality-optimization",
+    "advanced-cli"
   ],
   "author": {
     "name": "Halil Ertekin",

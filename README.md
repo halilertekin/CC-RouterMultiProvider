@@ -1,13 +1,50 @@
-# Claude Code Router - Multi-Provider Setup
+# Claude Code Router Config - Advanced Multi-Provider Setup
 
-Use Claude Code as a single interface to access multiple AI providers with intent-based routing for optimal performance and cost.
+🚀 **v1.1.0** - Now with advanced CLI tools, analytics, smart routing, and configuration templates!
+
+Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
+
+## ✨ New Features in v1.1.0
+
+### 🛠️ Advanced CLI Tools
+```bash
+ccr test <provider> [model]              # Test provider connectivity
+ccr benchmark --compare-speed            # Benchmark all providers
+ccr analytics today                      # View usage statistics
+ccr config validate                      # Validate configuration
+ccr health --all-providers               # Check provider health
+```
+
+### 📊 Analytics & Monitoring
+- **Cost Tracking**: Monitor spending per provider and model
+- **Usage Analytics**: Track requests, latency, and success rates
+- **Performance Metrics**: Detailed performance insights
+- **Health Monitoring**: Real-time provider health checks
+
+### 🧠 Smart Routing Engine
+- **Adaptive Routing**: Learns from past performance
+- **Cost-Aware Selection**: Optimizes for budget constraints
+- **Performance-Based**: Prioritizes speed when needed
+- **Quality-Focused**: Ensures best results for critical tasks
+
+### 📋 Configuration Templates
+```bash
+ccr config template performance-optimized    # Speed prioritized
+ccr config template cost-optimized           # Budget friendly
+ccr config template quality-focused          # Maximum quality
+ccr config template development             # Coding optimized
+ccr config template balanced                # Best of all worlds
+```
 
 ## Features
 
 - **7 Provider Support**: OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, GitHub Copilot
-- **Intent-Based Routing**: Automatically selects the best model based on your request
-- **Cost Optimization**: Simple tasks go to cheaper models
-- **Performance Optimization**: Fast responses use optimized models
+- **Smart Intent-Based Routing**: Automatically selects the best model based on your request
+- **Advanced CLI Tools**: Test, benchmark, analyze, and monitor your setup
+- **Analytics & Cost Tracking**: Detailed insights into usage and spending
+- **Configuration Templates**: Pre-optimized setups for different use cases
+- **Health Monitoring**: Real-time provider status and automatic failover
+- **Enhanced Logging**: Detailed logs with metrics and performance data
 
 ## Routing Strategy
 
@@ -92,12 +129,62 @@ ccr code
 
 ## Usage
 
+### 🔧 Advanced CLI Commands
+
+#### Testing & Benchmarking
+```bash
+# Test provider connectivity
+ccr test openai gpt-4o
+ccr test anthropic claude-sonnet-4-latest
+
+# Benchmark all providers
+ccr benchmark --all --compare-speed
+ccr benchmark full 5 --provider=openai --provider=anthropic
+
+# Load testing
+ccr benchmark load openai gpt-4o --concurrent=5 --duration=30
+```
+
+#### Configuration Management
+```bash
+# Validate configuration
+ccr config validate
+
+# Backup configuration
+ccr config backup
+
+# Apply templates
+ccr config template performance-optimized
+ccr config template cost-optimized
+ccr config template quality-focused
+ccr config template development
+ccr config template balanced
+
+# Show detailed status with costs
+ccr status --detailed --show-costs
+```
+
+#### Analytics & Monitoring
+```bash
+# View today's analytics
+ccr analytics today --detailed
+
+# View period analytics
+ccr analytics week --detailed
+ccr analytics month --detailed
+
+# Export data
+ccr analytics export --format=csv --period=month
+
+# Health monitoring
+ccr health --all-providers
+```
+
 ### Basic Commands
 
 ```bash
 ccr start    # Start router
 ccr code     # Start with Claude Code
-ccr status   # Check status
 ccr stop     # Stop router
 ```
 
@@ -138,17 +225,87 @@ claude "Translate to Chinese: Hello"        # → GLM
 claude "Help me debug this React component" # → GitHub Copilot
 ```
 
+## Configuration Templates
+
+| Template | Best For | Priority | Cost | Speed |
+|----------|----------|----------|------|-------|
+| **performance-optimized** | Real-time apps, chatbots | Speed | Low | ⭐⭐⭐⭐⭐ |
+| **cost-optimized** | Budget-conscious, bulk processing | Cost | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **quality-focused** | Critical tasks, research | Quality | High | ⭐⭐ |
+| **development** | Coding, debugging | Coding | Medium | ⭐⭐⭐⭐ |
+| **balanced** | General use | Balanced | Medium | ⭐⭐⭐⭐ |
+
+```bash
+# Quick template selection
+ccr config template performance-optimized  # Fastest
+ccr config template cost-optimized           # Cheapest
+ccr config template quality-focused          # Best quality
+```
+
+## Smart Routing Features
+
+### 🧠 Adaptive Intelligence
+- **Learning**: Improves routing based on historical performance
+- **Context Awareness**: Considers request complexity and timing
+- **Cost Awareness**: Respects budget constraints and optimization goals
+
+### 🔄 Auto-Fallback
+- **Health Checks**: Monitors provider status every 30 seconds
+- **Circuit Breaker**: Automatically routes around failed providers
+- **Graceful Degradation**: Maintains service during provider issues
+
+### 📈 Performance Optimization
+- **Latency Tracking**: Monitors and optimizes for speed
+- **Success Rate**: Reliability-based routing decisions
+- **Load Balancing**: Distributes requests optimally
+
+## Analytics Dashboard
+
+View comprehensive analytics via:
+```bash
+# Web Dashboard (if enabled)
+ccr ui
+
+# CLI Analytics
+ccr analytics today --detailed
+```
+
+Metrics tracked:
+- Request volume and patterns
+- Cost per provider/model
+- Response times and latency
+- Success/error rates
+- Provider health status
+
 ## Documentation
 
 - [Complete Documentation (EN)](docs/FULL_DOCUMENTATION_EN.md)
+- [Complete Documentation (TR)](docs/FULL_DOCUMENTATION.md)
 - [Setup Prompt (EN)](docs/SETUP_PROMPT_EN.md)
 - [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
+- [Configuration Templates Guide](templates/README.md)
+
+## What's New
+
+### v1.1.0 Features
+- ✨ Advanced CLI tools for testing and benchmarking
+- 📊 Built-in analytics and cost tracking
+- 🧠 Smart routing with machine learning
+- 📋 Configuration templates for different use cases
+- 🔍 Health monitoring and auto-fallback
+- 📝 Enhanced logging with metrics
+
+### Coming Soon
+- 🌐 Enhanced web dashboard
+- 🔌 Plugin system for custom providers
+- 🤖 AI-powered optimization recommendations
+- 📱 Mobile-friendly analytics dashboard
 
 ## Attribution
 
 This package provides configuration for [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router), an excellent tool that enables Claude Code functionality with multiple AI providers.
 
-The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic and provider configurations to help users get started quickly.
+The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic, advanced CLI tools, and provider configurations to help users get started quickly and optimize their AI workflows.
 
 ## License
 
@@ -156,4 +313,8 @@ MIT © [Halil Ertekin](https://github.com/halilertekin)
 
 ---
 
-**Note**: This is a configuration package. To use it, you need to install the original [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) package.
+**Note**: This is an enhanced configuration package. To use it, you need to install the original [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) package.
+
+## 🌟 Show Your Support
+
+If you find this useful, please give it a ⭐ on [GitHub](https://github.com/halilertekin/CC-RouterMultiProvider)!
