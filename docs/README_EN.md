@@ -4,7 +4,7 @@ Use Claude Code as a single interface to access multiple AI providers with inten
 
 ## Features
 
-- **7 Provider Support**: OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, GitHub Copilot
+- **6+ Provider Support**: OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, GitHub Copilot
 - **Intent-Based Routing**: Automatically selects the best model based on your request
 - **Cost Optimization**: Simple tasks go to cheaper models
 - **Performance Optimization**: Fast responses use optimized models
@@ -48,7 +48,7 @@ cp config/intent-router.js ~/.claude-code-router/
 
 ### 3. Set Up Environment Variables
 
-Create `.env` file:
+Create `.env` file in your home directory:
 
 ```bash
 cp .env.example ~/.env
@@ -75,7 +75,7 @@ export NO_PROXY="127.0.0.1"
 ### 4. Start Router
 
 ```bash
-source ~/.zshrc
+source ~/.zshrc  # Reload environment
 ccr code
 ```
 
@@ -115,6 +115,15 @@ Inside Claude Code:
 | OpenRouter | https://openrouter.ai/keys | Multiple models |
 | GitHub Copilot | https://github.com/settings/tokens | `copilot` scope |
 
+## File Structure
+
+```
+~/.claude-code-router/
+├── config.json          # Provider configuration
+├── intent-router.js     # Routing logic
+└── logs/                # Log files
+```
+
 ## Testing
 
 ```bash
@@ -129,9 +138,8 @@ claude "Help me debug this React component" # → GitHub Copilot
 
 ## Documentation
 
-- [Complete Documentation (EN)](docs/FULL_DOCUMENTATION_EN.md)
-- [Setup Prompt (EN)](docs/SETUP_PROMPT_EN.md)
-- [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
+- [Complete Documentation](docs/FULL_DOCUMENTATION_EN.md)
+- [Setup Prompt](docs/SETUP_PROMPT_EN.md)
 
 ## License
 
