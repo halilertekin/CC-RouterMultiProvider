@@ -155,14 +155,35 @@ Claude Code Router, Claude Code CLI'ı bir proxy üzerinden çalıştırarak ist
 - Node.js 18+
 - pnpm (tercih edilen) veya npm
 
-### Adım 1: Paket Kurulumu
+### Seçenek 1: Homebrew (Tavsiye Edilen)
+
+```bash
+brew install halilertekin/tap/claude-code-router-config
+```
+
+Homebrew kurulumu her şeyi otomatik yapar:
+- @musistudio/claude-code-router kurar
+- Konfigürasyon dosyalarını kopyalar
+- ~/.env dosyasını şablonlarla oluşturur
+- Sonraki adımları gösterir
+
+### Seçenek 2: NPM Paketi
+
+```bash
+pnpm add -g claude-code-router-config
+ccr-setup
+```
+
+### Seçenek 3: Manuel Kurulum
+
+#### Adım 1: Paket Kurulumu
 
 ```bash
 pnpm add -g @musistudio/claude-code-router
 mkdir -p ~/.claude-code-router
 ```
 
-### Adım 2: Environment Variables
+#### Adım 2: Environment Variables
 
 `~/.zshrc` veya `~/.bashrc` dosyasına ekle:
 

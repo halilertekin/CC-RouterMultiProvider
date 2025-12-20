@@ -165,14 +165,35 @@ Claude Code Router acts as a proxy that intercepts Claude Code CLI requests and 
 - Node.js 18+
 - pnpm (preferred) or npm
 
-### Step 1: Install Package
+### Option 1: Homebrew (Recommended)
+
+```bash
+brew install halilertekin/tap/claude-code-router-config
+```
+
+The Homebrew installation handles everything automatically:
+- Installs @musistudio/claude-code-router
+- Copies configuration files
+- Creates ~/.env with templates
+- Provides next-step instructions
+
+### Option 2: NPM Package
+
+```bash
+pnpm add -g claude-code-router-config
+ccr-setup
+```
+
+### Option 3: Manual Installation
+
+#### Step 1: Install Package
 
 ```bash
 pnpm add -g @musistudio/claude-code-router
 mkdir -p ~/.claude-code-router
 ```
 
-### Step 2: Environment Variables
+#### Step 2: Environment Variables
 
 Option 1: Create `.env` file:
 

@@ -39,3 +39,19 @@ coverage/
 # Build output
 dist/
 build/
+
+# Homebrew development files (keep private)
+HOMEBREW_DEVELOPMENT.md
+.homebrew/
+
+# Homebrew formula files (we use separate tap repo)
+Formula/*.rb.bak
+Formula/*.tmp
+*.rb.cache
+
+# Homebrew test files
+test_homebrew.sh
+test_formula.rb
+
+# Local Homebrew testing
+homebrew-tap/

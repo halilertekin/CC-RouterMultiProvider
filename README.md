@@ -21,24 +21,35 @@ Use Claude Code as a single interface to access multiple AI providers with inten
 | Complex algorithms | OpenAI | o1 |
 | Coding assistance | GitHub Copilot | copilot |
 
-## Quick Setup
+## Installation
+
+### Option 1: Homebrew (Recommended)
 
 ```bash
-git clone https://github.com/halilertekin/claude-code-router-config.git
-cd claude-code-router-config
-chmod +x install.sh
-./install.sh
+brew install halilertekin/tap/claude-code-router-config
 ```
 
-## Manual Setup
+After installation, edit your API keys in `~/.env` and start the router:
+```bash
+ccr code
+```
 
-### 1. Install Package
+### Option 2: NPM
+
+```bash
+pnpm add -g claude-code-router-config
+ccr-setup
+```
+
+### Option 3: Manual Setup
+
+#### 1. Install Dependencies
 
 ```bash
 pnpm add -g @musistudio/claude-code-router
 ```
 
-### 2. Copy Configuration Files
+#### 2. Copy Configuration Files
 
 ```bash
 mkdir -p ~/.claude-code-router
@@ -46,7 +57,7 @@ cp config/config.json ~/.claude-code-router/
 cp config/intent-router.js ~/.claude-code-router/
 ```
 
-### 3. Set Up Environment Variables
+#### 3. Set Up Environment Variables
 
 Create `.env` file:
 
@@ -72,7 +83,7 @@ export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"
 export NO_PROXY="127.0.0.1"
 ```
 
-### 4. Start Router
+#### 4. Start Router
 
 ```bash
 source ~/.zshrc
