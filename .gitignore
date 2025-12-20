@@ -55,3 +55,6 @@ test_formula.rb
 
 # Local Homebrew testing
 homebrew-tap/
+
+# Development roadmap (keep private)
+ROADMAP_v*.md
