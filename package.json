@@ -7,7 +7,8 @@
     "ccr-setup": "install.js",
     "ccr": "cli/commands.js",
     "ccr-benchmark": "cli/benchmark.js",
-    "ccr-analytics": "cli/analytics.js"
+    "ccr-analytics": "cli/analytics.js",
+    "ccr-plugin": "plugins/plugin-manager.js"
   },
   "scripts": {
     "install": "node install.js",
@@ -24,6 +25,8 @@
     "cli/",
     "logging/",
     "templates/",
+    "plugins/",
+    "web-dashboard/",
     "install.sh",
     ".env.example",
     "docs/",
@@ -78,7 +81,9 @@
     "inquirer": "^9.2.0",
     "chalk": "^5.3.0",
     "fs-extra": "^11.1.1",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "jest": "^29.7.0"
