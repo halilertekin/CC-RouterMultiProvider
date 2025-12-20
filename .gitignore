@@ -1,0 +1,26 @@
+# Logs
+logs/
+*.log
+
+# Runtime files
+*.pid
+.claude-code-router.pid
+
+# Environment files (API keys)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/

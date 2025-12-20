@@ -1,0 +1,64 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "info",
+  "API_TIMEOUT_MS": 300000,
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+
+  "Providers": [
+    {
+      "name": "openai",
+      "api_base_url": "https://api.openai.com/v1/chat/completions",
+      "api_key": "$OPENAI_API_KEY",
+      "models": ["gpt-4o", "gpt-4-turbo", "gpt-4o-mini", "o1", "o1-mini"],
+      "transformer": { "use": [] }
+    },
+    {
+      "name": "anthropic",
+      "api_base_url": "https://api.anthropic.com/v1/messages",
+      "api_key": "$ANTHROPIC_API_KEY",
+      "models": ["claude-sonnet-4-latest", "claude-3-5-sonnet-latest"],
+      "transformer": { "use": ["Anthropic"] }
+    },
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash"],
+      "transformer": { "use": ["gemini"] }
+    },
+    {
+      "name": "qwen",
+      "api_base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "api_key": "$QWEN_API_KEY",
+      "models": ["qwen-plus", "qwen-max", "qwen3-coder-plus", "qwen-turbo"],
+      "transformer": { "use": [] }
+    },
+    {
+      "name": "glm",
+      "api_base_url": "https://api.z.ai/api/paas/v4/chat/completions",
+      "api_key": "$GLM_API_KEY",
+      "models": ["glm-4.6", "glm-4.5", "glm-4-plus"],
+      "transformer": { "use": [] }
+    },
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "anthropic/claude-sonnet-4",
+        "deepseek/deepseek-chat",
+        "google/gemini-2.5-flash",
+        "meta-llama/llama-3.3-70b-instruct"
+      ],
+      "transformer": { "use": ["openrouter"] }
+    }
+  ],
+
+  "Router": {
+    "default": "openai,gpt-4o",
+    "background": "qwen,qwen-turbo",
+    "think": "anthropic,claude-sonnet-4-latest",
+    "longContext": "gemini,gemini-2.5-flash",
+    "longContextThreshold": 60000
+  }
+}
