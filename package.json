@@ -68,12 +68,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/halilertekin/claude-code-router-config.git"
+    "url": "https://github.com/halilertekin/CC-RouterMultiProvider.git"
   },
   "bugs": {
-    "url": "https://github.com/halilertekin/claude-code-router-config/issues"
+    "url": "https://github.com/halilertekin/CC-RouterMultiProvider/issues"
   },
-  "homepage": "https://github.com/halilertekin/claude-code-router-config#readme",
+  "homepage": "https://github.com/halilertekin/CC-RouterMultiProvider#readme",
   "engines": {
     "node": ">=16.0.0"
   },
