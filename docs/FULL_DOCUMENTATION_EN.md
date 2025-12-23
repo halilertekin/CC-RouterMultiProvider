@@ -180,7 +180,7 @@ The Homebrew installation handles everything automatically:
 ### Option 2: NPM Package
 
 ```bash
-pnpm add -g claude-code-router-config
+pnpm add -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 

@@ -1,6 +1,6 @@
 # Claude Code Router Config
 
-[![npm version](https://badge.fury.io/js/claude-code-router-config.svg)](https://badge.fury.io/js/claude-code-router-config)
+[![npm version](https://badge.fury.io/js/@halilertekin%2Fclaude-code-router-config.svg)](https://badge.fury.io/js/@halilertekin%2Fclaude-code-router-config)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Multi-provider configuration for Claude Code Router with intelligent intent-based routing.
@@ -23,10 +23,8 @@ ccr-setup
 
 ## Installation
 
-### Option 1: NPM (Recommended)
-
 ```bash
-npm install -g claude-code-router-config
+npm install -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 

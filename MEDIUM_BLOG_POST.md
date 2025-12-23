@@ -457,7 +457,7 @@ Within minutes, you'll have a fully functional AI router managing your providers
 We believe in open source and welcome contributions:
 
 - **GitHub**: [https://github.com/halilertekin/claude-code-router-config](https://github.com/halilertekin/claude-code-router-config)
-- **NPM**: [https://www.npmjs.com/package/claude-code-router-config](https://www.npmjs.com/package/claude-code-router-config)
+- **NPM**: [https://www.npmjs.com/package/@halilertekin/claude-code-router-config](https://www.npmjs.com/package/@halilertekin/claude-code-router-config)
 - **Issues**: Report bugs or request features
 - **Plugins**: Develop and share your own plugins
 

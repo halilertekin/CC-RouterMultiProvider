@@ -122,7 +122,7 @@ Add installation instructions:
 
 ### Option 1: NPM
 ```bash
-npm install -g claude-code-router-config
+npm install -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 
@@ -152,7 +152,7 @@ After publishing, test:
 
 ```bash
 # NPM
-npm install -g claude-code-router-config
+npm install -g @halilertekin/claude-code-router-config
 ccr-setup
 
 # Homebrew

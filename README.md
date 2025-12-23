@@ -71,10 +71,10 @@ After installation, edit your API keys in `~/.env` and start the router:
 ccr code
 ```
 
-### Option 2: NPM
+### PNPM
 
 ```bash
-pnpm add -g claude-code-router-config
+pnpm add -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 

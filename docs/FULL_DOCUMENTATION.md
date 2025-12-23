@@ -170,7 +170,7 @@ Homebrew kurulumu her şeyi otomatik yapar:
 ### Seçenek 2: NPM Paketi
 
 ```bash
-pnpm add -g claude-code-router-config
+pnpm add -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 

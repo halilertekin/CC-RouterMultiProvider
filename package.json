@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-router-config",
+  "name": "@halilertekin/claude-code-router-config",
   "version": "1.1.1",
   "description": "Multi-provider configuration for Claude Code Router with intent-based routing, advanced CLI tools, analytics, and smart routing. Setup OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, and GitHub Copilot with intelligent routing.",
   "main": "install.js",
@@ -68,12 +68,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/halilertekin/CC-RouterMultiProvider.git"
+    "url": "https://github.com/halilertekin/claude-code-router-config.git"
   },
   "bugs": {
-    "url": "https://github.com/halilertekin/CC-RouterMultiProvider/issues"
+    "url": "https://github.com/halilertekin/claude-code-router-config/issues"
   },
-  "homepage": "https://github.com/halilertekin/CC-RouterMultiProvider#readme",
+  "homepage": "https://github.com/halilertekin/claude-code-router-config#readme",
   "engines": {
     "node": ">=16.0.0"
   },
