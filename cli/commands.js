@@ -341,7 +341,7 @@ async function main() {
 
       default:
         // Handles 'help', '--help', '-h' and empty command
-        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.1)'));
+        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.2)'));
         console.log(chalk.gray('─'.repeat(45)));
 
         console.log(chalk.yellow('🚀 Advanced CLI Tools:'));
