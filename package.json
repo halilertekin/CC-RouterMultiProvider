@@ -28,10 +28,13 @@
     "plugins/",
     "web-dashboard/",
     "install.sh",
+    "install.js",
+    "postinstall.js",
     ".env.example",
     "docs/",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "NPM_README.md"
   ],
   "keywords": [
     "claude",
