@@ -2,8 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-let chalk = require('chalk');
-if (chalk.default) chalk = chalk.default;
+const chalk = require('./chalk-safe');
 const os = require('os');
 
 // Analytics storage path

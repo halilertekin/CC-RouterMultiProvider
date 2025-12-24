@@ -3,8 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-let chalk = require('chalk');
-if (chalk.default) chalk = chalk.default;
+const chalk = require('../cli/chalk-safe');
 
 class PluginManager {
   constructor(options = {}) {
