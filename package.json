@@ -1,6 +1,6 @@
 {
   "name": "@halilertekin/claude-code-router-config",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Multi-provider configuration for Claude Code Router with intent-based routing, advanced CLI tools, analytics, and smart routing. Setup OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, and GitHub Copilot with intelligent routing.",
   "main": "install.js",
   "bin": {
