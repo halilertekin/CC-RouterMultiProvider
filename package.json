@@ -14,7 +14,7 @@
     "install": "node install.js",
     "setup": "chmod +x install.sh && ./install.sh",
     "postinstall": "node postinstall.js",
-    "test": "node test/test.js",
+    "test": "jest",
     "cli": "node cli/commands.js",
     "benchmark": "node cli/benchmark.js",
     "analytics": "node cli/analytics.js",

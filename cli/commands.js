@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const chalk = require('chalk');
+let chalk = require('chalk');
+if (chalk.default) chalk = chalk.default;
 const configPath = path.join(require('os').homedir(), '.claude-code-router');
 
 // Load config

@@ -2,7 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
+let chalk = require('chalk');
+if (chalk.default) chalk = chalk.default;
 const os = require('os');
 
 // Analytics storage path
@@ -404,7 +405,7 @@ function displayAnalytics(period = 'today', options = {}) {
     if (detailed && Object.keys(summary.providers).length > 0) {
       console.log(chalk.yellow('\n🏭 Provider Breakdown:'));
       const sortedProviders = Object.entries(summary.providers)
-        .sort(([,a], [,b]) => b - a);
+        .sort(([, a], [, b]) => b - a);
 
       sortedProviders.forEach(([provider, count]) => {
         const percentage = ((count / summary.totalRequests) * 100).toFixed(1);
@@ -415,7 +416,7 @@ function displayAnalytics(period = 'today', options = {}) {
     if (detailed && Object.keys(summary.models).length > 0) {
       console.log(chalk.yellow('\n🤖 Model Breakdown:'));
       const sortedModels = Object.entries(summary.models)
-        .sort(([,a], [,b]) => b - a)
+        .sort(([, a], [, b]) => b - a)
         .slice(0, 10); // Top 10 models
 
       sortedModels.forEach(([model, count]) => {

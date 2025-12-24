@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const chalk = require('chalk');
+let chalk = require('chalk');
+if (chalk.default) chalk = chalk.default;
 
 class PluginManager {
   constructor(options = {}) {
