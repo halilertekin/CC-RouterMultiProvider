@@ -86,7 +86,8 @@
     "fs-extra": "^11.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "@musistudio/claude-code-router": "^1.0.73"
   },
   "devDependencies": {
     "jest": "^29.7.0"
