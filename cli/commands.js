@@ -219,71 +219,145 @@ function backupConfig() {
   }
 }
 
+// Helper to find original ccr binary
+function getOriginalCcrPath() {
+  try {
+    // Try to find it in dependencies
+    return require.resolve('@musistudio/claude-code-router/index.js');
+  } catch (e) {
+    return null;
+  }
+}
+
+// Proxy command to original router
+function proxyToOriginal(args) {
+  const originalPath = getOriginalCcrPath();
+  if (!originalPath) {
+    console.error(chalk.red('❌ Original @musistudio/claude-code-router not found.'));
+    return;
+  }
+
+  const child = spawn('node', [originalPath, ...args], {
+    stdio: 'inherit',
+    env: process.env
+  });
+
+  child.on('exit', (code) => {
+    if (code !== 0) {
+      process.exit(code || 1);
+    }
+  });
+}
+
 // CLI command handler
 async function main() {
   const [command, ...args] = process.argv.slice(2);
+  const advancedCommands = ['test', 'benchmark', 'analytics', 'status', 'config', 'health', 'update'];
 
-  switch (command) {
-    case 'test':
-      const provider = args[0];
-      const model = args[1];
-      if (provider) {
-        await testProvider(provider, model);
-      } else {
-        console.error(chalk.red('❌ Please specify a provider: ccr test <provider> [model]'));
-      }
-      break;
+  // If it's an advanced command or no command is given
+  if (advancedCommands.includes(command) || !command || command === '--help' || command === '-h') {
+    switch (command) {
+      case 'update':
+        console.log(chalk.blue('🔄 Checking for updates and updating...'));
+        const updateProcess = spawn('pnpm', ['add', '-g', '@halilertekin/claude-code-router-config@latest'], {
+          stdio: 'inherit',
+          env: process.env
+        });
+        updateProcess.on('exit', (code) => {
+          if (code === 0) {
+            console.log(chalk.green('✅ Successfully updated to the latest version!'));
+          } else {
+            console.error(chalk.red(`❌ Update failed with code ${code}. Please try running manually: pnpm add -g @halilertekin/claude-code-router-config@latest`));
+          }
+        });
+        break;
 
-    case 'benchmark':
-      const options = {
-        allProviders: args.includes('--all'),
-        compareSpeed: args.includes('--compare-speed')
-      };
-      await benchmarkProviders(options);
-      break;
+      case 'test':
+        const provider = args[0];
+        const model = args[1];
+        if (provider) {
+          await testProvider(provider, model);
+        } else {
+          console.error(chalk.red('❌ Please specify a provider: ccr test <provider> [model]'));
+        }
+        break;
 
-    case 'status':
-      const statusOptions = {
-        detailed: args.includes('--detailed'),
-        showCosts: args.includes('--show-costs')
-      };
-      await showDetailedStatus(statusOptions);
-      break;
+      case 'benchmark':
+        const options = {
+          allProviders: args.includes('--all'),
+          compareSpeed: args.includes('--compare-speed')
+        };
+        await benchmarkProviders(options);
+        break;
 
-    case 'config':
-      const configCommand = args[0];
-      switch (configCommand) {
-        case 'validate':
-          validateConfig();
-          break;
-        case 'backup':
-          backupConfig();
-          break;
-        default:
-          console.log(chalk.yellow('Available config commands:'));
-          console.log('  validate  - Check configuration validity');
-          console.log('  backup    - Backup current configuration');
-      }
-      break;
+      case 'status':
+        if (args.includes('--detailed')) {
+          const statusOptions = {
+            detailed: true,
+            showCosts: args.includes('--show-costs')
+          };
+          await showDetailedStatus(statusOptions);
+        } else {
+          // Pass basic status to original router
+          proxyToOriginal(['status', ...args]);
+        }
+        break;
 
-    default:
-      console.log(chalk.blue('Claude Code Router - Advanced CLI'));
-      console.log(chalk.gray('─'.repeat(40)));
-      console.log(chalk.yellow('Available commands:'));
-      console.log('');
-      console.log('Testing & Benchmarking:');
-      console.log('  ccr test <provider> [model]        - Test provider connection');
-      console.log('  ccr benchmark [--all] [--compare-speed] - Benchmark providers');
-      console.log('  ccr status [--detailed] [--show-costs] - Show router status');
-      console.log('');
-      console.log('Configuration Management:');
-      console.log('  ccr config validate                 - Validate configuration');
-      console.log('  ccr config backup                   - Backup configuration');
-      console.log('');
-      console.log('Examples:');
-      console.log('  ccr test openai gpt-4o');
-      console.log('  ccr benchmark --all --compare-speed');
-      console.log('  ccr status --detailed --show-costs');
+      case 'analytics':
+        // Forward to analytics script
+        const analyticsPath = path.join(__dirname, 'analytics.js');
+        spawn('node', [analyticsPath, ...args], { stdio: 'inherit' });
+        break;
+
+      case 'health':
+        const healthPath = path.join(__dirname, '../logging/health-monitor.js');
+        spawn('node', [healthPath, ...args], { stdio: 'inherit' });
+        break;
+
+      case 'config':
+        const configCommand = args[0];
+        switch (configCommand) {
+          case 'validate':
+            validateConfig();
+            break;
+          case 'backup':
+            backupConfig();
+            break;
+          default:
+            console.log(chalk.yellow('Available config commands:'));
+            console.log('  validate  - Check configuration validity');
+            console.log('  backup    - Backup current configuration');
+        }
+        break;
+
+      default:
+        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.2.4)'));
+        console.log(chalk.gray('─'.repeat(45)));
+
+        console.log(chalk.yellow('🚀 Advanced CLI Tools:'));
+        console.log('  test <provider> [model]        - Test provider connection');
+        console.log('  benchmark [--all] [--compare-speed] - Benchmark providers');
+        console.log('  analytics [period]              - View usage statistics');
+        console.log('  status --detailed [--show-costs] - Show detailed router status');
+        console.log('  config validate                 - Validate configuration');
+        console.log('  config backup                   - Backup configuration');
+        console.log('  health [--all-providers]        - Check provider health');
+
+        console.log(chalk.yellow('\n📦 Core Router Commands (Proxy):'));
+        console.log('  start         - Start router server');
+        console.log('  stop          - Stop router server');
+        console.log('  restart       - Restart router server');
+        console.log('  status        - Show server status');
+        console.log('  code          - Start with Claude Code');
+        console.log('  model         - Switch models at runtime');
+        console.log('  activate      - Export env variables');
+
+        console.log(chalk.yellow('\n💡 Tip:'));
+        console.log('  Run ' + chalk.cyan('ccr start') + ' to start the proxy server, then ' + chalk.cyan('ccr code') + ' to open Claude.');
+    }
+  } else {
+    // Forward unknown commands to the original router
+    proxyToOriginal([command, ...args]);
   }
 }
 
