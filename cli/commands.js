@@ -331,7 +331,7 @@ async function main() {
         break;
 
       default:
-        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.2.4)'));
+        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.0)'));
         console.log(chalk.gray('─'.repeat(45)));
 
         console.log(chalk.yellow('🚀 Advanced CLI Tools:'));
@@ -342,18 +342,20 @@ async function main() {
         console.log('  config validate                 - Validate configuration');
         console.log('  config backup                   - Backup configuration');
         console.log('  health [--all-providers]        - Check provider health');
+        console.log('  update                          - Update to the latest version');
 
         console.log(chalk.yellow('\n📦 Core Router Commands (Proxy):'));
-        console.log('  start         - Start router server');
+        console.log('  start         - Start router server (Backend only)');
         console.log('  stop          - Stop router server');
         console.log('  restart       - Restart router server');
         console.log('  status        - Show server status');
-        console.log('  code          - Start with Claude Code');
+        console.log('  code          - Start Router + Claude Code (Recommended)');
         console.log('  model         - Switch models at runtime');
         console.log('  activate      - Export env variables');
 
         console.log(chalk.yellow('\n💡 Tip:'));
-        console.log('  Run ' + chalk.cyan('ccr start') + ' to start the proxy server, then ' + chalk.cyan('ccr code') + ' to open Claude.');
+        console.log('  To start everything at once, run: ' + chalk.cyan('ccr code'));
+        console.log('  To only start the background server, run: ' + chalk.cyan('ccr start'));
     }
   } else {
     // Forward unknown commands to the original router
