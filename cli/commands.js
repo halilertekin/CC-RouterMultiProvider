@@ -223,7 +223,7 @@ function backupConfig() {
 function getOriginalCcrPath() {
   try {
     // Try to find it in dependencies
-    return require.resolve('@musistudio/claude-code-router/index.js');
+    return require.resolve('@musistudio/claude-code-router/dist/cli.js');
   } catch (e) {
     return null;
   }
@@ -341,7 +341,7 @@ async function main() {
 
       default:
         // Handles 'help', '--help', '-h' and empty command
-        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.2)'));
+        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.3)'));
         console.log(chalk.gray('─'.repeat(45)));
 
         console.log(chalk.yellow('🚀 Advanced CLI Tools:'));
