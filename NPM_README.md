@@ -23,15 +23,21 @@ ccr-setup
 
 ## Installation
 
+> [!IMPORTANT]
+> Choose only ONE installation method (Homebrew OR NPM) to avoid conflicts.
+
+### Option 1: Homebrew (Recommended for macOS)
+
 ```bash
-npm install -g @halilertekin/claude-code-router-config
-ccr-setup
+brew install halilertekin/tap/claude-code-router-config
 ```
 
-### Option 2: Homebrew
+### Option 2: NPM / PNPM
 
 ```bash
-brew install claude-code-router-config
+npm install -g @halilertekin/claude-code-router-config
+# or
+pnpm add -g @halilertekin/claude-code-router-config
 ```
 
 ### Option 3: Manual

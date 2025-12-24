@@ -66,9 +66,15 @@ ccr config template balanced                # Best of all worlds
 
 ## Installation
 
-### Option 1: Homebrew (Recommended)
+### Option 1: Homebrew (Recommended for macOS)
+
+> [!CAUTION]
+> **Conflict Warning**: Do NOT install using both Homebrew and PNPM/NPM simultaneously. Choose only ONE method to avoid command conflicts.
+
+The easiest way to install and keep updated on macOS.
 
 ```bash
+brew uninstall ccr # Remove old versions if present
 brew install halilertekin/tap/claude-code-router-config
 ```
 
@@ -77,11 +83,16 @@ After installation, edit your API keys in `~/.env` and start the router:
 ccr code
 ```
 
-### PNPM
+### Option 2: PNPM (Alternative)
+
+Use this if you are on Linux or prefer using a Node package manager.
+
+> [!WARNING]
+> If you have previously installed via Homebrew, please uninstall it first: `brew uninstall claude-code-router-config`
 
 ```bash
 pnpm add -g @halilertekin/claude-code-router-config
-ccr-setup
+# System is ready! Run: ccr --help
 ```
 
 ### Option 3: Manual Setup
