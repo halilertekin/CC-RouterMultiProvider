@@ -252,10 +252,12 @@ function proxyToOriginal(args) {
 // CLI command handler
 async function main() {
   const [command, ...args] = process.argv.slice(2);
-  const advancedCommands = ['test', 'benchmark', 'analytics', 'status', 'config', 'health', 'update'];
+  const advancedCommands = ['test', 'benchmark', 'analytics', 'status', 'config', 'health', 'update', 'help', 'version', '-v', '--version', '--help', '-h'];
 
-  // If it's an advanced command or no command is given
-  if (advancedCommands.includes(command) || !command || command === '--help' || command === '-h') {
+  // Check if it's an advanced command, help/version flag, or no command at all
+  const isAdvancedOrHelp = advancedCommands.includes(command) || !command;
+
+  if (isAdvancedOrHelp) {
     switch (command) {
       case 'update':
         console.log(chalk.blue('🔄 Checking for updates and updating...'));
@@ -270,6 +272,13 @@ async function main() {
             console.error(chalk.red(`❌ Update failed with code ${code}. Please try running manually: pnpm add -g @halilertekin/claude-code-router-config@latest`));
           }
         });
+        break;
+
+      case 'version':
+      case '-v':
+      case '--version':
+        const packageJson = require('../package.json');
+        console.log(chalk.blue(`v${packageJson.version}`));
         break;
 
       case 'test':
@@ -331,7 +340,8 @@ async function main() {
         break;
 
       default:
-        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.0)'));
+        // Handles 'help', '--help', '-h' and empty command
+        console.log(chalk.blue('Claude Code Router - Advanced CLI (v1.3.1)'));
         console.log(chalk.gray('─'.repeat(45)));
 
         console.log(chalk.yellow('🚀 Advanced CLI Tools:'));
