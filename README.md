@@ -38,6 +38,7 @@ ccr config template balanced                # Best of all worlds
 
 ## Features
 
+- **Node.js 16+ Support**: Compatible with modern Node.js environments
 - **7 Provider Support**: OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, GitHub Copilot
 - **Smart Intent-Based Routing**: Automatically selects the best model based on your request
 - **Advanced CLI Tools**: Test, benchmark, analyze, and monitor your setup
@@ -57,6 +58,11 @@ ccr config template balanced                # Best of all worlds
 | Translation, multilingual | GLM | glm-4.6 |
 | Complex algorithms | OpenAI | o1 |
 | Coding assistance | GitHub Copilot | copilot |
+
+## Requirements
+
+- **Node.js**: >= 16.0.0
+- **Package Manager**: pnpm (preferred) or npm
 
 ## Installation
 
