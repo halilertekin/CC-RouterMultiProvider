@@ -8,8 +8,16 @@ Multi-provider configuration for Claude Code Router with intelligent intent-base
 ## Quick Install
 
 ```bash
-npm install -g claude-code-router-config
+npm install -g @halilertekin/claude-code-router-config
 ccr-setup
+```
+
+### One-shot GLM setup (Claude login + GLM API)
+
+```bash
+npx -y -p @halilertekin/claude-code-router-config ccr-glm-setup --key "YOUR_GLM_API_KEY"
+source ~/.zshrc
+glm
 ```
 
 ## Features
@@ -112,7 +120,7 @@ Inside Claude Code:
 /model anthropic,claude-sonnet-4-latest
 /model gemini,gemini-2.5-flash
 /model qwen,qwen-plus
-/model glm,glm-4.6
+/model glm,glm-4.7
 /model copilot,copilot
 ```
 

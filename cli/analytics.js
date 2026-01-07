@@ -36,6 +36,7 @@ const PRICING = {
     'qwen3-coder-plus': { input: 2.0, output: 6.0 }
   },
   glm: {
+    'glm-4.7': { input: 0.5, output: 2.0 },
     'glm-4.6': { input: 0.5, output: 2.0 },
     'glm-4.5': { input: 0.5, output: 2.0 },
     'glm-4-plus': { input: 1.0, output: 2.0 }

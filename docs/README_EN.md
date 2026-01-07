@@ -17,7 +17,7 @@ Use Claude Code as a single interface to access multiple AI providers with inten
 | Deep analysis, architecture | Anthropic | claude-sonnet-4 |
 | Quick responses, summaries | Gemini | gemini-2.5-flash |
 | Simple tasks | Qwen | qwen-plus |
-| Translation, multilingual | GLM | glm-4.6 |
+| Translation, multilingual | GLM | glm-4.7 |
 | Complex algorithms | OpenAI | o1 |
 | Coding assistance | GitHub Copilot | copilot |
 
@@ -28,6 +28,12 @@ git clone https://github.com/YOUR_USERNAME/claude-code-router-config.git
 cd claude-code-router-config
 chmod +x install.sh
 ./install.sh
+```
+
+### One-shot GLM setup (Claude login + GLM API)
+
+```bash
+./setup-glm.sh --key "YOUR_GLM_API_KEY"
 ```
 
 ## Manual Setup
@@ -99,7 +105,7 @@ Inside Claude Code:
 /model anthropic,claude-sonnet-4-latest
 /model gemini,gemini-2.5-flash
 /model qwen,qwen-plus
-/model glm,glm-4.6
+/model glm,glm-4.7
 /model copilot,copilot
 ```
 

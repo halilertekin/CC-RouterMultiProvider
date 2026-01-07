@@ -56,7 +56,7 @@ const INTENTS = {
       /[\u4e00-\u9fff]/, // Chinese characters
       /[\u0600-\u06FF]/, // Arabic
     ],
-    route: "glm,glm-4.6"
+    route: "glm,glm-4.7"
   },
 
   // Heavy coding/reasoning → O1

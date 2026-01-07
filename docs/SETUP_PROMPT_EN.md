@@ -46,7 +46,7 @@ API Endpoints:
 - Anthropic: https://api.anthropic.com/v1/messages (transformer: Anthropic)
 - Gemini: https://generativelanguage.googleapis.com/v1beta/openai/chat/completions (transformer: gemini)
 - Qwen: https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions
-- GLM: https://api.z.ai/api/paas/v4/chat/completions
+- GLM: https://api.z.ai/api/coding/paas/v4/chat/completions
 - OpenRouter: https://openrouter.ai/api/v1/chat/completions (transformer: openrouter)
 - GitHub Copilot: Custom implementation for GitHub API
 
@@ -119,9 +119,9 @@ cat > ~/.claude-code-router/config.json << 'EOF'
     },
     {
       "name": "glm",
-      "api_base_url": "https://api.z.ai/api/paas/v4/chat/completions",
+      "api_base_url": "https://api.z.ai/api/coding/paas/v4/chat/completions",
       "api_key": "$GLM_API_KEY",
-      "models": ["glm-4.6", "glm-4.5", "glm-4-plus"],
+      "models": ["glm-4.7", "glm-4.6", "glm-4.5", "glm-4-plus"],
       "transformer": { "use": [] }
     },
     {
@@ -206,7 +206,7 @@ const INTENTS = {
       /[\u0600-\u06FF]/,  // Arabic
       /[\u0400-\u04FF]/,  // Cyrillic
     ],
-    route: "glm,glm-4.6"
+    route: "glm,glm-4.7"
   },
   HEAVY_REASONING: {
     patterns: [

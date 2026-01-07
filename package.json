@@ -5,6 +5,7 @@
   "main": "install.js",
   "bin": {
     "ccr-setup": "install.js",
+    "ccr-glm-setup": "bin/ccr-glm-setup",
     "ccr": "cli/commands.js",
     "ccr-benchmark": "cli/benchmark.js",
     "ccr-analytics": "cli/analytics.js",
@@ -21,6 +22,7 @@
     "health": "node logging/health-monitor.js"
   },
   "files": [
+    "bin/",
     "config/",
     "cli/",
     "logging/",
@@ -28,6 +30,7 @@
     "plugins/",
     "web-dashboard/",
     "install.sh",
+    "setup-glm.sh",
     "install.js",
     "postinstall.js",
     ".env.example",

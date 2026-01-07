@@ -86,7 +86,7 @@ const INTENTS = {
     ],
     route: "gemini,gemini-2.5-flash",
     strategy: "performance",
-    fallbacks: ["qwen,qwen-turbo", "glm,glm-4.5"],
+    fallbacks: ["qwen,qwen-turbo", "glm,glm-4.7"],
     priority: "medium"
   },
 
@@ -99,7 +99,7 @@ const INTENTS = {
     ],
     route: "qwen,qwen-plus",
     strategy: "cost",
-    fallbacks: ["glm,glm-4.5", "gemini,gemini-2.5-flash"],
+    fallbacks: ["glm,glm-4.7", "gemini,gemini-2.5-flash"],
     priority: "low"
   },
 
@@ -110,7 +110,7 @@ const INTENTS = {
       /[\u4e00-\u9fff]/, // Chinese characters
       /[\u0600-\u06FF]/, // Arabic
     ],
-    route: "glm,glm-4.6",
+    route: "glm,glm-4.7",
     strategy: "quality",
     fallbacks: ["qwen,qwen-plus", "gemini,gemini-2.5-flash"],
     priority: "medium"
@@ -203,6 +203,7 @@ const PROVIDER_PROFILES = {
     speedTier: "high",
     specialties: ["chinese", "multilingual", "translation"],
     models: {
+      "glm-4.7": { cost: 0.1, speed: 2, quality: 0.8, capability: "multilingual" },
       "glm-4.6": { cost: 0.1, speed: 2, quality: 0.8, capability: "multilingual" },
       "glm-4.5": { cost: 0.1, speed: 2, quality: 0.8, capability: "multilingual" },
       "glm-4-plus": { cost: 0.2, speed: 1.5, quality: 0.9, capability: "general" }

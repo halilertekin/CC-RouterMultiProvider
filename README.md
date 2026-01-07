@@ -55,7 +55,7 @@ ccr config template balanced                # Best of all worlds
 | Deep analysis, architecture | Anthropic | claude-sonnet-4 |
 | Quick responses, summaries | Gemini | gemini-2.5-flash |
 | Simple tasks | Qwen | qwen-plus |
-| Translation, multilingual | GLM | glm-4.6 |
+| Translation, multilingual | GLM | glm-4.7 |
 | Complex algorithms | OpenAI | o1 |
 | Coding assistance | GitHub Copilot | copilot |
 
@@ -65,6 +65,34 @@ ccr config template balanced                # Best of all worlds
 - **Package Manager**: pnpm (preferred) or npm
 
 ## Installation
+
+### One-shot GLM setup (Claude login + GLM API)
+
+If you only want GLM (Z.ai) inside Claude Code and keep your native Claude Pro login,
+run the single script below from this repo:
+
+```bash
+./setup-glm.sh
+# or non-interactive:
+./setup-glm.sh --key "YOUR_GLM_API_KEY"
+```
+
+Or run via npm without cloning:
+```bash
+npx -y -p @halilertekin/claude-code-router-config ccr-glm-setup --key "YOUR_GLM_API_KEY"
+```
+
+This will:
+- Install `ccr` if missing (brew/pnpm/npm)
+- Write GLM-only config to `~/.claude-code-router/`
+- Store your key in `~/.claude-code-router/keys.env` (not `~/.env`)
+- Install a single command: `glm` (also `ccc` and `claude-glm`)
+
+Then:
+```bash
+source ~/.zshrc
+glm
+```
 
 ### Option 1: Homebrew (Recommended for macOS)
 
@@ -214,7 +242,7 @@ Inside Claude Code:
 /model anthropic,claude-sonnet-4-latest
 /model gemini,gemini-2.5-flash
 /model qwen,qwen-plus
-/model glm,glm-4.6
+/model glm,glm-4.7
 /model copilot,copilot
 ```
 

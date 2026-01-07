@@ -107,8 +107,8 @@ Claude Code Router, Claude Code CLI'ı bir proxy üzerinden çalıştırarak ist
 ### 5. Zhipu GLM (Z.ai)
 | Özellik | Değer |
 |---------|-------|
-| **API URL** | `https://api.z.ai/api/paas/v4/chat/completions` |
-| **Modeller** | glm-4.6, glm-4.5, glm-4-plus |
+| **API URL** | `https://api.z.ai/api/coding/paas/v4/chat/completions` |
+| **Modeller** | glm-4.7, glm-4.6, glm-4.5, glm-4-plus |
 | **Kullanım** | Çok dilli, Çince, çeviri |
 | **Maliyet** | Düşük |
 | **Env Var** | `GLM_API_KEY` |
@@ -135,7 +135,7 @@ Claude Code Router, Claude Code CLI'ı bir proxy üzerinden çalıştırarak ist
 | **REASONING** | architect, design, analyze, plan, why, explain, compare, evaluate, best practice | Anthropic | claude-sonnet-4 |
 | **FAST** | fast, quick, brief, summary, tldr, overview, hızlı, scan, check | Gemini | gemini-2.5-flash |
 | **SIMPLE** | list, show, what is, simple, basic, help, format, rename, mkdir, ucuz, basit | Qwen | qwen-plus |
-| **MULTILINGUAL** | translate, çevir, tercüme, chinese, türkçe, Çince karakterler | GLM | glm-4.6 |
+| **MULTILINGUAL** | translate, çevir, tercüme, chinese, türkçe, Çince karakterler | GLM | glm-4.7 |
 | **HEAVY_REASONING** | complex algorithm, optimization, performance critical, prove, mathematical | OpenAI | o1 |
 
 ### Built-in Router Ayarları
@@ -341,7 +341,7 @@ Claude Code içinde `/model` komutu:
 /model gemini,gemini-2.5-pro
 /model qwen,qwen-plus
 /model qwen,qwen3-coder-plus
-/model glm,glm-4.6
+/model glm,glm-4.7
 /model openrouter,deepseek/deepseek-chat
 ```
 
