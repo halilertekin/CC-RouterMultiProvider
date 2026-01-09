@@ -10,7 +10,7 @@
   "Providers": [
     {
       "name": "glm",
-      "api_base_url": "https://api.z.ai/api/coding/paas/v4/chat/completions",
+      "api_base_url": "https://api.z.ai/api/anthropic",
       "api_key": "$GLM_API_KEY",
       "models": [
         "glm-4.7",
