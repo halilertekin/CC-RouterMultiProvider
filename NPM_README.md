@@ -12,6 +12,20 @@ npm install -g @halilertekin/claude-code-router-config
 ccr-setup
 ```
 
+### Non-interactive install (CI)
+
+If you run in CI or without a TTY, the installer skips existing config files by default.
+
+```bash
+# Skip prompts (CI-friendly)
+CCR_CONFIG_NO_PROMPT=1 ccr-setup
+
+# Force overwrite existing config files
+CCR_CONFIG_OVERWRITE=1 ccr-setup
+# or
+ccr-setup --overwrite
+```
+
 ### One-shot GLM setup (Claude login + GLM API)
 
 ```bash

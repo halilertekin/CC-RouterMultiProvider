@@ -1,13 +1,14 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v1.3.7** - Now with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
+🚀 **v1.3.9** - Now with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
-## ✨ New in v1.3.7
+## ✨ New in v1.3.9
 - **z.ai Support**: Native integration for GLM-4.7 via z.ai (PPInfra).
 - **Lightweight Mode**: New `ccc` function for zero-dependency routing.
 - **Direct GLM Alias**: Type `glm` to launch Claude Code with GLM-4.7 immediately.
+- **Non-interactive install**: CI-friendly installer flags and env controls.
 
 ## 🚀 Setup on Another Machine (Fastest Way)
 
@@ -74,6 +75,21 @@ Use this if you want the full routing capabilities (benchmarking, analytics, etc
 ```bash
 pnpm add -g @halilertekin/claude-code-router-config
 # System is ready! Run: ccr --help
+```
+
+Then run the installer to copy config files:
+
+```bash
+ccr-setup
+```
+
+Non-interactive usage (CI):
+
+```bash
+CCR_CONFIG_NO_PROMPT=1 ccr-setup
+CCR_CONFIG_OVERWRITE=1 ccr-setup
+# or
+ccr-setup --overwrite
 ```
 
 ### Option 2: Manual Setup

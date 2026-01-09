@@ -17,6 +17,18 @@ const { execSync } = require('child_process');
 
 const configDir = path.join(process.env.HOME || process.env.USERPROFILE, '.claude-code-router');
 const packageDir = __dirname;
+const argv = new Set(process.argv.slice(2));
+const envIsTrue = (value) => /^(1|true|yes|y)$/i.test(value || '');
+const forceOverwrite =
+  argv.has('--overwrite') ||
+  argv.has('--force') ||
+  envIsTrue(process.env.CCR_CONFIG_OVERWRITE);
+const nonInteractive =
+  argv.has('--no-prompt') ||
+  argv.has('--non-interactive') ||
+  envIsTrue(process.env.CCR_CONFIG_NO_PROMPT) ||
+  envIsTrue(process.env.CI);
+const canPrompt = Boolean(process.stdin.isTTY) && !nonInteractive;
 
 async function checkRequirements() {
   console.log(chalk.blue('📋 Checking requirements...'));
@@ -76,18 +88,29 @@ async function setupConfig() {
     const dest = path.join(configDir, file);
 
     if (await fs.pathExists(dest)) {
-      const { overwrite } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'overwrite',
-          message: `File ${file} exists. Overwrite?`,
-          default: false
-        }
-      ]);
-
-      if (!overwrite) {
-        console.log(chalk.yellow(`⚠️  Skipping ${file}`));
+      if (forceOverwrite) {
+        console.log(chalk.yellow(`⚠️  Overwriting ${file} (forced)`));
+      } else if (!canPrompt) {
+        console.log(
+          chalk.yellow(
+            `⚠️  Skipping ${file} (non-interactive). Set CCR_CONFIG_OVERWRITE=1 to overwrite.`
+          )
+        );
         continue;
+      } else {
+        const { overwrite } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'overwrite',
+            message: `File ${file} exists. Overwrite?`,
+            default: false
+          }
+        ]);
+
+        if (!overwrite) {
+          console.log(chalk.yellow(`⚠️  Skipping ${file}`));
+          continue;
+        }
       }
     }
 
