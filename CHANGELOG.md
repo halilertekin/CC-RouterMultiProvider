@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.4
+## 2.0.5
 - UI üzerinden `.env` anahtarları ekleme/güncelleme eklendi.
 - API tarafına `GET/POST /api/env` eklendi.
 
