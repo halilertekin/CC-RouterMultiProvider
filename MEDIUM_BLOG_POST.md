@@ -271,8 +271,8 @@ async function recordMetrics(request) {
 
 ```ruby
 class ClaudeCodeRouterConfig < Formula
-  url "https://registry.npmjs.org/claude-code-router/-/claude-code-router-1.1.0.tgz"
-  sha256 "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
+  url "https://github.com/halilertekin/CC-RouterMultiProvider/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "6d4123ef8f5900b9db64a6a795f70d46cb112be9f864a6f4a8d56d0ffec5fa49"
 
   def install
     system "#{Formula["node"].opt_bin}/npm", "install", "-g",
