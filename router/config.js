@@ -4,6 +4,49 @@ const path = require('path');
 
 const DEFAULT_CONFIG_DIR = path.join(os.homedir(), '.claude-code-router');
 const DEFAULT_CONFIG_PATH = path.join(DEFAULT_CONFIG_DIR, 'config.json');
+const DEFAULT_ENV_PATH = path.join(os.homedir(), '.env');
+let envLoaded = false;
+
+function parseEnvLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.startsWith('#')) return null;
+
+  const withoutExport = trimmed.startsWith('export ')
+    ? trimmed.slice('export '.length).trim()
+    : trimmed;
+
+  const separatorIndex = withoutExport.indexOf('=');
+  if (separatorIndex === -1) return null;
+
+  const key = withoutExport.slice(0, separatorIndex).trim();
+  if (!key) return null;
+
+  let value = withoutExport.slice(separatorIndex + 1).trim();
+  const hasQuotes = (value.startsWith('"') && value.endsWith('"'))
+    || (value.startsWith('\'') && value.endsWith('\''));
+  if (hasQuotes) {
+    value = value.slice(1, -1);
+  }
+
+  return { key, value };
+}
+
+function loadDotenv() {
+  if (envLoaded) return;
+  envLoaded = true;
+
+  const envPath = process.env.CCR_ENV_PATH || DEFAULT_ENV_PATH;
+  if (!fs.existsSync(envPath)) return;
+
+  const content = fs.readFileSync(envPath, 'utf8');
+  content.split(/\r?\n/).forEach((line) => {
+    const parsed = parseEnvLine(line);
+    if (!parsed) return;
+    if (process.env[parsed.key] === undefined) {
+      process.env[parsed.key] = parsed.value;
+    }
+  });
+}
 
 function resolveEnv(value) {
   if (typeof value !== 'string') return value;
@@ -19,15 +62,19 @@ function resolveEnv(value) {
   });
 }
 
-function resolveConfigValue(value) {
+function resolveConfigValue(value, key) {
   if (Array.isArray(value)) {
-    return value.map(resolveConfigValue);
+    return value.map((item) => resolveConfigValue(item, key));
   }
   if (value && typeof value === 'object') {
     return Object.fromEntries(
-      Object.entries(value).map(([key, val]) => [key, resolveConfigValue(val)])
+      Object.entries(value).map(([childKey, val]) => [
+        childKey,
+        resolveConfigValue(val, childKey)
+      ])
     );
   }
+  if (key === 'api_key') return value;
   return resolveEnv(value);
 }
 
@@ -47,13 +94,14 @@ function applyDefaults(config) {
 }
 
 function loadConfig() {
+  loadDotenv();
   const configPath = process.env.CCR_CONFIG_PATH || DEFAULT_CONFIG_PATH;
   if (!fs.existsSync(configPath)) {
     throw new Error(`Config file not found at ${configPath}`);
   }
 
   const raw = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-  const resolved = resolveConfigValue(raw);
+  const resolved = resolveConfigValue(raw, null);
   return applyDefaults(resolved);
 }
 
@@ -66,6 +114,7 @@ function getConfigDir() {
 }
 
 function resolveProviderKey(provider) {
+  loadDotenv();
   if (!provider?.api_key) return null;
   if (typeof provider.api_key === 'string' && provider.api_key.startsWith('$')) {
     const envKey = provider.api_key.slice(1);

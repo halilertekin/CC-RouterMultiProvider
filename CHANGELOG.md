@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+- API anahtarları için `~/.env` otomatik yükleme eklendi (CLI + health monitor).
+- Sağlayıcı API key çözümleme tek noktaya alındı.
+
 ## 2.0.2
 - UI sadeleştirildi, responsive hale getirildi ve Türkçe/Hollandaca desteği eklendi.
 

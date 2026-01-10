@@ -3,6 +3,7 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { resolveProviderKey } = require('../router/config');
 
 class HealthMonitor {
   constructor(options = {}) {
@@ -81,7 +82,7 @@ class HealthMonitor {
 
     try {
       // Check if API key is configured
-      const apiKey = process.env[provider.api_key.replace('$', '')];
+      const apiKey = resolveProviderKey(provider);
       if (!apiKey) {
         throw new Error('API key not configured');
       }
@@ -172,11 +173,18 @@ class HealthMonitor {
         };
 
         // Use curl for testing (more reliable than node HTTP for different APIs)
+        const apiKey = resolveProviderKey(provider);
+        if (!apiKey) {
+          clearTimeout(timeout);
+          resolve({ success: false, error: 'API key not configured' });
+          return;
+        }
+
         const curl = spawn('curl', [
           '-s', '-w', '%{http_code}',
           '-o', '/dev/null',
           '-m', Math.floor(this.timeout / 1000),
-          '-H', `Authorization: Bearer ${process.env[provider.api_key.replace('$', '')]}`,
+          '-H', `Authorization: Bearer ${apiKey}`,
           '-H', 'Content-Type: application/json',
           '-d', JSON.stringify(testRequest),
           provider.api_base_url

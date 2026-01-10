@@ -5,6 +5,7 @@ const os = require('os');
 const path = require('path');
 const { spawn } = require('child_process');
 const chalk = require('./chalk-safe');
+const { resolveProviderKey } = require('../router/config');
 const configPath = path.join(os.homedir(), '.claude-code-router');
 const pidFile = path.join(configPath, 'router.pid');
 const serverScript = path.join(__dirname, '..', 'router', 'server.js');
@@ -137,7 +138,7 @@ async function testProvider(provider, model) {
     };
 
     // For now, just check if API key is set
-    const apiKey = process.env[providerConfig.api_key.replace('$', '')];
+    const apiKey = resolveProviderKey(providerConfig);
     if (!apiKey) {
       throw new Error(`API key not set for ${provider}`);
     }
@@ -214,7 +215,7 @@ async function showDetailedStatus(options = {}) {
   // Provider status
   console.log(chalk.yellow('\nProviders:'));
   for (const provider of config.Providers) {
-    const apiKey = process.env[provider.api_key.replace('$', '')];
+    const apiKey = resolveProviderKey(provider);
     const status = apiKey ? '🟢 Active' : '🔴 Missing API Key';
     console.log(`  ${provider.name}: ${status}`);
   }
