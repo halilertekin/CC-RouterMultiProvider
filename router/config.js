@@ -31,11 +31,15 @@ function parseEnvLine(line) {
   return { key, value };
 }
 
+function getEnvPath() {
+  return process.env.CCR_ENV_PATH || DEFAULT_ENV_PATH;
+}
+
 function loadDotenv() {
   if (envLoaded) return;
   envLoaded = true;
 
-  const envPath = process.env.CCR_ENV_PATH || DEFAULT_ENV_PATH;
+  const envPath = getEnvPath();
   if (!fs.existsSync(envPath)) return;
 
   const content = fs.readFileSync(envPath, 'utf8');
@@ -60,6 +64,73 @@ function resolveEnv(value) {
   return withHome.replace(/\$([A-Z0-9_]+)/gi, (_, key) => {
     return process.env[key] ?? '';
   });
+}
+
+function readEnvFile() {
+  const envPath = getEnvPath();
+  if (!fs.existsSync(envPath)) {
+    return { path: envPath, entries: {} };
+  }
+
+  const content = fs.readFileSync(envPath, 'utf8');
+  const entries = {};
+  content.split(/\r?\n/).forEach((line) => {
+    const parsed = parseEnvLine(line);
+    if (!parsed) return;
+    entries[parsed.key] = parsed.value;
+  });
+
+  return { path: envPath, entries };
+}
+
+function formatEnvValue(value) {
+  const safe = /^[A-Za-z0-9_./:@-]+$/.test(value);
+  if (safe) return value;
+  const escaped = value
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n');
+  return `"${escaped}"`;
+}
+
+function writeEnvValue(key, value) {
+  const envPath = getEnvPath();
+  const normalizedKey = String(key || '').trim();
+  if (!/^[A-Za-z0-9_]+$/.test(normalizedKey)) {
+    throw new Error('Invalid environment key');
+  }
+
+  const normalizedValue = value === undefined || value === null ? '' : String(value);
+  const formattedValue = formatEnvValue(normalizedValue);
+
+  let lines = [];
+  let updated = false;
+
+  if (fs.existsSync(envPath)) {
+    const content = fs.readFileSync(envPath, 'utf8');
+    lines = content.split(/\r?\n/);
+  }
+
+  lines = lines.map((line) => {
+    const parsed = parseEnvLine(line);
+    if (!parsed || parsed.key !== normalizedKey) return line;
+    const prefix = line.trim().startsWith('export ') ? 'export ' : '';
+    updated = true;
+    return `${prefix}${normalizedKey}=${formattedValue}`;
+  });
+
+  if (!updated) {
+    lines.push(`${normalizedKey}=${formattedValue}`);
+  }
+
+  const output = lines.filter((line, index, arr) => {
+    if (index === arr.length - 1) return true;
+    return line !== '' || arr[index + 1] !== '';
+  });
+
+  fs.writeFileSync(envPath, `${output.join('\n')}\n`, 'utf8');
+
+  return { path: envPath, updated: true };
 }
 
 function resolveConfigValue(value, key) {
@@ -125,6 +196,9 @@ function resolveProviderKey(provider) {
 
 module.exports = {
   loadConfig,
+  getEnvPath,
+  readEnvFile,
+  writeEnvValue,
   getConfigPath,
   getConfigDir,
   resolveProviderKey

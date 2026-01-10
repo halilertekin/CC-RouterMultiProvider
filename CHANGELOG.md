@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4
+- UI üzerinden `.env` anahtarları ekleme/güncelleme eklendi.
+- API tarafına `GET/POST /api/env` eklendi.
+
 ## 2.0.3
 - API anahtarları için `~/.env` otomatik yükleme eklendi (CLI + health monitor).
 - Sağlayıcı API key çözümleme tek noktaya alındı.

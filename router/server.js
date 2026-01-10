@@ -6,7 +6,13 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const { loadConfig, getConfigPath, getConfigDir } = require('./config');
+const {
+  loadConfig,
+  getConfigPath,
+  getConfigDir,
+  readEnvFile,
+  writeEnvValue
+} = require('./config');
 const { resolveRoute, estimateTokens } = require('./route');
 const {
   anthropicToOpenAI,
@@ -294,6 +300,59 @@ function setupApi(app) {
     try {
       const config = loadConfig();
       res.json({ success: true, data: config });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  app.get('/api/env', (req, res) => {
+    try {
+      const config = loadConfig();
+      const envFile = readEnvFile();
+      const keys = new Set();
+
+      (config.Providers || []).forEach((provider) => {
+        if (typeof provider.api_key === 'string' && provider.api_key.startsWith('$')) {
+          keys.add(provider.api_key.slice(1));
+        }
+      });
+
+      if ((config.Providers || []).some((provider) => provider.name?.toLowerCase() === 'openrouter')) {
+        keys.add('OPENROUTER_REFERRER');
+        keys.add('OPENROUTER_APP_NAME');
+      }
+
+      const data = Array.from(keys)
+        .sort()
+        .map((key) => {
+          const value = process.env[key] || envFile.entries[key] || '';
+          return { name: key, present: Boolean(value) };
+        });
+
+      res.json({ success: true, data: { envPath: envFile.path, keys: data } });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  app.post('/api/env', (req, res) => {
+    try {
+      const key = String(req.body?.key || '').trim();
+      const value = req.body?.value;
+
+      if (!key) {
+        res.status(400).json({ success: false, error: 'Missing env key' });
+        return;
+      }
+
+      if (value === undefined || value === null || String(value).trim() === '') {
+        res.status(400).json({ success: false, error: 'Missing env value' });
+        return;
+      }
+
+      const result = writeEnvValue(key, value);
+      process.env[key] = String(value);
+      res.json({ success: true, data: { key, path: result.path } });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });
     }

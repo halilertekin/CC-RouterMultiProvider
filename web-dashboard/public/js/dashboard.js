@@ -3,6 +3,7 @@ class Dashboard {
     this.apiBase = '/api';
     this.lang = this.detectLanguage();
     this.providers = [];
+    this.envKeys = [];
     this.translations = this.buildTranslations();
     this.bindEvents();
     this.setLanguage(this.lang);
@@ -49,6 +50,20 @@ class Dashboard {
         defaultRoute: 'Varsayılan rota',
         logging: 'Loglama',
         configJson: 'Konfigürasyon',
+        env: 'Ortam Değişkenleri',
+        envHint: 'Anahtarları hızlıca güncelle',
+        envStatus: 'Durum',
+        envUpdate: 'Güncelle',
+        envKeyLabel: 'Anahtar',
+        envKeyPlaceholder: 'CUSTOM_KEY',
+        envValueLabel: 'Değer',
+        envSave: 'Kaydet',
+        envSaved: 'Kaydedildi',
+        envSaveError: 'Kaydedilemedi',
+        envSet: 'Tanımlı',
+        envMissing: 'Eksik',
+        envPath: 'Dosya',
+        envSelect: 'Anahtar seç'
         logOn: 'Açık',
         logOff: 'Kapalı',
         statusHealthy: 'Sağlıklı',
@@ -94,6 +109,20 @@ class Dashboard {
         defaultRoute: 'Standaard route',
         logging: 'Logging',
         configJson: 'Configuratie',
+        env: 'Omgevingsvariabelen',
+        envHint: 'Snel sleutels bijwerken',
+        envStatus: 'Status',
+        envUpdate: 'Bijwerken',
+        envKeyLabel: 'Sleutel',
+        envKeyPlaceholder: 'CUSTOM_KEY',
+        envValueLabel: 'Waarde',
+        envSave: 'Opslaan',
+        envSaved: 'Opgeslagen',
+        envSaveError: 'Opslaan mislukt',
+        envSet: 'Ingesteld',
+        envMissing: 'Ontbreekt',
+        envPath: 'Bestand',
+        envSelect: 'Sleutel kiezen'
         logOn: 'Aan',
         logOff: 'Uit',
         statusHealthy: 'Gezond',
@@ -128,6 +157,11 @@ class Dashboard {
       el.textContent = this.t(key);
     });
 
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      el.setAttribute('placeholder', this.t(key));
+    });
+
     document.querySelectorAll('.lang-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
@@ -145,6 +179,9 @@ class Dashboard {
     const refreshHealth = document.getElementById('refresh-health');
     refreshHealth?.addEventListener('click', () => this.loadHealth());
 
+    const envSave = document.getElementById('env-save');
+    envSave?.addEventListener('click', () => this.saveEnv());
+
     document.querySelectorAll('.lang-btn').forEach((btn) => {
       btn.addEventListener('click', () => this.setLanguage(btn.dataset.lang));
     });
@@ -161,6 +198,18 @@ class Dashboard {
     return response.json();
   }
 
+  async postJson(path, payload) {
+    const response = await fetch(path, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+
   async refreshAll() {
     try {
       this.setConnectionStatus(true);
@@ -169,7 +218,8 @@ class Dashboard {
         this.loadAnalytics(),
         this.loadHealth(),
         this.loadConfig(),
-        this.loadStatus()
+        this.loadStatus(),
+        this.loadEnv()
       ]);
       this.updateLastUpdated();
     } catch (error) {
@@ -249,6 +299,19 @@ class Dashboard {
     }
   }
 
+  async loadEnv() {
+    const envResponse = await this.fetchJson(`${this.apiBase}/env`);
+    const payload = envResponse.data || {};
+    this.envKeys = payload.keys || [];
+    this.renderEnvList(this.envKeys);
+    this.populateEnvSelect(this.envKeys);
+
+    const envPath = document.getElementById('env-path');
+    if (envPath && payload.envPath) {
+      envPath.textContent = `${this.t('envPath')}: ${payload.envPath}`;
+    }
+  }
+
   renderProviderList(targetId, providers) {
     const container = document.getElementById(targetId);
     if (!container) return;
@@ -324,6 +387,61 @@ class Dashboard {
     });
   }
 
+  renderEnvList(keys) {
+    const container = document.getElementById('env-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+    if (!keys.length) {
+      container.innerHTML = `<div class="muted">${this.t('dataUnavailable')}</div>`;
+      return;
+    }
+
+    keys.forEach((item) => {
+      const entry = document.createElement('div');
+      entry.className = 'list-item';
+
+      const left = document.createElement('div');
+      left.className = 'list-left';
+
+      const dot = document.createElement('span');
+      dot.className = `dot ${item.present ? 'ok' : 'warn'}`;
+
+      const name = document.createElement('span');
+      name.textContent = item.name;
+
+      left.appendChild(dot);
+      left.appendChild(name);
+
+      const badge = document.createElement('span');
+      badge.textContent = item.present ? this.t('envSet') : this.t('envMissing');
+
+      entry.appendChild(left);
+      entry.appendChild(badge);
+      container.appendChild(entry);
+    });
+  }
+
+  populateEnvSelect(keys) {
+    const select = document.getElementById('env-key-select');
+    if (!select) return;
+    select.innerHTML = '';
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = this.t('envSelect');
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
+
+    keys.forEach((item) => {
+      const option = document.createElement('option');
+      option.value = item.name;
+      option.textContent = item.name;
+      select.appendChild(option);
+    });
+  }
+
   resolveStatus(status) {
     if (['healthy', 'ok'].includes(status)) return 'ok';
     if (['degraded', 'warn', 'warning'].includes(status)) return 'warn';
@@ -363,6 +481,34 @@ class Dashboard {
   exportAnalytics() {
     const period = document.getElementById('analytics-period')?.value || 'week';
     window.location.href = `${this.apiBase}/analytics/export?format=json&period=${period}`;
+  }
+
+  async saveEnv() {
+    const select = document.getElementById('env-key-select');
+    const custom = document.getElementById('env-key-custom');
+    const valueInput = document.getElementById('env-value');
+    const result = document.getElementById('env-result');
+
+    const keyCandidate = (custom?.value || select?.value || '').trim();
+    const value = valueInput?.value?.trim() || '';
+
+    if (!keyCandidate || !value) {
+      if (result) result.textContent = this.t('envSaveError');
+      return;
+    }
+
+    if (result) result.textContent = '';
+
+    try {
+      await this.postJson(`${this.apiBase}/env`, { key: keyCandidate, value });
+      if (result) result.textContent = this.t('envSaved');
+      if (valueInput) valueInput.value = '';
+      if (custom) custom.value = '';
+      await this.loadEnv();
+    } catch (error) {
+      if (result) result.textContent = this.t('envSaveError');
+      console.error('Failed to save env', error);
+    }
   }
 
   locale() {

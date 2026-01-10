@@ -185,6 +185,42 @@
           </div>
         </div>
       </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2 data-i18n="env">Ortam Değişkenleri</h2>
+          <span class="muted" data-i18n="envHint">Anahtarları hızlıca güncelle</span>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="envStatus">Durum</h3>
+            </div>
+            <div class="card-body">
+              <div id="env-list" class="list"></div>
+              <div id="env-path" class="muted"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="envUpdate">Güncelle</h3>
+            </div>
+            <div class="card-body">
+              <div class="form">
+                <label class="form-label" data-i18n="envKeyLabel">Anahtar</label>
+                <div class="field-row">
+                  <select id="env-key-select" class="select"></select>
+                  <input id="env-key-custom" class="input" data-i18n-placeholder="envKeyPlaceholder" placeholder="CUSTOM_KEY">
+                </div>
+                <label class="form-label" data-i18n="envValueLabel">Değer</label>
+                <input id="env-value" class="input" type="password" placeholder="********">
+                <button class="btn" id="env-save" data-i18n="envSave">Kaydet</button>
+                <span id="env-result" class="muted"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
