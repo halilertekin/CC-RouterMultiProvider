@@ -276,7 +276,7 @@ class ClaudeCodeRouterConfig < Formula
 
   def install
     system "#{Formula["node"].opt_bin}/npm", "install", "-g",
-            "@musistudio/claude-code-router", "--prefix", prefix
+            "@halilertekin/claude-code-router-config", "--prefix", prefix
 
     # Setup configuration directory
     config_dir = File.join(Dir.home, ".claude-code-router")
@@ -438,7 +438,7 @@ Ready to try it yourself? Installation is simple:
 
 ```bash
 # Install via npm
-npm install -g claude-code-router
+npm install -g @halilertekin/claude-code-router-config
 
 # Or via Homebrew (macOS)
 brew install halilertekin/tap/claude-code-router-config
@@ -473,6 +473,6 @@ The best part? We're just getting started. The future of AI routing is intellige
 
 **About the Author**: _Halil Ertekin is a software engineer passionate about developer tools and AI infrastructure. He built Claude Code Router Config to solve his own challenges with managing multiple AI providers and is now helping thousands of developers do the same._
 
-**Connect**: [GitHub](https://github.com/halilertekin) | [NPM](https://www.npmjs.com/~musistudio) | [Twitter](https://twitter.com/halilertekin)
+**Connect**: [GitHub](https://github.com/halilertekin) | [NPM](https://www.npmjs.com/~halilertekin) | [Twitter](https://twitter.com/halilertekin)
 
-**Try it now**: `npm install -g claude-code-router` or visit our [GitHub repository](https://github.com/halilertekin/claude-code-router-config) to learn more.
+**Try it now**: `npm install -g @halilertekin/claude-code-router-config` or visit our [GitHub repository](https://github.com/halilertekin/claude-code-router-config) to learn more.

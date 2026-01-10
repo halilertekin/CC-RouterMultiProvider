@@ -2,8 +2,7 @@
  * Multi-Provider Intent Router
  * Routes requests based on task type to optimal provider
  *
- * This router is designed for use with @musistudio/claude-code-router
- * Original project: https://github.com/musistudio/claude-code-router
+ * This router is designed for the built-in unified router
  *
  * Configuration by Halil Ertekin
  */

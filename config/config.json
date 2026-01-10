@@ -1,11 +1,12 @@
 {
-  "_comment": "Claude Code Router Configuration - For use with @musistudio/claude-code-router",
-  "_attribution": "Original project: https://github.com/musistudio/claude-code-router",
+  "_comment": "Claude Code Router Configuration - Unified router + config",
   "_author": "Configuration by Halil Ertekin",
+  "HOST": "127.0.0.1",
+  "PORT": 3456,
   "LOG": true,
   "LOG_LEVEL": "info",
   "API_TIMEOUT_MS": 300000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {

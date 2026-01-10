@@ -2,9 +2,8 @@
 
 /**
  * Claude Code Router Config - Interactive Installer
- * For use with @musistudio/claude-code-router
+ * Unified router + configuration package
  *
- * Original project: https://github.com/musistudio/claude-code-router
  * Configuration by Halil Ertekin
  */
 
@@ -12,7 +11,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-const dotenv = require('dotenv');
 const { execSync } = require('child_process');
 
 const configDir = path.join(process.env.HOME || process.env.USERPROFILE, '.claude-code-router');
@@ -43,35 +41,12 @@ async function checkRequirements() {
   }
   console.log(chalk.green(`✅ Node.js ${nodeVersion}`));
 
-  // Check for pnpm
+  // Check for npm (for optional updates)
   try {
-    execSync('pnpm --version', { stdio: 'ignore' });
-    console.log(chalk.green('✅ pnpm found'));
-    return 'pnpm';
+    execSync('npm --version', { stdio: 'ignore' });
+    console.log(chalk.green('✅ npm found'));
   } catch {
-    try {
-      execSync('npm --version', { stdio: 'ignore' });
-      console.log(chalk.yellow('⚠️  pnpm not found, using npm'));
-      return 'npm';
-    } catch {
-      console.error(chalk.red('❌ Neither pnpm nor npm found'));
-      process.exit(1);
-    }
-  }
-}
-
-async function installRouter(packageManager) {
-  console.log(chalk.blue('📦 Installing claude-code-router...'));
-
-  try {
-    const command = `${packageManager} add -g @musistudio/claude-code-router`;
-    console.log(chalk.gray(`Running: ${command}`));
-    execSync(command, { stdio: 'inherit' });
-    console.log(chalk.green('✅ claude-code-router installed'));
-  } catch (error) {
-    console.error(chalk.red('❌ Failed to install claude-code-router'));
-    console.error(error.message);
-    process.exit(1);
+    console.log(chalk.yellow('⚠️  npm not found (optional)'));
   }
 }
 
@@ -82,7 +57,7 @@ async function setupConfig() {
   await fs.ensureDir(configDir);
 
   // Copy config files
-  const configFiles = ['config.json', 'intent-router.js'];
+  const configFiles = ['config.json', 'intent-router.js', 'smart-intent-router.js'];
   for (const file of configFiles) {
     const src = path.join(packageDir, 'config', file);
     const dest = path.join(configDir, file);
@@ -148,6 +123,7 @@ async function showNextSteps() {
   console.log(chalk.gray('   source ~/.zshrc'));
 
   console.log('\n4. Start the router:');
+  console.log(chalk.gray('   ccr start'));
   console.log(chalk.gray('   ccr code'));
 
   console.log(chalk.blue('\n📚 Documentation:'));
@@ -162,16 +138,14 @@ async function showNextSteps() {
   console.log(chalk.gray('   OpenRouter: https://openrouter.ai/keys'));
   console.log(chalk.gray('   Copilot:    https://github.com/settings/tokens'));
 
-  console.log(chalk.yellow('\n⭐ Attribution:'));
-  console.log(chalk.gray('   This config is for @musistudio/claude-code-router'));
-  console.log(chalk.gray('   Original: https://github.com/musistudio/claude-code-router'));
+  console.log(chalk.yellow('\n⭐ Info:'));
+  console.log(chalk.gray('   Unified router + config package'));
 }
 
 async function main() {
   console.log(chalk.cyan.bold('\n🚀 Claude Code Router Config Installer\n'));
 
-  const packageManager = await checkRequirements();
-  await installRouter(packageManager);
+  await checkRequirements();
   await setupConfig();
   await showNextSteps();
 }
@@ -180,4 +154,4 @@ if (require.main === module) {
   main().catch(console.error);
 }
 
-module.exports = { checkRequirements, installRouter, setupConfig };
+module.exports = { checkRequirements, setupConfig };

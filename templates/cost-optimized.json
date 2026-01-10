@@ -2,7 +2,7 @@
   "LOG": true,
   "LOG_LEVEL": "warn",
   "API_TIMEOUT_MS": 30000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {

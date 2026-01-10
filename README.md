@@ -1,14 +1,15 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v1.3.9** - Now with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
+🚀 **v2.0.0** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
-## ✨ New in v1.3.9
+## ✨ New in v2.0.0
 - **z.ai Support**: Native integration for GLM-4.7 via z.ai (PPInfra).
 - **Lightweight Mode**: New `ccc` function for zero-dependency routing.
 - **Direct GLM Alias**: Type `glm` to launch Claude Code with GLM-4.7 immediately.
 - **Non-interactive install**: CI-friendly installer flags and env controls.
+- **Unified router**: Built-in router service, no external dependency required.
 
 ## 🚀 Setup on Another Machine (Fastest Way)
 
@@ -94,21 +95,16 @@ ccr-setup --overwrite
 
 ### Option 2: Manual Setup
 
-#### 1. Install Dependencies
-
-```bash
-pnpm add -g @musistudio/claude-code-router
-```
-
-#### 2. Copy Configuration Files
+#### 1. Copy Configuration Files
 
 ```bash
 mkdir -p ~/.claude-code-router
 cp config/config.json ~/.claude-code-router/
 cp config/intent-router.js ~/.claude-code-router/
+cp config/smart-intent-router.js ~/.claude-code-router/
 ```
 
-#### 3. Set Up Environment Variables
+#### 2. Set Up Environment Variables
 
 Create `.env` file:
 
@@ -117,11 +113,11 @@ cp .env.example ~/.env
 # Edit ~/.env with your API keys
 ```
 
-#### 4. Start Router
+#### 3. Start Router
 
 ```bash
 source ~/.zshrc
-ccr code
+node router/server.js
 ```
 
 ## API Key Setup
@@ -179,19 +175,11 @@ Metrics tracked:
 - [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
 - [Configuration Templates Guide](templates/README.md)
 
-## Attribution
-
-This package provides configuration for [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router), an excellent tool that enables Claude Code functionality with multiple AI providers.
-
-The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic, advanced CLI tools, and provider configurations to help users get started quickly and optimize their AI workflows.
-
 ## License
 
 MIT © [Halil Ertekin](https://github.com/halilertekin)
 
 ---
-
-**Note**: This is an enhanced configuration package. To use it, you need to install the original [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) package.
 
 ## 🌟 Show Your Support
 

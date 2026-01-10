@@ -82,11 +82,10 @@ ccr code
 The Homebrew formula installs the following components:
 
 ### 1. Core Package
-- **@musistudio/claude-code-router**: The main routing application (via pnpm)
 
 ### 2. Configuration Files
 - **`~/.claude-code-router/config.json`**: Multi-provider configuration with 7 AI providers
-- **`~/.claude-code-router/intent-router.js`**: Intelligent intent-based routing logic
+- **`~/.claude-code-router/smart-intent-router.js`**: Intelligent intent-based routing logic
 
 ### 3. Environment Template
 - **`~/.env`**: Environment variables file (created from `.env.example`)
@@ -149,7 +148,7 @@ The router automatically routes requests to the most appropriate provider based 
    ls -la ~/.claude-code-router/
 
    # Verify config syntax
-   node -c ~/.claude-code-router/intent-router.js
+   node -c ~/.claude-code-router/smart-intent-router.js
    ```
 
 5. **API Key Issues**
@@ -203,7 +202,7 @@ brew untap halilertekin/homebrew-tap
 
 ### Custom Intent Patterns
 
-Edit `~/.claude-code-router/intent-router.js` to add custom routing patterns:
+Edit `~/.claude-code-router/smart-intent-router.js` to add custom routing patterns:
 
 ```javascript
 // Add custom intent
@@ -247,6 +246,4 @@ Modify the routing order in `~/.claude-code-router/config.json`:
 
 ## Attribution
 
-This configuration package is for use with [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router).
-Original project: https://github.com/musistudio/claude-code-router
 Configuration by Halil Ertekin

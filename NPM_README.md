@@ -97,6 +97,7 @@ After installation:
 
 4. **Start router**:
    ```bash
+   ccr start
    ccr code
    ```
 
@@ -178,16 +179,8 @@ The installer creates:
 - [Complete Documentation](https://github.com/halilertekin/claude-code-router-config/docs/FULL_DOCUMENTATION_EN.md)
 - [GitHub Repository](https://github.com/halilertekin/claude-code-router-config)
 
-## Attribution
-
-This package provides configuration for [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router), the original tool that enables Claude Code functionality with multiple AI providers.
-
-The original Claude Code Router project is developed and maintained by musistudio. This package contains pre-configured routing logic and provider configurations.
-
 ## License
 
 MIT © [Halil Ertekin](https://github.com/halilertekin)
 
 ---
-
-**Note**: This is a configuration package. Requires the original [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) to function.

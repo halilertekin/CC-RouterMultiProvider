@@ -36,9 +36,9 @@ Intent-Based Routing Rules:
 - No match → OpenAI (fallback)
 
 Tasks:
-1. Install @musistudio/claude-code-router with pnpm
+1. Install @halilertekin/claude-code-router-config with pnpm
 2. Create ~/.claude-code-router/config.json (all providers)
-3. Create ~/.claude-code-router/intent-router.js (routing logic)
+3. Create ~/.claude-code-router/smart-smart-intent-router.js (routing logic)
 4. Show required .zshrc additions
 
 API Endpoints:
@@ -60,7 +60,7 @@ Router Settings:
 Output:
 1. Installation commands
 2. config.json content
-3. intent-router.js content
+3. smart-intent-router.js content
 4. .zshrc additions
 5. Startup and test commands
 ```
@@ -74,7 +74,7 @@ If you prefer manual setup:
 ### 1. Install
 
 ```bash
-pnpm add -g @musistudio/claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config
 mkdir -p ~/.claude-code-router
 ```
 
@@ -86,7 +86,7 @@ cat > ~/.claude-code-router/config.json << 'EOF'
   "LOG": true,
   "LOG_LEVEL": "info",
   "API_TIMEOUT_MS": 300000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {
@@ -156,10 +156,10 @@ cat > ~/.claude-code-router/config.json << 'EOF'
 EOF
 ```
 
-### 3. intent-router.js
+### 3. smart-intent-router.js
 
 ```bash
-cat > ~/.claude-code-router/intent-router.js << 'EOF'
+cat > ~/.claude-code-router/smart-intent-router.js << 'EOF'
 const INTENTS = {
   CODING: {
     patterns: [
@@ -291,11 +291,11 @@ To create all files at once:
 
 ```bash
 # 1. Install
-pnpm add -g @musistudio/claude-code-router && mkdir -p ~/.claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config && mkdir -p ~/.claude-code-router
 
 # 2. Download configs (from this repo)
 curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/config/config.json > ~/.claude-code-router/config.json
-curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/config/intent-router.js > ~/.claude-code-router/intent-router.js
+curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/config/smart-intent-router.js > ~/.claude-code-router/smart-intent-router.js
 
 # 3. Add API keys to .zshrc (manual)
 # 4. Start

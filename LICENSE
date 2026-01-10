@@ -24,7 +24,4 @@ SOFTWARE.
 
 ## Attribution
 
-This package provides configuration for @musistudio/claude-code-router.
-Original project: https://github.com/musistudio/claude-code-router
-
-The configuration files and intent-based routing logic in this package are designed to work with the original Claude Code Router created by musistudio.
+This package provides a unified router and configuration for Claude Code workflows.

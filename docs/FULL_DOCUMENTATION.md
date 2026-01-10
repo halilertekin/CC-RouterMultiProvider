@@ -58,7 +58,7 @@ Claude Code Router, Claude Code CLI'ı bir proxy üzerinden çalıştırarak ist
 
 1. Kullanıcı Claude Code'a istek gönderir
 2. İstek `localhost:3456`'ya (router) gider
-3. Router, `intent-router.js` ile intent analizi yapar
+3. Router, `smart-intent-router.js` ile intent analizi yapar
 4. İstek uygun provider'a yönlendirilir
 5. Cevap kullanıcıya döner
 
@@ -162,7 +162,6 @@ brew install halilertekin/tap/claude-code-router-config
 ```
 
 Homebrew kurulumu her şeyi otomatik yapar:
-- @musistudio/claude-code-router kurar
 - Konfigürasyon dosyalarını kopyalar
 - ~/.env dosyasını şablonlarla oluşturur
 - Sonraki adımları gösterir
@@ -179,7 +178,7 @@ ccr-setup
 #### Adım 1: Paket Kurulumu
 
 ```bash
-pnpm add -g @musistudio/claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config
 mkdir -p ~/.claude-code-router
 ```
 
@@ -240,7 +239,7 @@ ccr code
   "LOG": true,                    // Loglama aktif
   "LOG_LEVEL": "info",            // Log seviyesi: fatal|error|warn|info|debug|trace
   "API_TIMEOUT_MS": 300000,       // 5 dakika timeout
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {
@@ -295,7 +294,7 @@ ccr code
 
 ### Özelleştirme
 
-`intent-router.js` dosyasını düzenleyerek:
+`smart-intent-router.js` dosyasını düzenleyerek:
 - Yeni intent'ler ekleyebilirsin
 - Pattern'leri değiştirebilirsin
 - Route'ları güncelleyebilirsin
@@ -425,12 +424,12 @@ cat ~/.claude-code-router/config.json | grep CUSTOM_ROUTER
 
 2. Router dosyasının var olduğunu kontrol et:
 ```bash
-ls -la ~/.claude-code-router/intent-router.js
+ls -la ~/.claude-code-router/smart-intent-router.js
 ```
 
 3. Syntax hatası var mı kontrol et:
 ```bash
-node -c ~/.claude-code-router/intent-router.js
+node -c ~/.claude-code-router/smart-intent-router.js
 ```
 
 ---
@@ -475,7 +474,7 @@ node -c ~/.claude-code-router/intent-router.js
 ```
 ~/.claude-code-router/
 ├── config.json              # Ana konfigürasyon
-├── intent-router.js         # Custom routing logic
+├── smart-intent-router.js         # Custom routing logic
 ├── README.md                # Kısa dokümantasyon
 ├── FULL_DOCUMENTATION.md    # Bu dosya
 └── logs/                    # Log dosyaları
@@ -495,14 +494,10 @@ node -c ~/.claude-code-router/intent-router.js
 
 ## Atıf (Attribution)
 
-Bu yapılandırma paketi [@musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) için tasarlanmıştır. Bu, Claude Code'u birden fazla AI sağlayıcısıyla kullanmanızı sağlayan mükemmel bir araçtır.
 
-Orijinal Claude Code Router projesi musistudio tarafından geliştirilmektedir ve bakımı yapılmaktadır. Bu paket, kullanıcıların hızla başlamasına yardımcı olmak için önceden yapılandırılmış routing mantığı ve sağlayıcı konfigürasyonları içermektedir.
 
 ## Kaynaklar
 
-- [GitHub - musistudio/claude-code-router](https://github.com/musistudio/claude-code-router)
-- [npm - @musistudio/claude-code-router](https://www.npmjs.com/package/@musistudio/claude-code-router)
 - [OpenAI API Docs](https://platform.openai.com/docs)
 - [Anthropic API Docs](https://docs.anthropic.com)
 - [Gemini API Docs](https://ai.google.dev/gemini-api/docs)

@@ -232,9 +232,20 @@ EOF
 ensure_ccr
 mkdir -p "$CONFIG_DIR"
 backup_file "$CONFIG_DIR/config.json"
-backup_file "$CONFIG_DIR/intent-router.js"
 cp "$SCRIPT_DIR/config/glm-only.json" "$CONFIG_DIR/config.json"
-cp "$SCRIPT_DIR/config/intent-router-glm.js" "$CONFIG_DIR/intent-router.js"
+backup_file "$CONFIG_DIR/intent-router-glm.js"
+cp "$SCRIPT_DIR/config/intent-router-glm.js" "$CONFIG_DIR/intent-router-glm.js"
+python - <<'PY'
+import json
+import os
+
+config_path = os.path.join(os.environ["HOME"], ".claude-code-router", "config.json")
+with open(config_path, "r", encoding="utf-8") as handle:
+    data = json.load(handle)
+data["CUSTOM_ROUTER_PATH"] = "$HOME/.claude-code-router/intent-router-glm.js"
+with open(config_path, "w", encoding="utf-8") as handle:
+    json.dump(data, handle, indent=2)
+PY
 write_keys
 install_wrapper
 ensure_path

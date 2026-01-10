@@ -27,12 +27,11 @@ Edit `~/.claude-code-router/config.json` and add the AgentSkills provider:
 ```json
 {
   "_comment": "Claude Code Router Configuration with AgentSkills Integration",
-  "_attribution": "Original project: https://github.com/musistudio/claude-code-router",
   "_author": "Configuration by Halil Ertekin",
   "LOG": true,
   "LOG_LEVEL": "info",
   "API_TIMEOUT_MS": 300000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {
@@ -110,18 +109,16 @@ EOF
 
 ```bash
 # Backup current router
-cp ~/.claude-code-router/intent-router.js ~/.claude-code-router/intent-router.js.backup
+cp ~/.claude-code-router/smart-intent-router.js ~/.claude-code-router/smart-intent-router.js.backup
 ```
 
-Create a new enhanced intent router at `~/.claude-code-router/intent-router.js`:
+Create a new enhanced intent router at `~/.claude-code-router/smart-intent-router.js`:
 
 ```javascript
 /**
  * Multi-Provider Intent Router with AgentSkills Integration
  * Routes requests based on task type and skill requirements to optimal provider
  *
- * This router is designed for use with @musistudio/claude-code-router
- * Original project: https://github.com/musistudio/claude-code-router
  *
  * Enhanced with AgentSkills support by Halil Ertekin
  */
@@ -593,7 +590,7 @@ source ~/.zshrc
 # Test SuperClaude command detection
 echo "Testing skill detection..."
 node -e "
-const router = require('$HOME/.claude-code-router/intent-router.js');
+const router = require('$HOME/.claude-code-router/smart-intent-router.js');
 const mockReq = {
   body: {
     messages: [{ role: 'user', content: '/sc:business-panel analyze our competitive position' }]
@@ -692,10 +689,10 @@ setInterval(() => {
 2. **Router not using AgentSkills**
    ```bash
    # Check intent router syntax
-   node -c ~/.claude-code-router/intent-router.js
+   node -c ~/.claude-code-router/smart-intent-router.js
 
    # Test routing manually
-   node -e "console.log(require('./intent-router.js').detectIntent('/sc:business-panel test'))"
+   node -e "console.log(require('./smart-intent-router.js').detectIntent('/sc:business-panel test'))"
    ```
 
 3. **Skill files not found**
@@ -738,6 +735,5 @@ ccr code --verbose
 ## Attribution
 
 This setup guide is for the [claude-code-router-config](https://github.com/halilertekin/CC-RouterMultiProvider) project.
-Original project: https://github.com/musistudio/claude-code-router
 AgentSkills: https://github.com/agentskills/agentskills
 Guide by Halil Ertekin

@@ -1,10 +1,5 @@
 # Claude Code Router Config - Publishing Guide
 
-## Attribution
-
-This package provides configuration for @musistudio/claude-code-router.
-Original project: https://github.com/musistudio/claude-code-router
-
 ## NPM Publishing
 
 ### 1. Update package.json
@@ -12,7 +7,6 @@ Original project: https://github.com/musistudio/claude-code-router
 # Already updated with:
 # - username: halilertekin
 # - email: halil@ertekin.me
-# - attribution to @musistudio/claude-code-router
 ```
 
 ### 2. Build and Test

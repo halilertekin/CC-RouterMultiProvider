@@ -35,9 +35,9 @@ Intent-Based Routing Kuralları:
 - Eşleşme yok → OpenAI (fallback)
 
 Yapılacaklar:
-1. pnpm ile @musistudio/claude-code-router kur
+1. pnpm ile @halilertekin/claude-code-router-config kur
 2. ~/.claude-code-router/config.json oluştur (tüm provider'lar)
-3. ~/.claude-code-router/intent-router.js oluştur (routing logic)
+3. ~/.claude-code-router/smart-smart-intent-router.js oluştur (routing logic)
 4. ~/.zshrc için gerekli env var'ları göster
 
 API Endpoint'leri:
@@ -58,7 +58,7 @@ Router Ayarları:
 Çıktı:
 1. Kurulum komutları
 2. config.json içeriği
-3. intent-router.js içeriği
+3. smart-intent-router.js içeriği
 4. .zshrc eklemeleri
 5. Başlatma ve test komutları
 ```
@@ -72,7 +72,7 @@ Eğer prompt kullanmak istemiyorsan, aşağıdaki adımları manuel uygula:
 ### 1. Kurulum
 
 ```bash
-pnpm add -g @musistudio/claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config
 mkdir -p ~/.claude-code-router
 ```
 
@@ -84,7 +84,7 @@ cat > ~/.claude-code-router/config.json << 'EOF'
   "LOG": true,
   "LOG_LEVEL": "info",
   "API_TIMEOUT_MS": 300000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {
@@ -147,10 +147,10 @@ cat > ~/.claude-code-router/config.json << 'EOF'
 EOF
 ```
 
-### 3. intent-router.js
+### 3. smart-intent-router.js
 
 ```bash
-cat > ~/.claude-code-router/intent-router.js << 'EOF'
+cat > ~/.claude-code-router/smart-intent-router.js << 'EOF'
 const INTENTS = {
   CODING: {
     patterns: [
@@ -274,11 +274,11 @@ Tüm dosyaları tek seferde oluşturmak için:
 
 ```bash
 # 1. Kur
-pnpm add -g @musistudio/claude-code-router && mkdir -p ~/.claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config && mkdir -p ~/.claude-code-router
 
 # 2. Config'leri indir (bu repo'dan)
 curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/config.json > ~/.claude-code-router/config.json
-curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/intent-router.js > ~/.claude-code-router/intent-router.js
+curl -sL https://raw.githubusercontent.com/YOUR_REPO/main/smart-intent-router.js > ~/.claude-code-router/smart-intent-router.js
 
 # 3. API key'leri .zshrc'ye ekle (manuel)
 # 4. Başlat

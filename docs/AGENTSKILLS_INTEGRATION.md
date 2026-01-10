@@ -375,7 +375,7 @@ This skill provides comprehensive business analysis capabilities including:
 1. **Backup Configuration**
    ```bash
    cp ~/.claude-code-router/config.json ~/.claude-code-router/config.json.backup
-   cp ~/.claude-code-router/intent-router.js ~/.claude-code-router/intent-router.js.backup
+   cp ~/.claude-code-router/smart-intent-router.js ~/.claude-code-router/smart-intent-router.js.backup
    ```
 
 2. **Add AgentSkills Provider**
@@ -399,7 +399,7 @@ This skill provides comprehensive business analysis capabilities including:
    ```bash
    # Test skill detection
    node -e "
-   const { detectRequiredSkills } = require('./intent-router.js');
+   const { detectRequiredSkills } = require('./smart-intent-router.js');
    console.log(detectRequiredSkills('/sc:business-panel analyze market'));
    "
    ```
@@ -495,6 +495,5 @@ const LOG_CONFIG = {
 ## Attribution
 
 This integration guide is for the [claude-code-router-config](https://github.com/halilertekin/CC-RouterMultiProvider) project.
-Original project: https://github.com/musistudio/claude-code-router
 AgentSkills: https://github.com/agentskills/agentskills
 Configuration by Halil Ertekin

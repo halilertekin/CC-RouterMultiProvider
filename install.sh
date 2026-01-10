@@ -22,19 +22,16 @@ if ! command -v pnpm &> /dev/null; then
     npm install -g pnpm
 fi
 
-# Install claude-code-router
-echo -e "${GREEN}[1/3] Claude Code Router kuruluyor...${NC}"
-pnpm add -g @musistudio/claude-code-router
-
 # Create config directory
-echo -e "${GREEN}[2/3] Config dizini oluşturuluyor...${NC}"
+echo -e "${GREEN}[1/2] Config dizini oluşturuluyor...${NC}"
 mkdir -p ~/.claude-code-router
 
 # Copy config files
-echo -e "${GREEN}[3/3] Config dosyaları kopyalanıyor...${NC}"
+echo -e "${GREEN}[2/2] Config dosyaları kopyalanıyor...${NC}"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cp "$SCRIPT_DIR/config/config.json" ~/.claude-code-router/
 cp "$SCRIPT_DIR/config/intent-router.js" ~/.claude-code-router/
+cp "$SCRIPT_DIR/config/smart-intent-router.js" ~/.claude-code-router/
 
 echo ""
 echo -e "${GREEN}=========================================="

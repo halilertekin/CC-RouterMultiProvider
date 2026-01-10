@@ -27,12 +27,11 @@ cp ~/.claude-code-router/config.json ~/.claude-code-router/config.json.backup
 ```json
 {
   "_comment": "AgentSkills Entegrasyonlu Claude Code Router Yapılandırması",
-  "_attribution": "Orijinal proje: https://github.com/musistudio/claude-code-router",
   "_author": "Yapılandırma: Halil Ertekin",
   "LOG": true,
   "LOG_LEVEL": "info",
   "API_TIMEOUT_MS": 300000,
-  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/intent-router.js",
+  "CUSTOM_ROUTER_PATH": "$HOME/.claude-code-router/smart-intent-router.js",
 
   "Providers": [
     {
@@ -110,18 +109,16 @@ EOF
 
 ```bash
 # Mevcut router'ı yedekle
-cp ~/.claude-code-router/intent-router.js ~/.claude-code-router/intent-router.js.backup
+cp ~/.claude-code-router/smart-intent-router.js ~/.claude-code-router/smart-intent-router.js.backup
 ```
 
-`~/.claude-code-router/intent-router.js` dosyasında yeni gelişmiş intent router oluşturun:
+`~/.claude-code-router/smart-intent-router.js` dosyasında yeni gelişmiş intent router oluşturun:
 
 ```javascript
 /**
  * AgentSkills Entegrasyonlu Çoklu Sağlayıcı Intent Router
 - İsteğin görev türüne ve beceri gereksinimlerine göre optimal sağlayıcıya yönlendirme
  *
- * Bu router @musistudio/claude-code-router ile kullanım için tasarlanmıştır
- * Orijinal proje: https://github.com/musistudio/claude-code-router
  *
  * AgentSkills desteği ile geliştiren: Halil Ertekin
  */
@@ -586,7 +583,7 @@ source ~/.zshrc
 # SuperClaude komut tespitini test et
 echo "Beceri tespiti test ediliyor..."
 node -e "
-const router = require('$HOME/.claude-code-router/intent-router.js');
+const router = require('$HOME/.claude-code-router/smart-intent-router.js');
 const mockReq = {
   body: {
     messages: [{ role: 'user', content: '/sc:business-panel rekabet konumumuzu analiz edin' }]
@@ -685,10 +682,10 @@ setInterval(() => {
 2. **Router AgentSkills kullanmıyor**
    ```bash
    # Intent router sözdizimini kontrol et
-   node -c ~/.claude-code-router/intent-router.js
+   node -c ~/.claude-code-router/smart-intent-router.js
 
    # Yönlendirmeyi manuel olarak test et
-   node -e "console.log(require('./intent-router.js').detectIntent('/sc:business-panel test'))"
+   node -e "console.log(require('./smart-intent-router.js').detectIntent('/sc:business-panel test'))"
    ```
 
 3. **Skill dosyaları bulunamadı**
@@ -731,6 +728,5 @@ ccr code --verbose
 ## Atıf
 
 Bu kurulum rehberi [claude-code-router-config](https://github.com/halilertekin/CC-RouterMultiProvider) projesi içindir.
-Orijinal proje: https://github.com/musistudio/claude-code-router
 AgentSkills: https://github.com/agentskills/agentskills
 Rehber: Halil Ertekin

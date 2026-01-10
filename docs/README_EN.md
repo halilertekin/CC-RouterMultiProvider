@@ -41,7 +41,7 @@ chmod +x install.sh
 ### 1. Install Package
 
 ```bash
-pnpm add -g @musistudio/claude-code-router
+pnpm add -g @halilertekin/claude-code-router-config
 ```
 
 ### 2. Copy Configuration Files
@@ -49,7 +49,8 @@ pnpm add -g @musistudio/claude-code-router
 ```bash
 mkdir -p ~/.claude-code-router
 cp config/config.json ~/.claude-code-router/
-cp config/intent-router.js ~/.claude-code-router/
+cp config/smart-intent-router.js ~/.claude-code-router/
+cp config/smart-smart-intent-router.js ~/.claude-code-router/
 ```
 
 ### 3. Set Up Environment Variables
@@ -126,7 +127,7 @@ Inside Claude Code:
 ```
 ~/.claude-code-router/
 ├── config.json          # Provider configuration
-├── intent-router.js     # Routing logic
+├── smart-intent-router.js     # Routing logic
 └── logs/                # Log files
 ```
 
