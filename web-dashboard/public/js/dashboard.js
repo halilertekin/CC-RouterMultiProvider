@@ -1,512 +1,409 @@
-// Dashboard JavaScript
 class Dashboard {
   constructor() {
     this.apiBase = '/api';
-    this.currentTab = 'overview';
-    this.refreshInterval = null;
-    this.init();
+    this.lang = this.detectLanguage();
+    this.providers = [];
+    this.translations = this.buildTranslations();
+    this.bindEvents();
+    this.setLanguage(this.lang);
+    this.refreshAll();
+    this.interval = setInterval(() => this.refreshAll(), 30000);
   }
 
-  async init() {
-    this.setupEventListeners();
-    await this.loadInitialData();
-    this.startAutoRefresh();
+  buildTranslations() {
+    return {
+      tr: {
+        appTitle: 'Claude Code Router',
+        appSubtitle: 'Birleşik yönlendirici panosu',
+        refresh: 'Yenile',
+        connected: 'Bağlı',
+        disconnected: 'Bağlantı yok',
+        overview: 'Genel Bakış',
+        lastUpdated: 'Son güncelleme',
+        requests: 'İstekler',
+        tokens: 'Token',
+        cost: 'Maliyet',
+        avgLatency: 'Ort. Gecikme',
+        providers: 'Sağlayıcılar',
+        quickActions: 'Hızlı İşlemler',
+        export: 'Dışa aktar',
+        refreshHealth: 'Sağlığı yenile',
+        analytics: 'Analitik',
+        periodLabel: 'Dönem',
+        periodToday: 'Bugün',
+        periodWeek: 'Son 7 gün',
+        periodMonth: 'Son 30 gün',
+        totalRequests: 'Toplam İstek',
+        totalTokens: 'Toplam Token',
+        totalCost: 'Toplam Maliyet',
+        topProviders: 'En Çok Kullanılanlar',
+        health: 'Sağlık',
+        system: 'Sistem',
+        uptime: 'Çalışma Süresi',
+        memory: 'Bellek',
+        cpu: 'CPU',
+        node: 'Node Sürümü',
+        config: 'Yapılandırma',
+        configSummary: 'Özet',
+        providerCount: 'Sağlayıcı sayısı',
+        defaultRoute: 'Varsayılan rota',
+        logging: 'Loglama',
+        configJson: 'Konfigürasyon',
+        logOn: 'Açık',
+        logOff: 'Kapalı',
+        statusHealthy: 'Sağlıklı',
+        statusDegraded: 'Degrade',
+        statusDown: 'Kapalı',
+        statusUnknown: 'Bilinmiyor',
+        dataUnavailable: 'Veri yok'
+      },
+      nl: {
+        appTitle: 'Claude Code Router',
+        appSubtitle: 'Gecombineerde routerconsole',
+        refresh: 'Vernieuwen',
+        connected: 'Verbonden',
+        disconnected: 'Niet verbonden',
+        overview: 'Overzicht',
+        lastUpdated: 'Laatst bijgewerkt',
+        requests: 'Verzoeken',
+        tokens: 'Tokens',
+        cost: 'Kosten',
+        avgLatency: 'Gem. latentie',
+        providers: 'Providers',
+        quickActions: 'Snelle acties',
+        export: 'Exporteren',
+        refreshHealth: 'Status vernieuwen',
+        analytics: 'Analyse',
+        periodLabel: 'Periode',
+        periodToday: 'Vandaag',
+        periodWeek: 'Laatste 7 dagen',
+        periodMonth: 'Laatste 30 dagen',
+        totalRequests: 'Totaal verzoeken',
+        totalTokens: 'Totaal tokens',
+        totalCost: 'Totale kosten',
+        topProviders: 'Meest gebruikt',
+        health: 'Status',
+        system: 'Systeem',
+        uptime: 'Uptime',
+        memory: 'Geheugen',
+        cpu: 'CPU',
+        node: 'Node-versie',
+        config: 'Configuratie',
+        configSummary: 'Overzicht',
+        providerCount: 'Aantal providers',
+        defaultRoute: 'Standaard route',
+        logging: 'Logging',
+        configJson: 'Configuratie',
+        logOn: 'Aan',
+        logOff: 'Uit',
+        statusHealthy: 'Gezond',
+        statusDegraded: 'Gedegradeerd',
+        statusDown: 'Niet beschikbaar',
+        statusUnknown: 'Onbekend',
+        dataUnavailable: 'Geen gegevens'
+      }
+    };
   }
 
-  setupEventListeners() {
-    // Tab navigation
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        const tabName = e.target.dataset.tab;
-        this.switchTab(tabName);
-      });
+  detectLanguage() {
+    const stored = localStorage.getItem('ccr_lang');
+    if (stored) return stored;
+    const lang = navigator.language || 'tr';
+    if (lang.startsWith('nl')) return 'nl';
+    if (lang.startsWith('tr')) return 'tr';
+    return 'tr';
+  }
+
+  t(key) {
+    return this.translations[this.lang]?.[key] || key;
+  }
+
+  setLanguage(lang) {
+    this.lang = lang;
+    localStorage.setItem('ccr_lang', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      el.textContent = this.t(key);
     });
 
-    // Analytics period change
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    this.updateLastUpdated();
+  }
+
+  bindEvents() {
+    const refreshBtn = document.getElementById('refresh-btn');
+    refreshBtn?.addEventListener('click', () => this.refreshAll());
+
+    const exportBtn = document.getElementById('export-btn');
+    exportBtn?.addEventListener('click', () => this.exportAnalytics());
+
+    const refreshHealth = document.getElementById('refresh-health');
+    refreshHealth?.addEventListener('click', () => this.loadHealth());
+
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
+      btn.addEventListener('click', () => this.setLanguage(btn.dataset.lang));
+    });
+
     const periodSelect = document.getElementById('analytics-period');
-    if (periodSelect) {
-      periodSelect.addEventListener('change', () => {
-        this.loadAnalyticsData();
-      });
-    }
-
-    // Config template change
-    const templateSelect = document.getElementById('template-select');
-    if (templateSelect) {
-      templateSelect.addEventListener('change', () => {
-        this.updateTemplatePreview();
-      });
-    }
+    periodSelect?.addEventListener('change', () => this.loadAnalytics());
   }
 
-  switchTab(tabName) {
-    // Update nav items
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.remove('active');
-    });
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-    // Update content
-    document.querySelectorAll('.tab-content').forEach(content => {
-      content.classList.remove('active');
-    });
-    document.getElementById(tabName).classList.add('active');
-
-    this.currentTab = tabName;
-
-    // Load tab-specific data
-    this.loadTabData(tabName);
-  }
-
-  async loadTabData(tabName) {
-    switch (tabName) {
-      case 'overview':
-        await this.loadOverviewData();
-        break;
-      case 'analytics':
-        await this.loadAnalyticsData();
-        break;
-      case 'health':
-        await this.loadHealthData();
-        break;
-      case 'config':
-        await this.loadConfigData();
-        break;
+  async fetchJson(path) {
+    const response = await fetch(path);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
+    return response.json();
   }
 
-  async loadInitialData() {
+  async refreshAll() {
     try {
+      this.setConnectionStatus(true);
       await Promise.all([
-        this.loadOverviewData(),
-        this.loadConfigData()
+        this.loadOverview(),
+        this.loadAnalytics(),
+        this.loadHealth(),
+        this.loadConfig(),
+        this.loadStatus()
       ]);
-    } catch (error) {
-      this.showError('Failed to load initial data');
-    }
-  }
-
-  async loadOverviewData() {
-    try {
-      const [todayResponse, providersResponse] = await Promise.all([
-        fetch(`${this.apiBase}/analytics/today`),
-        fetch(`${this.apiBase}/health/providers`)
-      ]);
-
-      const today = await todayResponse.json();
-      const providers = await providersResponse.json();
-
-      this.updateTodayStats(today.data);
-      this.updateProviderStatus(providers.data);
       this.updateLastUpdated();
     } catch (error) {
-      console.error('Failed to load overview data:', error);
+      this.setConnectionStatus(false);
+      console.error('Failed to refresh dashboard', error);
     }
   }
 
-  async loadAnalyticsData() {
-    try {
-      const period = document.getElementById('analytics-period')?.value || 'week';
-      const response = await fetch(`${this.apiBase}/analytics/summary`);
-      const data = await response.json();
+  async loadOverview() {
+    const [todayResponse, providersResponse] = await Promise.all([
+      this.fetchJson(`${this.apiBase}/analytics/today`),
+      this.fetchJson(`${this.apiBase}/health/providers`)
+    ]);
 
-      this.updateAnalyticsDisplay(data.data);
-    } catch (error) {
-      console.error('Failed to load analytics data:', error);
+    const today = todayResponse.data || {};
+    this.providers = providersResponse.data || [];
+
+    document.getElementById('today-requests').textContent = this.formatNumber(today.requests || 0);
+    document.getElementById('today-tokens').textContent = this.formatNumber(today.tokens || 0);
+    document.getElementById('today-cost').textContent = this.formatCurrency(today.cost || 0);
+    document.getElementById('today-latency').textContent = `${today.avgLatency || 0}ms`;
+
+    this.renderProviderList('provider-status-list', this.providers);
+  }
+
+  async loadAnalytics() {
+    const period = document.getElementById('analytics-period')?.value || 'week';
+    const summaryResponse = await this.fetchJson(`${this.apiBase}/analytics/summary?period=${period}`);
+    const summary = summaryResponse.data || {};
+
+    document.getElementById('summary-requests').textContent = this.formatNumber(summary.totalRequests || 0);
+    document.getElementById('summary-tokens').textContent = this.formatNumber(summary.totalTokens || 0);
+    document.getElementById('summary-cost').textContent = this.formatCurrency(summary.totalCost || 0);
+    document.getElementById('summary-latency').textContent = `${summary.avgLatency || 0}ms`;
+
+    this.renderTopProviders(summary.providers || {});
+  }
+
+  async loadHealth() {
+    const systemResponse = await this.fetchJson(`${this.apiBase}/health/system`);
+    const system = systemResponse.data || {};
+
+    if (!this.providers.length) {
+      const providersResponse = await this.fetchJson(`${this.apiBase}/health/providers`);
+      this.providers = providersResponse.data || [];
+    }
+
+    this.renderProviderList('health-providers', this.providers);
+
+    document.getElementById('system-uptime').textContent = this.formatDuration(system.uptime || 0);
+    document.getElementById('system-memory').textContent = this.formatBytes(system.memory?.heapUsed || 0);
+    document.getElementById('system-cpu').textContent = system.cpu ? `${system.cpu.usage}%` : '-';
+    document.getElementById('system-node').textContent = system.nodeVersion || '-';
+  }
+
+  async loadConfig() {
+    const configResponse = await this.fetchJson(`${this.apiBase}/config`);
+    const config = configResponse.data || {};
+
+    document.getElementById('config-providers').textContent = (config.Providers || []).length;
+    document.getElementById('config-default').textContent = config.Router?.default || '-';
+    document.getElementById('config-logging').textContent = config.LOG ? this.t('logOn') : this.t('logOff');
+
+    const configDisplay = document.getElementById('config-display');
+    if (configDisplay) {
+      configDisplay.textContent = JSON.stringify(config, null, 2);
     }
   }
 
-  async loadHealthData() {
-    try {
-      const [providersResponse, systemResponse] = await Promise.all([
-        fetch(`${this.apiBase}/health/providers`),
-        fetch(`${this.apiBase}/health/system`)
-      ]);
-
-      const providers = await providersResponse.json();
-      const system = await systemResponse.json();
-
-      this.updateHealthProviders(providers.data);
-      this.updateSystemHealth(system.data);
-    } catch (error) {
-      console.error('Failed to load health data:', error);
+  async loadStatus() {
+    const statusResponse = await this.fetchJson(`${this.apiBase}/status`);
+    const status = statusResponse.data || {};
+    const version = status.version || 'v2';
+    const versionEl = document.getElementById('version');
+    if (versionEl) {
+      versionEl.textContent = `v${version}`.replace(/^vv/, 'v');
     }
   }
 
-  async loadConfigData() {
-    try {
-      const [configResponse, templatesResponse] = await Promise.all([
-        fetch(`${this.apiBase}/config/current`),
-        fetch(`${this.apiBase}/config/templates`)
-      ]);
-
-      const config = await configResponse.json();
-      const templates = await templatesResponse.json();
-
-      this.updateConfigDisplay(config.data);
-      this.updateTemplateOptions(templates.data);
-    } catch (error) {
-      console.error('Failed to load config data:', error);
-    }
-  }
-
-  updateTodayStats(data) {
-    if (!data) return;
-
-    document.getElementById('today-requests').textContent = data.requests || 0;
-    document.getElementById('today-tokens').textContent = this.formatNumber(data.tokens || 0);
-    document.getElementById('today-cost').textContent = `$${(data.cost || 0).toFixed(4)}`;
-    document.getElementById('today-latency').textContent = `${data.avgLatency || 0}ms`;
-  }
-
-  updateProviderStatus(providers) {
-    const container = document.getElementById('provider-status-grid');
+  renderProviderList(targetId, providers) {
+    const container = document.getElementById(targetId);
     if (!container) return;
 
     container.innerHTML = '';
+    if (!providers.length) {
+      container.innerHTML = `<div class="muted">${this.t('dataUnavailable')}</div>`;
+      return;
+    }
 
-    providers.forEach(provider => {
-      const statusDiv = document.createElement('div');
-      statusDiv.className = `provider-status ${provider.status}`;
-      statusDiv.innerHTML = `
-        <div style="font-weight: 600; margin-bottom: 0.5rem;">${provider.name}</div>
-        <div style="font-size: 0.875rem; color: var(--text-secondary);">${provider.status}</div>
-      `;
-      container.appendChild(statusDiv);
+    providers.forEach((provider) => {
+      const statusKey = this.resolveStatus(provider.status || 'unknown');
+      const item = document.createElement('div');
+      item.className = 'list-item';
+
+      const left = document.createElement('div');
+      left.className = 'list-left';
+
+      const dot = document.createElement('span');
+      dot.className = `dot ${statusKey}`;
+
+      const name = document.createElement('span');
+      name.textContent = provider.name;
+
+      left.appendChild(dot);
+      left.appendChild(name);
+
+      const badge = document.createElement('span');
+      badge.textContent = this.statusLabel(statusKey);
+
+      item.appendChild(left);
+      item.appendChild(badge);
+      container.appendChild(item);
     });
   }
 
-  updateAnalyticsDisplay(data) {
-    if (!data) return;
-
-    const container = document.getElementById('detailed-stats');
+  renderTopProviders(providerStats) {
+    const container = document.getElementById('top-providers');
     if (!container) return;
 
-    const showDetailed = document.getElementById('show-detailed')?.checked;
-    const showCosts = document.getElementById('show-costs')?.checked;
-
-    let html = `
-      <div class="metric">
-        <span class="label">Total Requests</span>
-        <span class="value">${this.formatNumber(data.totalRequests || 0)}</span>
-      </div>
-      <div class="metric">
-        <span class="label">Total Tokens</span>
-        <span class="value">${this.formatNumber(data.totalTokens || 0)}</span>
-      </div>
-    `;
-
-    if (showCosts) {
-      html += `
-        <div class="metric">
-          <span class="label">Total Cost</span>
-          <span class="value">$${(data.totalCost || 0).toFixed(4)}</span>
-        </div>
-      `;
-    }
-
-    html += `
-      <div class="metric">
-        <span class="label">Average Latency</span>
-        <span class="value">${data.avgLatency || 0}ms</span>
-      </div>
-    `;
-
-    if (showDetailed && data.providers) {
-      html += '<h4 style="margin-top: 1rem; margin-bottom: 0.5rem;">Provider Breakdown</h4>';
-      Object.entries(data.providers).forEach(([provider, count]) => {
-        html += `
-          <div class="metric">
-            <span class="label">${provider}</span>
-            <span class="value">${this.formatNumber(count)}</span>
-          </div>
-        `;
-      });
-    }
-
-    container.innerHTML = html;
-  }
-
-  updateHealthProviders(providers) {
-    const container = document.getElementById('health-providers');
-    if (!container) return;
+    const entries = Object.entries(providerStats)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
 
     container.innerHTML = '';
+    if (!entries.length) {
+      container.innerHTML = `<div class="muted">${this.t('dataUnavailable')}</div>`;
+      return;
+    }
 
-    providers.forEach(provider => {
-      const statusClass = provider.status === 'healthy' ? 'status-healthy' : 'status-unhealthy';
-      const statusDiv = document.createElement('div');
-      statusDiv.className = `metric`;
-      statusDiv.innerHTML = `
-        <span class="label">${provider.name}</span>
-        <span class="status-badge ${statusClass}">${provider.status}</span>
-      `;
-      container.appendChild(statusDiv);
+    entries.forEach(([provider, count]) => {
+      const item = document.createElement('div');
+      item.className = 'list-item';
+
+      const left = document.createElement('div');
+      left.className = 'list-left';
+
+      const dot = document.createElement('span');
+      dot.className = 'dot ok';
+
+      const name = document.createElement('span');
+      name.textContent = provider;
+
+      left.appendChild(dot);
+      left.appendChild(name);
+
+      const value = document.createElement('span');
+      value.textContent = this.formatNumber(count);
+
+      item.appendChild(left);
+      item.appendChild(value);
+      container.appendChild(item);
     });
   }
 
-  updateSystemHealth(data) {
-    if (!data) return;
-
-    document.getElementById('system-uptime').textContent = this.formatDuration(data.uptime);
-    document.getElementById('system-memory').textContent = this.formatBytes(data.memory?.used || 0);
-    document.getElementById('system-node').textContent = data.nodeVersion || '-';
+  resolveStatus(status) {
+    if (['healthy', 'ok'].includes(status)) return 'ok';
+    if (['degraded', 'warn', 'warning'].includes(status)) return 'warn';
+    if (['down', 'unhealthy', 'error'].includes(status)) return 'down';
+    return 'unknown';
   }
 
-  updateConfigDisplay(config) {
-    const container = document.getElementById('config-display');
-    if (!container) return;
-
-    container.innerHTML = `
-      <pre style="background: var(--background); padding: 1rem; border-radius: var(--radius); overflow-x: auto;">
-        ${JSON.stringify(config, null, 2)}
-      </pre>
-    `;
-
-    // Update provider config
-    const providerContainer = document.getElementById('provider-config');
-    if (providerContainer && config.Providers) {
-      providerContainer.innerHTML = '';
-      config.Providers.forEach(provider => {
-        providerContainer.innerHTML += `
-          <div class="metric">
-            <span class="label">${provider.name}</span>
-            <span class="value">${provider.models.length} models</span>
-          </div>
-        `;
-      });
-    }
-
-    // Update router config
-    const routerContainer = document.getElementById('router-config');
-    if (routerContainer && config.Router) {
-      routerContainer.innerHTML = '';
-      Object.entries(config.Router).forEach(([key, value]) => {
-        routerContainer.innerHTML += `
-          <div class="metric">
-            <span class="label">${key}</span>
-            <span class="value">${JSON.stringify(value)}</span>
-          </div>
-        `;
-      });
+  statusLabel(statusKey) {
+    switch (statusKey) {
+      case 'ok':
+        return this.t('statusHealthy');
+      case 'warn':
+        return this.t('statusDegraded');
+      case 'down':
+        return this.t('statusDown');
+      default:
+        return this.t('statusUnknown');
     }
   }
 
-  updateTemplateOptions(templates) {
-    const select = document.getElementById('template-select');
-    if (!select) return;
-
-    // Keep current selection
-    const currentValue = select.value;
-
-    // Clear existing options (except the first one)
-    while (select.children.length > 1) {
-      select.removeChild(select.lastChild);
-    }
-
-    templates.forEach(template => {
-      const option = document.createElement('option');
-      option.value = template.name;
-      option.textContent = template.description || template.name;
-      select.appendChild(option);
-    });
-
-    // Restore previous selection if it still exists
-    if (currentValue) {
-      select.value = currentValue;
-    }
-  }
-
-  async refreshData() {
-    this.showLoading();
-    try {
-      await this.loadTabData(this.currentTab);
-      this.showSuccess('Data refreshed');
-    } catch (error) {
-      this.showError('Failed to refresh data');
-    }
-  }
-
-  startAutoRefresh() {
-    this.refreshInterval = setInterval(() => {
-      this.loadTabData(this.currentTab);
-    }, 30000); // Refresh every 30 seconds
-  }
-
-  stopAutoRefresh() {
-    if (this.refreshInterval) {
-      clearInterval(this.refreshInterval);
-      this.refreshInterval = null;
-    }
-  }
-
-  // Utility methods
-  formatNumber(num) {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K';
-    }
-    return num.toString();
-  }
-
-  formatBytes(bytes) {
-    if (bytes >= 1073741824) {
-      return (bytes / 1073741824).toFixed(2) + ' GB';
-    } else if (bytes >= 1048576) {
-      return (bytes / 1048576).toFixed(2) + ' MB';
-    } else if (bytes >= 1024) {
-      return (bytes / 1024).toFixed(2) + ' KB';
-    }
-    return bytes + ' B';
-  }
-
-  formatDuration(seconds) {
-    if (seconds >= 3600) {
-      return Math.floor(seconds / 3600) + 'h ' + Math.floor((seconds % 3600) / 60) + 'm';
-    } else if (seconds >= 60) {
-      return Math.floor(seconds / 60) + 'm ' + Math.floor(seconds % 60) + 's';
-    }
-    return Math.floor(seconds) + 's';
+  setConnectionStatus(connected) {
+    const badge = document.getElementById('connection-status');
+    if (!badge) return;
+    badge.textContent = connected ? this.t('connected') : this.t('disconnected');
+    badge.classList.toggle('status-ok', connected);
+    badge.classList.toggle('status-down', !connected);
   }
 
   updateLastUpdated() {
     const element = document.getElementById('last-updated');
     if (element) {
-      element.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+      const now = new Date();
+      element.textContent = `${this.t('lastUpdated')}: ${now.toLocaleTimeString(this.locale())}`;
     }
   }
 
-  showLoading() {
-    document.getElementById('connection-status').textContent = 'Loading...';
-    document.getElementById('connection-status').className = 'status-badge status-warning';
+  exportAnalytics() {
+    const period = document.getElementById('analytics-period')?.value || 'week';
+    window.location.href = `${this.apiBase}/analytics/export?format=json&period=${period}`;
   }
 
-  showSuccess(message) {
-    document.getElementById('connection-status').textContent = message;
-    document.getElementById('connection-status').className = 'status-badge status-healthy';
+  locale() {
+    return this.lang === 'nl' ? 'nl-NL' : 'tr-TR';
   }
 
-  showError(message) {
-    document.getElementById('connection-status').textContent = message;
-    document.getElementById('connection-status').className = 'status-badge status-unhealthy';
+  formatNumber(value) {
+    return new Intl.NumberFormat(this.locale()).format(value || 0);
   }
-}
 
-// Global functions for button clicks
-window.dashboard = null;
-
-async function refreshData() {
-  if (window.dashboard) {
-    await window.dashboard.refreshData();
+  formatCurrency(value) {
+    return new Intl.NumberFormat(this.locale(), {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2
+    }).format(value || 0);
   }
-}
 
-async function testAllProviders() {
-  try {
-    const response = await fetch('/api/health/providers');
-    const data = await response.json();
-    alert(`Provider tests completed:\n${data.data.map(p => `${p.name}: ${p.status}`).join('\n')}`);
-  } catch (error) {
-    alert('Failed to test providers');
-  }
-}
-
-function openConfig() {
-  alert('Configuration editor would open here');
-}
-
-function viewLogs() {
-  alert('Log viewer would open here');
-}
-
-async function exportAnalytics() {
-  try {
-    const format = prompt('Export format (json/csv):', 'json');
-    if (format) {
-      window.location.href = `/api/analytics/export?format=${format}`;
+  formatBytes(bytes) {
+    if (!bytes) return '0 B';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let size = bytes;
+    let unitIndex = 0;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size /= 1024;
+      unitIndex += 1;
     }
-  } catch (error) {
-    alert('Failed to export analytics');
+    return `${size.toFixed(2)} ${units[unitIndex]}`;
+  }
+
+  formatDuration(seconds) {
+    if (!seconds) return '0s';
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    if (minutes > 0) return `${minutes}m ${secs}s`;
+    return `${secs}s`;
   }
 }
 
-async function refreshHealthStatus() {
-  try {
-    const response = await fetch('/api/health/providers');
-    const data = await response.json();
-    alert('Health status refreshed');
-  } catch (error) {
-    alert('Failed to refresh health status');
-  }
-}
-
-async function runHealthChecks() {
-  alert('Running comprehensive health checks...');
-}
-
-function applyTemplate() {
-  const select = document.getElementById('template-select');
-  if (select && select.value) {
-    alert(`Applying template: ${select.value}`);
-  }
-}
-
-function backupConfig() {
-  alert('Configuration backup would be created here');
-}
-
-function validateConfig() {
-  alert('Configuration validation would run here');
-}
-
-function editConfig() {
-  alert('Configuration editor would open here');
-}
-
-function reloadConfig() {
-  alert('Configuration would be reloaded here');
-}
-
-function updateTemplatePreview() {
-  const select = document.getElementById('template-select');
-  if (select && select.value) {
-    console.log(`Template preview: ${select.value}`);
-  }
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-}
-
-function showModal(title, content, actionText = null, actionCallback = null) {
-  const modal = document.getElementById('modal');
-  const modalTitle = document.getElementById('modal-title');
-  const modalBody = document.getElementById('modal-body');
-  const modalAction = document.getElementById('modal-action');
-
-  modalTitle.textContent = title;
-  modalBody.innerHTML = content;
-
-  if (actionText && actionCallback) {
-    modalAction.textContent = actionText;
-    modalAction.style.display = 'block';
-    modalAction.onclick = actionCallback;
-  } else {
-    modalAction.style.display = 'none';
-  }
-
-  modal.classList.remove('hidden');
-}
-
-// Initialize dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.dashboard = new Dashboard();
-});
-
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-  if (window.dashboard) {
-    window.dashboard.stopAutoRefresh();
-  }
 });

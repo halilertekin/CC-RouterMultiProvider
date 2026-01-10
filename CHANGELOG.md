@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2
+- UI sadeleştirildi, responsive hale getirildi ve Türkçe/Hollandaca desteği eklendi.
+
 ## 2.0.1
 - Include router files in the published npm package.
 

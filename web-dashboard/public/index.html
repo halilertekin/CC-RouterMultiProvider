@@ -1,308 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claude Code Router Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Router UI</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>R</text></svg>">
 </head>
 <body>
-    <div class="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="title">🤖 Claude Code Router</h1>
-                <div class="header-actions">
-                    <button class="btn btn-secondary btn-small" onclick="refreshData()">
-                        🔄 Refresh
-                    </button>
-                    <span id="connection-status" class="status-badge status-healthy">Connected</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Navigation -->
-        <nav class="nav">
-            <button class="nav-item active" data-tab="overview">📊 Overview</button>
-            <button class="nav-item" data-tab="analytics">📈 Analytics</button>
-            <button class="nav-item" data-tab="health">🏥 Health</button>
-            <button class="nav-item" data-tab="config">⚙️ Config</button>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Overview Tab -->
-            <div id="overview" class="tab-content active">
-                <div class="overview-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📊 Today's Stats</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="metric">
-                                <span class="label">Requests</span>
-                                <span class="value" id="today-requests">0</span>
-                            </div>
-                            <div class="metric">
-                                <span class="label">Tokens Used</span>
-                                <span class="value" id="today-tokens">0</span>
-                            </div>
-                            <div class="metric">
-                                <span class="label">Cost</span>
-                                <span class="value" id="today-cost">$0.00</span>
-                            </div>
-                            <div class="metric">
-                                <span class="label">Avg Latency</span>
-                                <span class="value" id="today-latency">0ms</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>🏭 Provider Status</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="provider-status-grid" class="provider-grid">
-                                <!-- Provider status will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-wide">
-                        <div class="card-header">
-                            <h3>⚡ Quick Actions</h3>
-                        </div>
-                        <div class="card-body">
-                            <button class="action-btn" onclick="testAllProviders()">
-                                🧪 Test All Providers
-                            </button>
-                            <button class="action-btn" onclick="openConfig()">
-                                ⚙️ Edit Configuration
-                            </button>
-                            <button class="action-btn" onclick="viewLogs()">
-                                📝 View Logs
-                            </button>
-                            <button class="action-btn" onclick="exportAnalytics()">
-                                📊 Export Analytics
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Analytics Tab -->
-            <div id="analytics" class="tab-content">
-                <div class="analytics-controls">
-                    <select id="analytics-period" class="select">
-                        <option value="today">Today</option>
-                        <option value="week" selected>Last Week</option>
-                        <option value="month">Last Month</option>
-                        <option value="quarter">Last Quarter</option>
-                    </select>
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="show-detailed">
-                            Show Detailed
-                        </label>
-                    </div>
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="show-costs">
-                            Show Costs
-                        </label>
-                    </div>
-                </div>
-
-                <div class="analytics-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📈 Usage Trends</h3>
-                            <div class="chart-controls">
-                                <button class="btn btn-small btn-outline">📅</button>
-                                <button class="btn btn-small btn-outline">📊</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart">
-                                📊 Usage chart will be displayed here
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>💰 Cost Analysis</h3>
-                            <div class="chart-controls">
-                                <button class="btn btn-small btn-outline">💵</button>
-                                <button class="btn btn-small btn-outline">📉</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart">
-                                💰 Cost chart will be displayed here
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-wide">
-                        <div class="card-header">
-                            <h3>📊 Detailed Statistics</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="detailed-stats">
-                                <!-- Detailed stats will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Health Tab -->
-            <div id="health" class="tab-content">
-                <div class="health-controls">
-                    <button class="btn btn-primary" onclick="refreshHealthStatus()">
-                        🔄 Refresh Status
-                    </button>
-                    <button class="btn btn-secondary" onclick="runHealthChecks()">
-                        🔍 Run Health Checks
-                    </button>
-                </div>
-
-                <div class="health-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>🏭 Provider Health</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="health-providers">
-                                <!-- Provider health details will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>💻 System Health</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="metric">
-                                <span class="label">Uptime</span>
-                                <span class="value" id="system-uptime">0s</span>
-                            </div>
-                            <div class="metric">
-                                <span class="label">Memory Usage</span>
-                                <span class="value" id="system-memory">0MB</span>
-                            </div>
-                            <div class="metric">
-                                <span class="label">Node Version</span>
-                                <span class="value" id="system-node">-</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-wide">
-                        <div class="card-header">
-                            <h3>⚠️ Recent Issues</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="recent-issues">
-                                <p class="text-small">No recent issues reported</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Config Tab -->
-            <div id="config" class="tab-content">
-                <div class="config-controls">
-                    <div class="template-selector">
-                        <label for="template-select">Apply Template:</label>
-                        <select id="template-select" class="select">
-                            <option value="">Select a template...</option>
-                            <option value="performance-optimized">⚡ Performance Optimized</option>
-                            <option value="cost-optimized">💰 Cost Optimized</option>
-                            <option value="quality-focused">🎯 Quality Focused</option>
-                            <option value="development">🛠️ Development</option>
-                            <option value="balanced">⚖️ Balanced</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="applyTemplate()">Apply</button>
-                    </div>
-                    <button class="btn btn-secondary" onclick="backupConfig()">📥 Backup</button>
-                    <button class="btn btn-secondary" onclick="validateConfig()">✅ Validate</button>
-                </div>
-
-                <div class="config-grid">
-                    <div class="card card-wide">
-                        <div class="card-header">
-                            <h3>📝 Current Configuration</h3>
-                            <div class="chart-controls">
-                                <button class="btn btn-small btn-outline" onclick="editConfig()">✏️ Edit</button>
-                                <button class="btn btn-small btn-outline" onclick="reloadConfig()">🔄 Reload</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="config-display">
-                                <!-- Configuration will be displayed here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>🏭 Provider Configuration</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="provider-config">
-                                <!-- Provider configuration will be displayed here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>🔧 Router Settings</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="router-config">
-                                <!-- Router configuration will be displayed here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Status Bar -->
-        <footer class="status-bar">
-            <div class="status-left">
-                <span id="last-updated">Last updated: Never</span>
-            </div>
-            <div class="status-right">
-                <span id="version">v1.1.0</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Modal -->
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-title">Modal Title</h3>
-                <button class="modal-close" onclick="closeModal()">✕</button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                Modal content
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" id="modal-action">Action</button>
-            </div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">CCR</div>
+        <div>
+          <h1 data-i18n="appTitle">Claude Code Router</h1>
+          <p data-i18n="appSubtitle">Birleşik yönlendirici panosu</p>
         </div>
-    </div>
+      </div>
+      <div class="top-actions">
+        <button class="btn" id="refresh-btn" data-i18n="refresh">Yenile</button>
+        <span id="connection-status" class="pill status-ok" data-i18n="connected">Bağlı</span>
+        <div class="lang-switch">
+          <button class="lang-btn" data-lang="tr">TR</button>
+          <button class="lang-btn" data-lang="nl">NL</button>
+        </div>
+      </div>
+    </header>
 
-    <script src="js/dashboard.js"></script>
+    <main class="content">
+      <section class="panel">
+        <div class="panel-header">
+          <h2 data-i18n="overview">Genel Bakış</h2>
+          <span id="last-updated" class="muted" data-i18n="lastUpdated">Son güncelleme: -</span>
+        </div>
+        <div class="grid stats">
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="requests">İstekler</span>
+            <span class="stat-value" id="today-requests">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="tokens">Token</span>
+            <span class="stat-value" id="today-tokens">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="cost">Maliyet</span>
+            <span class="stat-value" id="today-cost">$0.00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="avgLatency">Ort. Gecikme</span>
+            <span class="stat-value" id="today-latency">0ms</span>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="providers">Sağlayıcılar</h3>
+            </div>
+            <div class="card-body">
+              <div id="provider-status-list" class="list"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="quickActions">Hızlı İşlemler</h3>
+            </div>
+            <div class="card-body actions">
+              <button class="btn ghost" id="export-btn" data-i18n="export">Dışa aktar</button>
+              <button class="btn ghost" id="refresh-health" data-i18n="refreshHealth">Sağlığı yenile</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2 data-i18n="analytics">Analitik</h2>
+          <div class="controls">
+            <label class="muted" data-i18n="periodLabel" for="analytics-period">Dönem</label>
+            <select id="analytics-period" class="select">
+              <option value="today" data-i18n="periodToday">Bugün</option>
+              <option value="week" data-i18n="periodWeek" selected>Son 7 gün</option>
+              <option value="month" data-i18n="periodMonth">Son 30 gün</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid stats">
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="totalRequests">Toplam İstek</span>
+            <span class="stat-value" id="summary-requests">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="totalTokens">Toplam Token</span>
+            <span class="stat-value" id="summary-tokens">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="totalCost">Toplam Maliyet</span>
+            <span class="stat-value" id="summary-cost">$0.00</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label" data-i18n="avgLatency">Ort. Gecikme</span>
+            <span class="stat-value" id="summary-latency">0ms</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="topProviders">En Çok Kullanılanlar</h3>
+          </div>
+          <div class="card-body">
+            <div id="top-providers" class="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2 data-i18n="health">Sağlık</h2>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="providers">Sağlayıcılar</h3>
+            </div>
+            <div class="card-body">
+              <div id="health-providers" class="list"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="system">Sistem</h3>
+            </div>
+            <div class="card-body">
+              <div class="metric">
+                <span class="label" data-i18n="uptime">Çalışma Süresi</span>
+                <span class="value" id="system-uptime">-</span>
+              </div>
+              <div class="metric">
+                <span class="label" data-i18n="memory">Bellek</span>
+                <span class="value" id="system-memory">-</span>
+              </div>
+              <div class="metric">
+                <span class="label" data-i18n="cpu">CPU</span>
+                <span class="value" id="system-cpu">-</span>
+              </div>
+              <div class="metric">
+                <span class="label" data-i18n="node">Node Sürümü</span>
+                <span class="value" id="system-node">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2 data-i18n="config">Yapılandırma</h2>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="configSummary">Özet</h3>
+            </div>
+            <div class="card-body">
+              <div class="metric">
+                <span class="label" data-i18n="providerCount">Sağlayıcı sayısı</span>
+                <span class="value" id="config-providers">0</span>
+              </div>
+              <div class="metric">
+                <span class="label" data-i18n="defaultRoute">Varsayılan rota</span>
+                <span class="value" id="config-default">-</span>
+              </div>
+              <div class="metric">
+                <span class="label" data-i18n="logging">Loglama</span>
+                <span class="value" id="config-logging">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 data-i18n="configJson">Konfigürasyon</h3>
+            </div>
+            <div class="card-body">
+              <pre id="config-display" class="config-view">{}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span id="version">v2</span>
+    </footer>
+  </div>
+
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
