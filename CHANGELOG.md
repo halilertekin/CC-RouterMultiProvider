@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.7
+- Security: qs arrayLimit bypass fix (force qs 6.14.1).
+
 ## 2.0.6
 - UI sürüm etiketi artık paket versiyonunu gösteriyor.
 - Dashboard dil dosyalarındaki hatalı virgüller düzeltildi (dil seçimi ve sağlayıcı listesi geri geldi).
