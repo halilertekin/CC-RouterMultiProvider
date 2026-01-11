@@ -14,7 +14,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
           
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,13 +27,31 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Run tests
-        run: pnpm test
+        run: pnpm test -- --watchman=false
         continue-on-error: true
+
+      - name: Get package version
+        id: pkg
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Check npm version
+        id: npm
+        run: |
+          if npm view @halilertekin/claude-code-router-config@${{ steps.pkg.outputs.version }} version >/dev/null 2>&1; then
+            echo "published=true" >> $GITHUB_OUTPUT
+          else
+            echo "published=false" >> $GITHUB_OUTPUT
+          fi
         
       - name: Publish to npm
+        if: steps.npm.outputs.published != 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+      - name: Skip publish (already on npm)
+        if: steps.npm.outputs.published == 'true'
+        run: echo "Version already published, skipping npm publish."
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
