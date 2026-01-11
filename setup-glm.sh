@@ -210,6 +210,11 @@ export ANTHROPIC_DEFAULT_HAIKU_MODEL="${ANTHROPIC_DEFAULT_HAIKU_MODEL:-glm,glm-4
 export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_SMALL_FAST_MODEL:-glm,glm-4.5-air}"
 export CLAUDE_CODE_SUBAGENT_MODEL="${CLAUDE_CODE_SUBAGENT_MODEL:-glm,glm-4.7}"
 
+# Avoid file watcher exhaustion in non-interactive mode.
+if [[ " $* " == *" -p "* || " $* " == *" --print "* ]]; then
+  export CLAUDE_CODE_DISABLE_ATTACHMENTS=1
+fi
+
 CLAUDE_BIN="$HOME/.claude/local/claude"
 if [[ ! -x "$CLAUDE_BIN" ]]; then
   CLAUDE_BIN="$(command -v claude || true)"
@@ -274,6 +279,11 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL="${ANTHROPIC_DEFAULT_SONNET_MODEL:-glm-4.7
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="${ANTHROPIC_DEFAULT_HAIKU_MODEL:-glm-4.5-air}"
 export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_SMALL_FAST_MODEL:-glm-4.5-air}"
 export CLAUDE_CODE_SUBAGENT_MODEL="${CLAUDE_CODE_SUBAGENT_MODEL:-glm-4.7}"
+
+# Avoid file watcher exhaustion in non-interactive mode.
+if [[ " $* " == *" -p "* || " $* " == *" --print "* ]]; then
+  export CLAUDE_CODE_DISABLE_ATTACHMENTS=1
+fi
 
 CLAUDE_BIN="$HOME/.claude/local/claude"
 if [[ ! -x "$CLAUDE_BIN" ]]; then
