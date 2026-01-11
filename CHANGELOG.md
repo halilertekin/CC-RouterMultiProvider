@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.6
+- UI sürüm etiketi artık paket versiyonunu gösteriyor.
+- Dashboard dil dosyalarındaki hatalı virgüller düzeltildi (dil seçimi ve sağlayıcı listesi geri geldi).
+- `ccr activate` artık yapılandırılan env dosyasını (`CCR_ENV_PATH`) export ediyor.
+- GLM wrapper: z.ai için doğru auth/timeout/model eşlemeleri ve python3 fallback.
+
 ## 2.0.5
 - UI üzerinden `.env` anahtarları ekleme/güncelleme eklendi.
 - API tarafına `GET/POST /api/env` eklendi.

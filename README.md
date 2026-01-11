@@ -1,10 +1,10 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.0.5** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
+🚀 **v2.0.6** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
-## ✨ New in v2.0.5
+## ✨ New in v2.0.6
 - UI üzerinden `.env` anahtarları ekleme/güncelleme (TR/NL).
 - `~/.env` otomatik yükleme ile API anahtarlarının bulunması (CLI + health monitor).
 - **z.ai Support**: Native integration for GLM-4.7 via z.ai (PPInfra).

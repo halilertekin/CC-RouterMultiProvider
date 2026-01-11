@@ -6,6 +6,10 @@ CONFIG_DIR="$HOME/.claude-code-router"
 BIN_DIR="$HOME/.local/bin"
 KEYS_FILE="$CONFIG_DIR/keys.env"
 ZSHRC="${HOME}/.zshrc"
+PYTHON_BIN="python"
+if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+fi
 
 GLM_KEY="${GLM_API_KEY:-}"
 SKIP_INSTALL=0
@@ -188,14 +192,23 @@ if ! port_open; then
   exit 1
 fi
 
+export CCR_ENV_PATH="$KEYS_FILE"
 eval "$(ccr activate)"
 
-export ANTHROPIC_MODEL="glm,glm-4.7"
-export ANTHROPIC_DEFAULT_SONNET_MODEL="glm,glm-4.7"
-export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm,glm-4.7"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="glm,glm-4.7"
-export CLAUDE_CODE_SUBAGENT_MODEL="glm,glm-4.7"
-export ANTHROPIC_SMALL_FAST_MODEL="glm,glm-4.7"
+# Ensure Claude Code doesn't fall back to Claude Pro when glm is requested.
+export ANTHROPIC_AUTH_TOKEN="${GLM_API_KEY}"
+export ANTHROPIC_API_KEY="${GLM_API_KEY}"
+
+export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"
+export NO_PROXY="127.0.0.1"
+export API_TIMEOUT_MS="${API_TIMEOUT_MS:-3000000}"
+
+export ANTHROPIC_MODEL="${ANTHROPIC_MODEL:-glm,glm-4.7}"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="${ANTHROPIC_DEFAULT_OPUS_MODEL:-glm,glm-4.7}"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="${ANTHROPIC_DEFAULT_SONNET_MODEL:-glm,glm-4.7}"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="${ANTHROPIC_DEFAULT_HAIKU_MODEL:-glm,glm-4.5-air}"
+export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_SMALL_FAST_MODEL:-glm,glm-4.5-air}"
+export CLAUDE_CODE_SUBAGENT_MODEL="${CLAUDE_CODE_SUBAGENT_MODEL:-glm,glm-4.7}"
 
 CLAUDE_BIN="$HOME/.claude/local/claude"
 if [[ ! -x "$CLAUDE_BIN" ]]; then
@@ -235,7 +248,7 @@ backup_file "$CONFIG_DIR/config.json"
 cp "$SCRIPT_DIR/config/glm-only.json" "$CONFIG_DIR/config.json"
 backup_file "$CONFIG_DIR/intent-router-glm.js"
 cp "$SCRIPT_DIR/config/intent-router-glm.js" "$CONFIG_DIR/intent-router-glm.js"
-python - <<'PY'
+"$PYTHON_BIN" - <<'PY'
 import json
 import os
 

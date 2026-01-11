@@ -5,7 +5,7 @@ const os = require('os');
 const path = require('path');
 const { spawn } = require('child_process');
 const chalk = require('./chalk-safe');
-const { resolveProviderKey } = require('../router/config');
+const { resolveProviderKey, readEnvFile } = require('../router/config');
 const configPath = path.join(os.homedir(), '.claude-code-router');
 const pidFile = path.join(configPath, 'router.pid');
 const serverScript = path.join(__dirname, '..', 'router', 'server.js');
@@ -18,6 +18,12 @@ function loadConfig() {
     console.error(chalk.red('❌ Configuration not found. Run installation first.'));
     process.exit(1);
   }
+}
+
+function formatEnvValue(value) {
+  const safe = /^[A-Za-z0-9_./:@-]+$/.test(value);
+  if (safe) return value;
+  return JSON.stringify(value);
 }
 
 function readPid() {
@@ -392,7 +398,11 @@ async function main() {
     case 'activate': {
       const config = loadConfig();
       const port = config.PORT || 3456;
-      console.log('export $(cat ~/.env | xargs)');
+      const { entries } = readEnvFile();
+      Object.entries(entries).forEach(([key, value]) => {
+        if (value === undefined) return;
+        console.log(`export ${key}=${formatEnvValue(String(value))}`);
+      });
       console.log(`export ANTHROPIC_BASE_URL="http://127.0.0.1:${port}"`);
       console.log('export NO_PROXY="127.0.0.1"');
       break;

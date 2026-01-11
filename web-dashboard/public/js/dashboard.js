@@ -63,7 +63,7 @@ class Dashboard {
         envSet: 'Tanımlı',
         envMissing: 'Eksik',
         envPath: 'Dosya',
-        envSelect: 'Anahtar seç'
+        envSelect: 'Anahtar seç',
         logOn: 'Açık',
         logOff: 'Kapalı',
         statusHealthy: 'Sağlıklı',
@@ -122,7 +122,7 @@ class Dashboard {
         envSet: 'Ingesteld',
         envMissing: 'Ontbreekt',
         envPath: 'Bestand',
-        envSelect: 'Sleutel kiezen'
+        envSelect: 'Sleutel kiezen',
         logOn: 'Aan',
         logOff: 'Uit',
         statusHealthy: 'Gezond',

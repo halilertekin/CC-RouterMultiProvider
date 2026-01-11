@@ -518,6 +518,22 @@ function setupApi(app) {
 
 function setupUi(app) {
   const uiRoot = path.join(__dirname, '..', 'web-dashboard', 'public');
+  const indexPath = path.join(uiRoot, 'index.html');
+
+  const renderIndex = () => {
+    const version = require('../package.json').version;
+    const html = fs.readFileSync(indexPath, 'utf8');
+    return html.replace(/__CCR_VERSION__/g, version);
+  };
+
+  app.get(['/ui', '/ui/', '/ui/index.html'], (req, res, next) => {
+    try {
+      res.type('html').send(renderIndex());
+    } catch (error) {
+      next(error);
+    }
+  });
+
   app.use('/ui', express.static(uiRoot));
   app.get('/', (req, res) => res.redirect('/ui'));
 }
