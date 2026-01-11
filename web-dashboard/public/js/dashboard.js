@@ -130,6 +130,65 @@ class Dashboard {
         statusDown: 'Niet beschikbaar',
         statusUnknown: 'Onbekend',
         dataUnavailable: 'Geen gegevens'
+      },
+      en: {
+        appTitle: 'Claude Code Router',
+        appSubtitle: 'Unified router dashboard',
+        refresh: 'Refresh',
+        connected: 'Connected',
+        disconnected: 'Disconnected',
+        overview: 'Overview',
+        lastUpdated: 'Last updated',
+        requests: 'Requests',
+        tokens: 'Tokens',
+        cost: 'Cost',
+        avgLatency: 'Avg Latency',
+        providers: 'Providers',
+        quickActions: 'Quick Actions',
+        export: 'Export',
+        refreshHealth: 'Refresh Health',
+        analytics: 'Analytics',
+        periodLabel: 'Period',
+        periodToday: 'Today',
+        periodWeek: 'Last 7 days',
+        periodMonth: 'Last 30 days',
+        totalRequests: 'Total Requests',
+        totalTokens: 'Total Tokens',
+        totalCost: 'Total Cost',
+        topProviders: 'Most Used',
+        health: 'Health',
+        system: 'System',
+        uptime: 'Uptime',
+        memory: 'Memory',
+        cpu: 'CPU',
+        node: 'Node Version',
+        config: 'Configuration',
+        configSummary: 'Summary',
+        providerCount: 'Provider count',
+        defaultRoute: 'Default route',
+        logging: 'Logging',
+        configJson: 'Configuration',
+        env: 'Environment Variables',
+        envHint: 'Quickly update keys',
+        envStatus: 'Status',
+        envUpdate: 'Update',
+        envKeyLabel: 'Key',
+        envKeyPlaceholder: 'CUSTOM_KEY',
+        envValueLabel: 'Value',
+        envSave: 'Save',
+        envSaved: 'Saved',
+        envSaveError: 'Save failed',
+        envSet: 'Set',
+        envMissing: 'Missing',
+        envPath: 'File',
+        envSelect: 'Select key',
+        logOn: 'On',
+        logOff: 'Off',
+        statusHealthy: 'Healthy',
+        statusDegraded: 'Degraded',
+        statusDown: 'Down',
+        statusUnknown: 'Unknown',
+        dataUnavailable: 'No data'
       }
     };
   }
@@ -137,10 +196,10 @@ class Dashboard {
   detectLanguage() {
     const stored = localStorage.getItem('ccr_lang');
     if (stored) return stored;
-    const lang = navigator.language || 'tr';
+    const lang = navigator.language || 'en';
     if (lang.startsWith('nl')) return 'nl';
     if (lang.startsWith('tr')) return 'tr';
-    return 'tr';
+    return 'en';
   }
 
   t(key) {
@@ -512,7 +571,11 @@ class Dashboard {
   }
 
   locale() {
-    return this.lang === 'nl' ? 'nl-NL' : 'tr-TR';
+    switch (this.lang) {
+      case 'nl': return 'nl-NL';
+      case 'tr': return 'tr-TR';
+      default: return 'en-US';
+    }
   }
 
   formatNumber(value) {

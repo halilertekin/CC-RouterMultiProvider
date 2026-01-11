@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0
+- **NEW**: UI now supports 3 languages - Turkish (TR), Dutch (NL), and English (EN)
+- **NEW**: Comprehensive provider setup guide added with multi-provider routing documentation
+- **NEW**: Inter-provider routing with automatic fallback support
+- **IMPROVED**: Default routing strategy now prioritizes GLM (z.ai) for cost optimization
+- **IMPROVED**: Smart intent router updated with GLM-first approach for all intents
+- **DOCS**: Added `docs/PROVIDER_SETUP.md` with detailed multi-language instructions
+
 ## 2.0.9
 - GLM print mode disables attachments to avoid EMFILE (too many open files) watcher errors.
 

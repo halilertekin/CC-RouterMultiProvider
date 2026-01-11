@@ -176,11 +176,42 @@ Metrics tracked:
 
 ## Documentation
 
+- [**Provider Setup Guide** (EN/TR)](docs/PROVIDER_SETUP.md) - **Multiple providers with intelligent routing**
 - [Complete Documentation (EN)](docs/FULL_DOCUMENTATION_EN.md)
 - [Complete Documentation (TR)](docs/FULL_DOCUMENTATION.md)
 - [Setup Prompt (EN)](docs/SETUP_PROMPT_EN.md)
 - [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
 - [Configuration Templates Guide](templates/README.md)
+
+## Provider Setup / Sağlayıcı Kurulumu 🆕
+
+**📖 Read the [Provider Setup Guide](docs/PROVIDER_SETUP.md) for:**
+- How to add multiple providers (OpenRouter, OpenAI, Gemini, Qwen)
+- Inter-provider routing with automatic fallback
+- Cost optimization strategies (up to 87% savings!)
+- Configuration examples and troubleshooting
+
+**🔗 Hızlı Provider Ekleme:**
+
+| Provider | Get API Key | Cost (1M tokens) |
+|----------|-------------|------------------|
+| [GLM (z.ai)](https://open.bigmodel.cn/) | [Sign Up](https://open.bigmodel.cn/) | ~$0.50 ⭐ |
+| [Qwen](https://dashscope-intl.aliyuncs.com/) | [Sign Up](https://dashscope-intl.aliyuncs.com/) | ~$0.10 |
+| [Gemini](https://ai.google.dev/) | [Sign Up](https://ai.google.dev/) | ~$0.01 |
+| [OpenAI](https://platform.openai.com/) | [Sign Up](https://platform.openai.com/) | ~$2.50 |
+| [OpenRouter](https://openrouter.ai/) | [Sign Up](https://openrouter.ai/) | Variable |
+
+```bash
+# Add to ~/.env
+export GLM_API_KEY="your_key_here"
+export OPENROUTER_API_KEY="your_key_here"
+export GEMINI_API_KEY="your_key_here"
+
+# Verify setup
+ccr status --detailed
+ccr test glm
+ccr benchmark --all
+```
 
 ## License
 
