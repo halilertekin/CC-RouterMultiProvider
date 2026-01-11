@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.9
+- GLM print mode disables attachments to avoid EMFILE (too many open files) watcher errors.
+
 ## 2.0.8
 - GLM setup now installs direct z.ai `glm` wrapper by default and keeps `glm-ccr` for router usage.
 - Safer `.env` loading in `ccc` (ignores comments/invalid lines) and updated setup docs.
