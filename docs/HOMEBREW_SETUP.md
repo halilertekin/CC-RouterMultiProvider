@@ -57,8 +57,10 @@ The installer automatically creates configuration files and an `.env.example` fi
 
 3. **Add to shell configuration:**
    ```bash
-   # Add to ~/.zshrc or ~/.bashrc
-   export $(cat ~/.env | xargs)
+   # Add to ~/.zshrc or ~/.bashrc (safe .env load)
+   set -a
+   source ~/.env
+   set +a
    export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"
    export NO_PROXY="127.0.0.1"
    ```
@@ -139,7 +141,9 @@ The router automatically routes requests to the most appropriate provider based 
    ls -la ~/.env
 
    # Manually source environment
-   export $(cat ~/.env | xargs)
+   set -a
+   source ~/.env
+   set +a
    ```
 
 4. **Router Fails to Start**

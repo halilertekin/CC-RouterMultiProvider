@@ -35,6 +35,11 @@ chmod +x install.sh
 ```bash
 ./setup-glm.sh --key "YOUR_GLM_API_KEY"
 ```
+Then run:
+```bash
+glm        # direct z.ai
+glm-ccr    # via local router
+```
 
 ## Manual Setup
 

@@ -20,8 +20,8 @@ usage() {
 Usage: ./setup-glm.sh [--key <GLM_API_KEY>] [--skip-install] [--non-interactive]
 
 Installs/updates CCR (if missing), writes GLM-only config,
-creates ~/.claude-code-router/keys.env, and installs a single
-command: glm (plus aliases ccc and claude-glm).
+creates ~/.claude-code-router/keys.env, and installs commands:
+  glm (direct z.ai) + glm-ccr (router) + aliases ccc and claude-glm.
 
 Options:
   --key <GLM_API_KEY>   Provide GLM key non-interactively
@@ -221,10 +221,76 @@ fi
 
 "$CLAUDE_BIN" "$@"
 EOS
-  chmod +x "$BIN_DIR/ccr-glm"
-  ln -sf "$BIN_DIR/ccr-glm" "$BIN_DIR/glm"
-  ln -sf "$BIN_DIR/ccr-glm" "$BIN_DIR/ccc"
-  ln -sf "$BIN_DIR/ccr-glm" "$BIN_DIR/claude-glm"
+  cat > "$BIN_DIR/glm-zai" <<'EOS'
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROUTER_DIR="$HOME/.claude-code-router"
+KEYS_FILE="$ROUTER_DIR/keys.env"
+
+load_keys() {
+  if [[ -f "$KEYS_FILE" ]]; then
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      line="${line%$'\r'}"
+      line="${line%%#*}"
+      line="$(echo "$line" | sed -E 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+      [[ -z "$line" ]] && continue
+      if [[ "$line" =~ ^(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$ ]]; then
+        key="${BASH_REMATCH[2]}"
+        val="${BASH_REMATCH[3]}"
+        val="$(echo "$val" | sed -E 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+        if [[ ${#val} -ge 2 ]]; then
+          if [[ "${val:0:1}" == "\"" && "${val: -1}" == "\"" ]]; then
+            val="${val:1:-1}"
+          elif [[ "${val:0:1}" == "'" && "${val: -1}" == "'" ]]; then
+            val="${val:1:-1}"
+          fi
+        fi
+        val="${val%$'\r'}"
+        if [[ -n "$val" ]]; then
+          export "$key=$val"
+        fi
+      fi
+    done < "$KEYS_FILE"
+  fi
+}
+
+load_keys
+
+if [[ -z "${GLM_API_KEY:-}" ]]; then
+  echo "GLM_API_KEY not set. Add it to ~/.claude-code-router/keys.env" >&2
+  exit 1
+fi
+
+# Direct z.ai (Anthropic-compatible) - no router required.
+export ANTHROPIC_AUTH_TOKEN="${GLM_API_KEY}"
+export ANTHROPIC_API_KEY="${GLM_API_KEY}"
+export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+export API_TIMEOUT_MS="${API_TIMEOUT_MS:-3000000}"
+
+export ANTHROPIC_MODEL="${ANTHROPIC_MODEL:-glm-4.7}"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="${ANTHROPIC_DEFAULT_OPUS_MODEL:-glm-4.7}"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="${ANTHROPIC_DEFAULT_SONNET_MODEL:-glm-4.7}"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="${ANTHROPIC_DEFAULT_HAIKU_MODEL:-glm-4.5-air}"
+export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_SMALL_FAST_MODEL:-glm-4.5-air}"
+export CLAUDE_CODE_SUBAGENT_MODEL="${CLAUDE_CODE_SUBAGENT_MODEL:-glm-4.7}"
+
+CLAUDE_BIN="$HOME/.claude/local/claude"
+if [[ ! -x "$CLAUDE_BIN" ]]; then
+  CLAUDE_BIN="$(command -v claude || true)"
+fi
+if [[ -z "${CLAUDE_BIN:-}" ]]; then
+  echo "claude binary not found. Install Claude Code first." >&2
+  exit 1
+fi
+
+"$CLAUDE_BIN" "$@"
+EOS
+  chmod +x "$BIN_DIR/ccr-glm" "$BIN_DIR/glm-zai"
+  ln -sf "$BIN_DIR/glm-zai" "$BIN_DIR/glm"
+  ln -sf "$BIN_DIR/glm-zai" "$BIN_DIR/ccc"
+  ln -sf "$BIN_DIR/glm-zai" "$BIN_DIR/claude-glm"
+  ln -sf "$BIN_DIR/ccr-glm" "$BIN_DIR/glm-ccr"
 }
 
 ensure_path() {
@@ -266,4 +332,5 @@ ensure_path
 echo ""
 echo "GLM setup complete."
 echo "Run: source ~/.zshrc"
-echo "Then: glm"
+echo "Then: glm        # direct z.ai (recommended)"
+echo "Or:   glm-ccr    # via local router"

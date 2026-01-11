@@ -8,9 +8,41 @@ ccc() {
   shift 1 2>/dev/null
   local extra_args=("$@")
 
-  # Load keys from multiple sources for redundancy
-  [[ -f ~/.ccm_config ]] && source ~/.ccm_config 2>/dev/null
-  [[ -f ~/.env ]] && source ~/.env 2>/dev/null
+  load_env_file() {
+    local env_file="$1"
+    [[ -f "$env_file" ]] || return 0
+    local line key val
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      line="${line%$'\r'}"
+      line="${line%%#*}"
+      line="${line#"${line%%[![:space:]]*}"}"
+      line="${line%"${line##*[![:space:]]}"}"
+      [[ -z "$line" ]] && continue
+      line="${line#export }"
+      [[ "$line" == *"="* ]] || continue
+      key="${line%%=*}"
+      val="${line#*=}"
+      key="${key#"${key%%[![:space:]]*}"}"
+      key="${key%"${key##*[![:space:]]}"}"
+      val="${val#"${val%%[![:space:]]*}"}"
+      val="${val%"${val##*[![:space:]]}"}"
+      if [[ ${#val} -ge 2 ]]; then
+        if [[ "$val" == \"*\" && "$val" == *\" ]]; then
+          val="${val:1:-1}"
+        elif [[ "$val" == \'*\' && "$val" == *\' ]]; then
+          val="${val:1:-1}"
+        fi
+      fi
+      if [[ "$key" == [A-Za-z_][A-Za-z0-9_]* ]]; then
+        export "$key=$val"
+      fi
+    done < "$env_file"
+  }
+
+  # Load keys from multiple sources for redundancy (safe parser)
+  load_env_file "$HOME/.ccm_config"
+  load_env_file "$HOME/.env"
+  load_env_file "$HOME/.claude-code-router/keys.env"
 
   # 1. CLEANUP: Remove all env vars that might interfere with Claude Pro
   unset ANTHROPIC_BASE_URL ANTHROPIC_API_KEY ANTHROPIC_MODEL ANTHROPIC_AUTH_TOKEN API_TIMEOUT_MS
@@ -31,6 +63,13 @@ ccc() {
       export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.7"
       export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.7"
       export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
+      export ANTHROPIC_SMALL_FAST_MODEL="glm-4.5-air"
+      export CLAUDE_CODE_SUBAGENT_MODEL="glm-4.7"
+
+      if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+        echo "GLM_API_KEY not set. Add it to ~/.env or ~/.claude-code-router/keys.env" >&2
+        return 1
+      fi
       
       echo "🔄 Provider: z.ai (GLM 4.7)"
       ;;

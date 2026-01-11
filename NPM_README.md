@@ -26,12 +26,16 @@ CCR_CONFIG_OVERWRITE=1 ccr-setup
 ccr-setup --overwrite
 ```
 
-### One-shot GLM setup (Claude login + GLM API)
+### One-shot GLM setup (z.ai GLM API)
 
 ```bash
 npx -y -p @halilertekin/claude-code-router-config ccr-glm-setup --key "YOUR_GLM_API_KEY"
 source ~/.zshrc
 glm
+```
+Direct z.ai is the default. If you want the router version:
+```bash
+glm-ccr
 ```
 
 ## Features
@@ -82,8 +86,10 @@ After installation:
 
 2. **Add to shell** (`~/.zshrc` or `~/.bashrc`):
    ```bash
-   # Load .env variables
-   export $(cat ~/.env | xargs)
+   # Load .env variables (safe with comments)
+   set -a
+   source ~/.env
+   set +a
 
    # Router connection
    export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"

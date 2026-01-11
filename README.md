@@ -1,15 +1,15 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.0.7** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
+🚀 **v2.0.8** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
-## ✨ New in v2.0.7
+## ✨ New in v2.0.8
 - UI üzerinden `.env` anahtarları ekleme/güncelleme (TR/NL).
 - `~/.env` otomatik yükleme ile API anahtarlarının bulunması (CLI + health monitor).
 - **z.ai Support**: Native integration for GLM-4.7 via z.ai (PPInfra).
 - **Lightweight Mode**: New `ccc` function for zero-dependency routing.
-- **Direct GLM Alias**: Type `glm` to launch Claude Code with GLM-4.7 immediately.
+- **Direct GLM Alias**: `glm` now launches GLM-4.7 directly via z.ai; `glm-ccr` keeps router mode.
 - **Non-interactive install**: CI-friendly installer flags and env controls.
 - **Unified router**: Built-in router service, no external dependency required.
 - **UI refresh**: Daha sade ve responsive tasarım, TR/NL dil desteği.
@@ -40,7 +40,8 @@ If you just want to use the `ccc` command (Claude Code Commander) and `glm` alia
 4. **Reload & Run:**
    ```bash
    source ~/.zshrc
-   glm        # Launches GLM-4.7 via z.ai
+   glm        # Launches GLM-4.7 via z.ai (direct)
+   glm-ccr    # Launches GLM-4.7 via local router
    ccc ds     # Launches DeepSeek
    ccc claude # Launches Official Claude (Pro)
    ```

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.8
+- GLM setup now installs direct z.ai `glm` wrapper by default and keeps `glm-ccr` for router usage.
+- Safer `.env` loading in `ccc` (ignores comments/invalid lines) and updated setup docs.
+
 ## 2.0.7
 - Security: qs arrayLimit bypass fix (force qs 6.14.1).
 

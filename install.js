@@ -113,8 +113,10 @@ async function showNextSteps() {
 
   console.log('\n2. Add environment variables to your shell (~/.zshrc or ~/.bashrc):');
   console.log(chalk.cyan(`
-   # Claude Code Router
-   export $(cat ~/.env | xargs)
+   # Claude Code Router (safe .env load)
+   set -a
+   source ~/.env
+   set +a
    export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"
    export NO_PROXY="127.0.0.1"
    `));
