@@ -1,7 +1,7 @@
 # Claude Code Router - Complete Documentation
 
-> **Version**: 1.0.73
-> **Date**: 2025-12-20
+> **Version**: 2.4.0
+> **Date**: 2026-02-15
 > **Purpose**: Multi-provider AI routing through Claude Code with intent-based selection
 
 ---

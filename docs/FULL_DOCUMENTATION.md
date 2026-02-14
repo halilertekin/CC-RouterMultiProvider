@@ -1,7 +1,7 @@
 # Claude Code Router - Tam Dokümantasyon
 
-> **Versiyon**: 1.0.73
-> **Tarih**: 2025-12-20
+> **Versiyon**: 2.4.0
+> **Tarih**: 2026-02-15
 > **Amaç**: Tek Claude Code arayüzünden birden fazla AI provider'a intent-based routing
 
 ---

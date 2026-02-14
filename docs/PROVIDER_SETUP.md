@@ -16,11 +16,13 @@ Claude Code Router supports multiple AI providers with intelligent routing. You 
 ```
 Request → Smart Intent Router → Provider Selection → AI Response
                 ↓                    ↓
-          Intent Analysis       GLM (Primary)
-          (Cost Optimized)      Qwen (Fallback)
+          Intent Analysis       GLM-5 (Primary)
+          (Cost Optimized)      Claude Pro (Quality)
+                                DeepSeek (Budget)
+                                MiniMax (Long Context)
+                                Qwen (Fallback)
                                 Gemini (Backup)
                                 OpenAI (Premium)
-                                Anthropic (Quality)
 ```
 
 ### Quick Start
@@ -49,12 +51,14 @@ ccr code     # Start router + Claude Code
 
 | Provider | API Base URL | Cost (per 1M tokens) | Best For |
 |----------|-------------|---------------------|----------|
-| **GLM (z.ai)** | `https://api.z.ai/api/anthropic` | ~$0.50 | Cost-effective, multilingual |
-| **Qwen** | `https://dashscope-intl.aliyuncs.com/...` | ~$0.10 | Coding, cost-optimized |
-| **Gemini** | `https://generativelanguage.googleapis.com/...` | ~$0.01 | Fast responses |
-| **OpenAI** | `https://api.openai.com/v1/...` | ~$2.50 | Premium quality |
-| **Anthropic** | `https://api.anthropic.com/v1/...` | ~$3.00 | Best quality |
-| **OpenRouter** | `https://openrouter.ai/api/v1/...` | Variable | Variety, fallback |
+| **GLM-5 (z.ai)** | `api.z.ai/api/coding/paas/v4` | ~$0.50 | Coding Plan (3x usage) |
+| **GLM API (z.ai)** | `api.z.ai/api/paas/v4` | ~$0.50 | Pay-per-use |
+| **Claude Pro** | Official Anthropic | ~$3.00 | Premium quality |
+| **DeepSeek** | `api.deepseek.com/anthropic` | ~$0.60 | Budget coding |
+| **MiniMax** | `api.minimax.io/anthropic` | ~$0.30 | Long context (200k+) |
+| **Qwen** | `dashscope-intl.aliyuncs.com/...` | ~$0.10 | Cost-optimized |
+| **Gemini** | `generativelanguage.googleapis.com/...` | ~$0.01 | Fast responses |
+| **OpenAI** | `api.openai.com/v1/...` | ~$2.50 | Premium quality |
 
 ---
 
@@ -62,9 +66,22 @@ ccr code     # Start router + Claude Code
 
 #### Step 1: Get API Key
 
-**GLM (z.ai)**
-- Website: https://open.bigmodel.cn/
-- Pricing: https://open.bigmodel.cn/pricing
+**GLM-5 (z.ai) - Recommended**
+- Website: https://z.ai/apikeys
+- Pricing: Very competitive, 3x usage with Coding Plan
+- Sign up → Create API Key
+- Two endpoints:
+  - Coding Plan: `https://api.z.ai/api/coding/paas/v4`
+  - API Credits: `https://api.z.ai/api/paas/v4`
+
+**MiniMax**
+- Website: https://platform.minimax.io/
+- Pricing: Very competitive, ultra-long context (200k+ tokens)
+- Sign up → Create API Key
+
+**DeepSeek**
+- Website: https://platform.deepseek.com/
+- Pricing: Affordable
 - Sign up → Create API Key
 
 **Qwen (Alibaba)**
@@ -295,11 +312,13 @@ Claude Code Router, birden fazla AI sağlayıcısını akıllı yönlendirme ile
 ```
 İstek → Akıllı Intent Router → Sağlayıcı Seçimi → AI Cevabı
               ↓                      ↓
-        Intent Analizi           GLM (Birincil)
-        (Maliyet Optimize)       Qwen (Yedek)
-                               Gemini (Yedek 2)
-                               OpenAI (Premium)
-                               Anthropic (Kalite)
+        Intent Analizi           GLM-5 (Birincil)
+        (Maliyet Optimize)      Claude Pro (Kalite)
+                                DeepSeek (Bütçe)
+                                MiniMax (Uzun Bağlam)
+                                Qwen (Yedek)
+                                Gemini (Yedek 2)
+                                OpenAI (Premium)
 ```
 
 ### Hızlı Başlangıç
@@ -328,12 +347,14 @@ ccr code     # Router + Claude Code'u başlat
 
 | Sağlayıcı | API URL | Maliyet (1M token) | En İyi Kullanım |
 |-----------|---------|-------------------|-----------------|
-| **GLM (z.ai)** | `https://api.z.ai/api/anthropic` | ~$0.50 | Ucuz, çok dilli |
-| **Qwen** | `https://dashscope-intl.aliyuncs.com/...` | ~$0.10 | Kodlama, ucuz |
-| **Gemini** | `https://generativelanguage.googleapis.com/...` | ~$0.01 | Hızlı cevap |
-| **OpenAI** | `https://api.openai.com/v1/...` | ~$2.50 | Premium kalite |
-| **Anthropic** | `https://api.anthropic.com/v1/...` | ~$3.00 | En iyi kalite |
-| **OpenRouter** | `https://openrouter.ai/api/v1/...` | Değişken | Çeşitlilik |
+| **GLM-5 (z.ai)** | `api.z.ai/api/coding/paas/v4` | ~$0.50 | Coding Plan (3x kullanım) |
+| **GLM API (z.ai)** | `api.z.ai/api/paas/v4` | ~$0.50 | Kredi ile ödeme |
+| **Claude Pro** | Official Anthropic | ~$3.00 | Premium kalite |
+| **DeepSeek** | `api.deepseek.com/anthropic` | ~$0.60 | Bütçe kodlama |
+| **MiniMax** | `api.minimax.io/anthropic` | ~$0.30 | Uzun bağlam (200k+) |
+| **Qwen** | `dashscope-intl.aliyuncs.com/...` | ~$0.10 | Maliyet optimize |
+| **Gemini** | `generativelanguage.googleapis.com/...` | ~$0.01 | Hızlı cevap |
+| **OpenAI** | `api.openai.com/v1/...` | ~$2.50 | Premium kalite |
 
 ---
 
@@ -341,9 +362,22 @@ ccr code     # Router + Claude Code'u başlat
 
 #### Adım 1: API Key Al
 
-**GLM (z.ai)**
-- Website: https://open.bigmodel.cn/
-- Fiyatlandırma: https://open.bigmodel.cn/pricing
+**GLM-5 (z.ai) - Önerilen**
+- Website: https://z.ai/apikeys
+- Fiyatlandırma: Çok uygun, Coding Plan ile 3x kullanım
+- Kayıt ol → API Key Oluştur
+- İki endpoint:
+  - Coding Plan: `https://api.z.ai/api/coding/paas/v4`
+  - API Kredileri: `https://api.z.ai/api/paas/v4`
+
+**MiniMax**
+- Website: https://platform.minimax.io/
+- Fiyatlandırma: Çok uygun, ultra-uzun bağlam (200k+ token)
+- Kayıt ol → API Key Oluştur
+
+**DeepSeek**
+- Website: https://platform.deepseek.com/
+- Fiyatlandırma: Uygun fiyat
 - Kayıt ol → API Key Oluştur
 
 **Qwen (Alibaba)**
@@ -380,6 +414,8 @@ ccr code     # Router + Claude Code'u başlat
 export GLM_API_KEY="glm_api_key_buraya"
 
 # Ek Sağlayıcılar (Opsiyonel - yönlendirme için)
+export MINIMAX_API_KEY="minimax_api_key_buraya"
+export DEEPSEEK_API_KEY="deepseek_api_key_buraya"
 export QWEN_API_KEY="qwen_api_key_buraya"
 export GEMINI_API_KEY="gemini_api_key_buraya"
 export OPENAI_API_KEY="openai_api_key_buraya"
@@ -595,5 +631,5 @@ ccr ui                 # Web dashboard'ı aç
 ---
 
 *Created by Halil Ertekin*
-*Version: 2.0.9*
-*Last Updated: 2025-01-11*
+*Version: 2.4.0*
+*Last Updated: 2026-02-15*

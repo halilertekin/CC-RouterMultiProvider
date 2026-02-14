@@ -1,6 +1,20 @@
 # Changelog
 
-## 2.1.0
+## 2.4.0
+- **NEW**: MiniMax support with `minimax` / `mm` aliases (M2.5 model)
+- **NEW**: GLM-5 support with two endpoints:
+  - `glm` → Coding Plan endpoint (3x usage)
+  - `glmapi` → API Credits endpoint (pay-per-use)
+- **NEW**: Complete documentation overhaul (TR/EN)
+- **NEW**: GitHub Actions workflow for automated release
+- **IMPROVED**: ccc.zsh now supports multiple providers with easy aliases
+- **IMPROVED**: README.md with all provider details
+
+## 2.3.0
+- GLM-5 integration via z.ai
+
+## 2.2.0
+- GLM-5 support with Coding Plan and API Credit endpoints
 - **NEW**: UI now supports 3 languages - Turkish (TR), Dutch (NL), and English (EN)
 - **NEW**: Comprehensive provider setup guide added with multi-provider routing documentation
 - **NEW**: Inter-provider routing with automatic fallback support
