@@ -39,7 +39,9 @@
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
-    "NPM_README.md"
+    "NPM_README.md",
+    "SETUP.md",
+    "quick-setup.sh"
   ],
   "keywords": [
     "claude",

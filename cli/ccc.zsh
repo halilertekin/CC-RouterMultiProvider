@@ -50,28 +50,48 @@ ccc() {
 
   # 2. CONFIGURATION based on alias
   case "$model_alias" in
-    glm|zhipu|zai|pp|zero)
-      # z.ai / GLM 4.7 configuration
-      export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
-      # Priority: 1. ENV, 2. PP_KEY (config), 3. GLM_KEY (config)
+    glm)
+      # z.ai / GLM Coding Plan endpoint
+      export ANTHROPIC_BASE_URL="https://api.z.ai/api/coding/paas/v4"
       export ANTHROPIC_API_KEY="${GLM_API_KEY:-${PPINFRA_API_KEY:-$GLM_KEY}}"
       export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_API_KEY"
-      export ANTHROPIC_MODEL="glm-4.7"
+      export ANTHROPIC_MODEL="glm-5"
       export API_TIMEOUT_MS=3000000
       
-      # Force mappings for z.ai
-      export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-4.7"
-      export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-4.7"
+      export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-5"
+      export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5"
       export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
       export ANTHROPIC_SMALL_FAST_MODEL="glm-4.5-air"
-      export CLAUDE_CODE_SUBAGENT_MODEL="glm-4.7"
+      export CLAUDE_CODE_SUBAGENT_MODEL="glm-5"
 
       if [[ -z "$ANTHROPIC_API_KEY" ]]; then
         echo "GLM_API_KEY not set. Add it to ~/.env or ~/.claude-code-router/keys.env" >&2
         return 1
       fi
       
-      echo "🔄 Provider: z.ai (GLM 4.7)"
+      echo "🔄 Provider: z.ai (GLM-5 Coding Plan)"
+      ;;
+      
+    glmapi)
+      # z.ai / GLM Standard API (kredi ile kullanım)
+      export ANTHROPIC_BASE_URL="https://api.z.ai/api/paas/v4"
+      export ANTHROPIC_API_KEY="${GLM_API_KEY:-${PPINFRA_API_KEY:-$GLM_KEY}}"
+      export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_API_KEY"
+      export ANTHROPIC_MODEL="glm-5"
+      export API_TIMEOUT_MS=3000000
+      
+      export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-5"
+      export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5"
+      export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
+      export ANTHROPIC_SMALL_FAST_MODEL="glm-4.5-air"
+      export CLAUDE_CODE_SUBAGENT_MODEL="glm-5"
+
+      if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+        echo "GLM_API_KEY not set. Add it to ~/.env or ~/.claude-code-router/keys.env" >&2
+        return 1
+      fi
+      
+      echo "🔄 Provider: z.ai (GLM-5 API - Kredi)"
       ;;
       
     ds|deepseek)
@@ -93,7 +113,7 @@ ccc() {
       
     *)
       echo "Unknown model alias: $model_alias"
-      echo "Available: glm, ds, claude"
+      echo "Available: glm (coding plan), glmapi (kredi), ds, claude"
       return 1
       ;;
   esac
@@ -110,5 +130,6 @@ ccc() {
 
 # Shortcuts
 alias glm="ccc glm"
+alias glmapi="ccc glmapi"
 alias deepseek="ccc ds"
 alias claude-pro="ccc claude"
