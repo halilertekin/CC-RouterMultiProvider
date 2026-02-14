@@ -1,217 +1,196 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.2.0** - GLM-5 Support with Coding Plan & API Credit endpoints!
+🚀 **v2.3.0** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
-## ✨ New in v2.0.9
-- `glm`/`glm-ccr` print mode disables attachments to avoid EMFILE (too many open files) watcher errors.
+## ✨ Quick Start
 
-Includes all v2.0.8 improvements:
-- UI üzerinden `.env` anahtarları ekleme/güncelleme (TR/NL).
-- `~/.env` otomatik yükleme ile API anahtarlarının bulunması (CLI + health monitor).
-- **z.ai Support**: Native integration for GLM-4.7 via z.ai (PPInfra).
-- **Lightweight Mode**: New `ccc` function for zero-dependency routing.
-- **Direct GLM Alias**: `glm` now launches GLM-4.7 directly via z.ai; `glm-ccr` keeps router mode.
-- **Non-interactive install**: CI-friendly installer flags and env controls.
-- **Unified router**: Built-in router service, no external dependency required.
-- **UI refresh**: Daha sade ve responsive tasarım, TR/NL dil desteği.
+```bash
+# 1. Install
+npm install -g @halilertekin/claude-code-router-config
 
-## 🚀 Setup on Another Machine (Fastest Way)
+# 2. Configure API keys in ~/.env
+export GLM_API_KEY="your_key"
 
-If you just want to use the `ccc` command (Claude Code Commander) and `glm` alias without installing the full Node.js router stack:
-
-1. **Clone the repo:**
-   ```bash
-   mkdir -p ~/code
-   git clone git@github.com:halilertekin/CC-RouterMultiProvider.git ~/code/claude-code-router-config
-   ```
-
-2. **Source the script in your `.zshrc`:**
-   Add this line to your `~/.zshrc`:
-   ```bash
-   [[ -f "$HOME/code/claude-code-router-config/cli/ccc.zsh" ]] && source "$HOME/code/claude-code-router-config/cli/ccc.zsh"
-   ```
-
-3. **Configure Keys:**
-   Create `~/.env` or `~/.ccm_config` with your keys:
-   ```bash
-   export GLM_API_KEY="your_zai_key_here"
-   export DEEPSEEK_API_KEY="your_deepseek_key_here"
-   ```
-
-4. **Reload & Run:**
-   ```bash
-   source ~/.zshrc
-   glm        # Launches GLM-5 via z.ai Coding Plan
-   glmapi     # Launches GLM-5 via z.ai API Credits
-   ccc ds     # Launches DeepSeek
-   ccc claude # Launches Official Claude (Pro)
-   ```
+# 3. Use with Claude Code
+glm        # → z.ai GLM-5 (Coding Plan)
+glmapi     # → z.ai GLM-5 (API Credits)
+claude-pro # → Anthropic Claude Pro
+deepseek   # → DeepSeek
+```
 
 ---
 
-## Features
+## 📋 Available Aliases
 
-- **Node.js 16+ Support**: Compatible with modern Node.js environments
-- **7 Provider Support**: OpenAI, Anthropic, Gemini, Qwen, GLM, OpenRouter, GitHub Copilot
-- **Smart Intent-Based Routing**: Automatically selects the best model based on your request
-- **Advanced CLI Tools**: Test, benchmark, analyze, and monitor your setup
-- **Analytics & Cost Tracking**: Detailed insights into usage and spending
-- **Configuration Templates**: Pre-optimized setups for different use cases
-- **Health Monitoring**: Real-time provider status and automatic failover
-- **Enhanced Logging**: Detailed logs with metrics and performance data
+| Alias | Provider | Endpoint | Model | Best For |
+|-------|----------|----------|-------|----------|
+| `glm` | z.ai | Coding Plan | GLM-5 | Subscription coding |
+| `glmapi` | z.ai | API Credits | GLM-5 | Pay-per-use |
+| `claude-pro` | Anthropic | Official | Claude Sonnet 4.5 | Premium coding |
+| `deepseek` | DeepSeek | Anthropic API | deepseek-chat | Budget coding |
+| `minimax` / `mm` | MiniMax | Anthropic API | M2.5 | Long context |
 
-## Routing Strategy
+---
 
-| Request Type | Provider | Model |
-|--------------|----------|-------|
-| Code writing, debugging | OpenAI | gpt-4o |
-| Deep analysis, architecture | Anthropic | claude-sonnet-4 |
-| Quick responses, summaries | Gemini | gemini-2.5-flash |
-| Simple tasks | Qwen | qwen-plus |
-| Translation, multilingual | GLM | glm-4.7 (z.ai) |
-| Complex algorithms | OpenAI | o1 |
-| Coding assistance | GitHub Copilot | copilot |
+## 🚀 Installation
 
-## Installation (Full Router)
-
-### Option 1: PNPM (Recommended)
-
-Use this if you want the full routing capabilities (benchmarking, analytics, etc).
+### Option 1: NPM (Recommended)
 
 ```bash
-pnpm add -g @halilertekin/claude-code-router-config
-# System is ready! Run: ccr --help
-```
-
-Then run the installer to copy config files:
-
-```bash
-ccr-setup
-```
-
-Non-interactive usage (CI):
-
-```bash
-CCR_CONFIG_NO_PROMPT=1 ccr-setup
-CCR_CONFIG_OVERWRITE=1 ccr-setup
-# or
-ccr-setup --overwrite
-```
-
-### Option 2: Manual Setup
-
-#### 1. Copy Configuration Files
-
-```bash
-mkdir -p ~/.claude-code-router
-cp config/config.json ~/.claude-code-router/
-cp config/intent-router.js ~/.claude-code-router/
-cp config/smart-intent-router.js ~/.claude-code-router/
-```
-
-#### 2. Set Up Environment Variables
-
-Create `.env` file:
-
-```bash
-cp .env.example ~/.env
-# Edit ~/.env with your API keys
-```
-
-#### 3. Start Router
-
-```bash
+npm install -g @halilertekin/claude-code-router-config
 source ~/.zshrc
-node router/server.js
 ```
 
-## API Key Setup
-
-| Provider | Link | Notes |
-|----------|------|-------|
-| OpenAI | https://platform.openai.com/api-keys | gpt-4o, o1 models |
-| Anthropic | https://console.anthropic.com/settings/keys | Claude models |
-| Gemini | https://aistudio.google.com/apikey | Google AI models |
-| Qwen | https://dashscope.console.aliyun.com/apiKey | Alibaba Cloud |
-| GLM (z.ai) | https://open.bigmodel.cn/usercenter/apikeys | Zhipu AI / z.ai |
-| OpenRouter | https://openrouter.ai/keys | Multiple models |
-| GitHub Copilot | https://github.com/settings/tokens | `copilot` scope |
-
-## Configuration Templates
-
-| Template | Best For | Priority | Cost | Speed |
-|----------|----------|----------|------|-------|
-| **performance-optimized** | Real-time apps, chatbots | Speed | Low | ⭐⭐⭐⭐⭐ |
-| **cost-optimized** | Budget-conscious, bulk processing | Cost | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| **quality-focused** | Critical tasks, research | Quality | High | ⭐⭐ |
-| **development** | Coding, debugging | Coding | Medium | ⭐⭐⭐⭐ |
-| **balanced** | General use | Balanced | Medium | ⭐⭐⭐⭐ |
+### Option 2: Manual
 
 ```bash
-# Quick template selection
+git clone git@github.com:halilertekin/CC-RouterMultiProvider.git ~/code/claude-code-router-config
+```
+
+Then add to `~/.zshrc`:
+```bash
+[[ -f "$HOME/code/claude-code-router-config/cli/ccc.zsh" ]] && source "$HOME/code/claude-code-router-config/cli/ccc.zsh"
+```
+
+---
+
+## 🔑 API Key Setup
+
+Add to `~/.env`:
+
+```bash
+# z.ai (GLM) - https://z.ai/apikeys
+export GLM_API_KEY="your_zai_key"
+
+# Anthropic Claude Pro - https://console.anthropic.com/settings/keys
+export ANTHROPIC_API_KEY="your_anthropic_key"
+
+# DeepSeek - https://platform.deepseek.com/
+export DEEPSEEK_API_KEY="your_deepseek_key"
+
+# MiniMax - https://platform.minimax.io/
+export MINIMAX_API_KEY="your_minimax_key"
+
+# OpenAI - https://platform.openai.com/api-keys
+export OPENAI_API_KEY="your_openai_key"
+
+# Gemini - https://aistudio.google.com/apikey
+export GEMINI_API_KEY="your_gemini_key"
+```
+
+---
+
+## 💻 Claude Code Usage
+
+### Direct Aliases
+
+```bash
+# GLM via Coding Plan (subscription)
+glm
+
+# GLM via API Credits (pay-per-use)
+glmapi
+
+# Official Claude Pro
+claude-pro
+
+# DeepSeek
+deepseek
+```
+
+### With Arguments
+
+```bash
+glm "write a React component"
+glmapi --print "explain this code"
+claude-pro --dangerous-skip-install
+```
+
+---
+
+## 🏢 Provider Details
+
+### z.ai (GLM)
+
+- **Website**: https://z.ai
+- **Models**: GLM-5, GLM-4.7, GLM-4.5
+- **Endpoints**:
+  - Coding Plan: `https://api.z.ai/api/coding/paas/v4`
+  - API Credits: `https://api.z.ai/api/paas/v4`
+- **Pricing**: Very competitive, 3x usage with Coding Plan
+
+### Claude Pro
+
+- **Website**: https://www.anthropic.com/claude
+- **Models**: Claude Sonnet 4.5, Claude Opus 4.5, Claude Haiku
+- **Access**: Use `claude login` or API key
+
+### DeepSeek
+
+- **Website**: https://www.deepseek.com
+- **Models**: deepseek-chat, deepseek-coder
+- **Pricing**: Very affordable
+
+### MiniMax
+
+- **Website**: https://www.minimax.io
+- **Models**: M2.5, M2, M1
+- **Endpoint**: `https://api.minimax.io/anthropic`
+- **Features**: Ultra-long context (200k+ tokens), very competitive pricing
+
+---
+
+## 🛠️ Advanced Features
+
+### Full Router Mode
+
+For intent-based routing with automatic model selection:
+
+```bash
+ccr start      # Start router
+ccr code       # Start Claude Code with router
+ccr status     # Check status
+ccr benchmark  # Benchmark providers
+```
+
+### Configuration Templates
+
+```bash
 ccr config template performance-optimized  # Fastest
-ccr config template cost-optimized           # Cheapest
-ccr config template quality-focused          # Best quality
+ccr config template cost-optimized          # Cheapest
+ccr config template quality-focused         # Best quality
 ```
 
-## Analytics Dashboard
+### Analytics
 
-View comprehensive analytics via:
 ```bash
-# Web Dashboard (if enabled)
-ccr ui
-
-# CLI Analytics
 ccr analytics today --detailed
+ccr ui  # Web dashboard
 ```
 
-Metrics tracked:
-- Request volume and patterns
-- Cost per provider/model
-- Response times and latency
-- Success/error rates
-- Provider health status
+---
 
-## Documentation
+## 📖 Documentation
 
-- [**Provider Setup Guide** (EN/TR)](docs/PROVIDER_SETUP.md) - **Multiple providers with intelligent routing**
-- [Complete Documentation (EN)](docs/FULL_DOCUMENTATION_EN.md)
-- [Complete Documentation (TR)](docs/FULL_DOCUMENTATION.md)
-- [Setup Prompt (EN)](docs/SETUP_PROMPT_EN.md)
-- [Setup Prompt (TR)](docs/SETUP_PROMPT.md)
-- [Configuration Templates Guide](templates/README.md)
+- [Setup Guide (TR/EN)](SETUP.md)
+- [Provider Setup Guide](docs/PROVIDER_SETUP.md)
+- [Full Documentation](docs/FULL_DOCUMENTATION_EN.md)
 
-## Provider Setup / Sağlayıcı Kurulumu 🆕
+---
 
-**📖 Read the [Provider Setup Guide](docs/PROVIDER_SETUP.md) for:**
-- How to add multiple providers (OpenRouter, OpenAI, Gemini, Qwen)
-- Inter-provider routing with automatic fallback
-- Cost optimization strategies (up to 87% savings!)
-- Configuration examples and troubleshooting
+## 🔧 Troubleshooting
 
-**🔗 Hızlı Provider Ekleme:**
+### "GLM_API_KEY not set"
+- Check `~/.env` file exists and has the key
+- Run `source ~/.zshrc` or restart terminal
 
-| Provider | Get API Key | Cost (1M tokens) |
-|----------|-------------|------------------|
-| [GLM (z.ai)](https://open.bigmodel.cn/) | [Sign Up](https://open.bigmodel.cn/) | ~$0.50 ⭐ |
-| [Qwen](https://dashscope-intl.aliyuncs.com/) | [Sign Up](https://dashscope-intl.aliyuncs.com/) | ~$0.10 |
-| [Gemini](https://ai.google.dev/) | [Sign Up](https://ai.google.dev/) | ~$0.01 |
-| [OpenAI](https://platform.openai.com/) | [Sign Up](https://platform.openai.com/) | ~$2.50 |
-| [OpenRouter](https://openrouter.ai/) | [Sign Up](https://openrouter.ai/) | Variable |
+### Model not working
+- Verify API key is valid
+- Check quotas/balance
 
-```bash
-# Add to ~/.env
-export GLM_API_KEY="your_key_here"
-export OPENROUTER_API_KEY="your_key_here"
-export GEMINI_API_KEY="your_key_here"
-
-# Verify setup
-ccr status --detailed
-ccr test glm
-ccr benchmark --all
-```
+---
 
 ## License
 
@@ -219,6 +198,6 @@ MIT © [Halil Ertekin](https://github.com/halilertekin)
 
 ---
 
-## 🌟 Show Your Support
+## ⭐ Support
 
 If you find this useful, please give it a ⭐ on [GitHub](https://github.com/halilertekin/CC-RouterMultiProvider)!

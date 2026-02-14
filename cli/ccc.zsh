@@ -111,9 +111,30 @@ ccc() {
       echo "🔄 Provider: Official Anthropic (Claude Pro)"
       ;;
       
+    mm|minimax)
+      # MiniMax configuration
+      export ANTHROPIC_BASE_URL="https://api.minimax.io/anthropic"
+      export ANTHROPIC_API_KEY="${MINIMAX_API_KEY}"
+      export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_API_KEY"
+      export ANTHROPIC_MODEL="MiniMax-M2.5"
+      export API_TIMEOUT_MS=3000000
+      
+      export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax-M2.5"
+      export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax-M2.5"
+      export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax-M2"
+      export CLAUDE_CODE_SUBAGENT_MODEL="MiniMax-M2.5"
+
+      if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+        echo "MINIMAX_API_KEY not set. Add it to ~/.env" >&2
+        return 1
+      fi
+      
+      echo "🔄 Provider: MiniMax (M2.5)"
+      ;;
+      
     *)
       echo "Unknown model alias: $model_alias"
-      echo "Available: glm (coding plan), glmapi (kredi), ds, claude"
+      echo "Available: glm (coding plan), glmapi (kredi), ds, claude, mm"
       return 1
       ;;
   esac
@@ -133,3 +154,5 @@ alias glm="ccc glm"
 alias glmapi="ccc glmapi"
 alias deepseek="ccc ds"
 alias claude-pro="ccc claude"
+alias minimax="ccc mm"
+alias mm="ccc mm"
