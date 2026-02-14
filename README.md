@@ -1,6 +1,6 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.0.9** - Unified router + config package with z.ai (GLM 4.7) support, advanced CLI tools, analytics, smart routing, and configuration templates!
+🚀 **v2.2.0** - GLM-5 Support with Coding Plan & API Credit endpoints!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
@@ -43,8 +43,8 @@ If you just want to use the `ccc` command (Claude Code Commander) and `glm` alia
 4. **Reload & Run:**
    ```bash
    source ~/.zshrc
-   glm        # Launches GLM-4.7 via z.ai (direct)
-   glm-ccr    # Launches GLM-4.7 via local router
+   glm        # Launches GLM-5 via z.ai Coding Plan
+   glmapi     # Launches GLM-5 via z.ai API Credits
    ccc ds     # Launches DeepSeek
    ccc claude # Launches Official Claude (Pro)
    ```

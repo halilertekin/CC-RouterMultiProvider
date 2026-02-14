@@ -5,6 +5,15 @@
 
 Multi-provider configuration for Claude Code Router with intelligent intent-based routing.
 
+## v2.2.0 - GLM-5 Support
+
+Now supports **GLM-5** with two endpoint options:
+
+| Alias | Endpoint | Use Case |
+|-------|----------|----------|
+| `glm` | z.ai Coding Plan | Subscription-based coding |
+| `glmapi` | z.ai API Credits | Pay-per-use with credits |
+
 ## Quick Install
 
 ```bash
@@ -31,11 +40,8 @@ ccr-setup --overwrite
 ```bash
 npx -y -p @halilertekin/claude-code-router-config ccr-glm-setup --key "YOUR_GLM_API_KEY"
 source ~/.zshrc
-glm
-```
-Direct z.ai is the default. If you want the router version:
-```bash
-glm-ccr
+glm        # GLM-5 via Coding Plan
+glmapi     # GLM-5 via API Credits
 ```
 
 ## Features
@@ -117,7 +123,7 @@ Get your API keys:
 | Anthropic | https://console.anthropic.com/settings/keys |
 | Gemini | https://aistudio.google.com/apikey |
 | Qwen | https://dashscope.console.aliyun.com/apiKey |
-| GLM | https://open.bigmodel.cn/usercenter/apikeys |
+| GLM (z.ai) | https://z.ai/apikeys |
 | OpenRouter | https://openrouter.ai/keys |
 | GitHub Copilot | https://github.com/settings/tokens |
 
@@ -141,7 +147,8 @@ Inside Claude Code:
 /model anthropic,claude-sonnet-4-latest
 /model gemini,gemini-2.5-flash
 /model qwen,qwen-plus
-/model glm,glm-4.7
+/model glm,glm-5
+/model glmapi,glm-5
 /model copilot,copilot
 ```
 
