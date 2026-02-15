@@ -107,11 +107,18 @@ Claude Code Router acts as a proxy that intercepts Claude Code CLI requests and 
 ### 5. Zhipu GLM (Z.ai)
 | Feature | Value |
 |---------|-------|
-| **API URL** | `https://api.z.ai/api/coding/paas/v4/chat/completions` |
-| **Models** | glm-5 (recommended), glm-4.7, glm-4.6, glm-4.5, glm-4-plus |
+| **API URL** | `https://api.z.ai/api/anthropic` (Coding Plan) / `https://api.z.ai/api/paas/v4` (API Credits) |
+| **Models** | glm-5 (recommended for max users), glm-4.7 (default for Pro) |
 | **Use Case** | Multilingual, Chinese, translation |
-| **Cost** | Low |
+| **Cost** | Low (Pro: 3x usage) |
 | **Env Var** | `GLM_API_KEY` |
+
+### Endpoints:
+| Alias | Endpoint | Model | Use Case |
+|-------|----------|-------|----------|
+| `glm` | api.anthropic | GLM-4.7 | Coding Plan (Pro) |
+| `glm5` | api.anthropic | GLM-5 | Coding Plan (Max) |
+| `glmapi` | api/paas/v4 | GLM-5 | API Credits (pay-per-use) | |
 
 ### 6. OpenRouter
 | Feature | Value |

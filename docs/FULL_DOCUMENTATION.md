@@ -107,11 +107,18 @@ Claude Code Router, Claude Code CLI'ı bir proxy üzerinden çalıştırarak ist
 ### 5. Zhipu GLM (Z.ai)
 | Özellik | Değer |
 |---------|-------|
-| **API URL** | `https://api.z.ai/api/coding/paas/v4/chat/completions` |
-| **Modeller** | glm-5 (önerilen), glm-4.7, glm-4.6, glm-4.5, glm-4-plus |
+| **API URL** | `https://api.z.ai/api/anthropic` (Coding Plan) / `https://api.z.ai/api/paas/v4` (API Credits) |
+| **Modeller** | glm-5 (max kullanıcılar için önerilen), glm-4.7 (Pro için varsayılan) |
 | **Kullanım** | Çok dilli, Çince, çeviri |
-| **Maliyet** | Düşük |
+| **Maliyet** | Düşük (Pro: 3x kullanım) |
 | **Env Var** | `GLM_API_KEY` |
+
+### Endpoint'ler:
+| Alias | Endpoint | Model | Kullanım |
+|-------|----------|-------|----------|
+| `glm` | api.anthropic | GLM-4.7 | Coding Plan (Pro) |
+| `glm5` | api.anthropic | GLM-5 | Coding Plan (Max) |
+| `glmapi` | api/paas/v4 | GLM-5 | API Credits (kredi ile) | |
 
 ### 6. OpenRouter
 | Özellik | Değer |

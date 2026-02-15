@@ -1,6 +1,6 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.4.2** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
+🚀 **v2.4.3** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
@@ -14,7 +14,8 @@ npm install -g @halilertekin/claude-code-router-config
 export GLM_API_KEY="your_key"
 
 # 3. Use with Claude Code
-glm        # → z.ai GLM-5 (Coding Plan)
+glm        # → z.ai GLM-4.7 (Coding Plan)
+glm5       # → z.ai GLM-5 (Coding Plan)
 glmapi     # → z.ai GLM-5 (API Credits)
 claude-pro # → Anthropic Claude Pro
 deepseek   # → DeepSeek
@@ -26,8 +27,9 @@ deepseek   # → DeepSeek
 
 | Alias | Provider | Endpoint | Model | Best For |
 |-------|----------|----------|-------|----------|
-| `glm` | z.ai | Coding Plan | GLM-5 | Subscription coding |
-| `glmapi` | z.ai | API Credits | GLM-5 | Pay-per-use |
+| `glm` | z.ai | Coding Plan | GLM-4.7 | Pro subscription coding |
+| `glm5` | z.ai | Coding Plan | GLM-5 | Max users, complex tasks |
+| `glmapi` | z.ai | API Credits | GLM-5 | Pay-per-use (30$ bakiye) |
 | `claude-pro` | Anthropic | Official | Claude Sonnet 4.5 | Premium coding |
 | `deepseek` | DeepSeek | Anthropic API | deepseek-chat | Budget coding |
 | `minimax` / `mm` | MiniMax | Anthropic API | M2.5 | Long context |

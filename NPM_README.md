@@ -5,14 +5,15 @@
 
 Multi-provider configuration for Claude Code Router with intelligent intent-based routing.
 
-## v2.4.2 - GitHub Packages
+## v2.4.3 - GitHub Packages
 
-Now supports **GLM-5** with two endpoint options:
+Now supports **GLM-5** with three endpoint options:
 
-| Alias | Endpoint | Use Case |
-|-------|----------|----------|
-| `glm` | z.ai Coding Plan | Subscription-based coding |
-| `glmapi` | z.ai API Credits | Pay-per-use with credits |
+| Alias | Endpoint | Model | Use Case |
+|-------|----------|-------|----------|
+| `glm` | z.ai Coding Plan | GLM-4.7 | Pro subscription coding |
+| `glm5` | z.ai Coding Plan | GLM-5 | Max users, complex tasks |
+| `glmapi` | z.ai API Credits | GLM-5 | Pay-per-use (30$ bakiye) |
 
 ## Quick Install
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.4.3
+- **FIX**: glmapi now uses correct endpoint (`api/paas/v4`) for API Credits
+- **NEW**: Added `glm5` alias for GLM-5 via Coding Plan
+- **UPDATE**: `glm` now uses GLM-4.7 (default for Pro) instead of GLM-5
+- **DOCS**: Updated all documentation to reflect correct endpoints:
+  - `glm` → GLM-4.7, Coding Plan (Pro)
+  - `glm5` → GLM-5, Coding Plan (Max)
+  - `glmapi` → GLM-5, API Credits (pay-per-use)
+
 ## 2.4.0
 - **NEW**: MiniMax support with `minimax` / `mm` aliases (M2.5 model)
 - **NEW**: GLM-5 support with two endpoints:

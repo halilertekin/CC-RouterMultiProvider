@@ -170,7 +170,7 @@ User Request: "Help me refactor this code"
      ↓
 Intent Router: CODING intent detected
      ↓
-Provider Selection: glm,glm-5 (primary)
+Provider Selection: glm,glm-4.7 (Pro) or glm5,glm-5 (Max) or glmapi,glm-5 (API Credits)
      ↓
 Try GLM → Success ✅
      OR
