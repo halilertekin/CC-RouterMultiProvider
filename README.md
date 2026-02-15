@@ -238,6 +238,115 @@ MIT © [Halil Ertekin](https://github.com/halilertekin)
 
 ---
 
+## ⚡ Performance Optimization
+
+### Token Limit Optimization
+
+Claude Code adds an attribution header to every request that causes the full prompt to be reprocessed each time, leading to faster token depletion. To disable this:
+
+```bash
+# Add to ~/.claude/settings.json
+{
+  "env": {
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+  }
+}
+```
+
+---
+
+## 🤖 AI Agent & Skill Ekleme Rehberi
+
+Aşağıdaki üçüncü parti agent ve skill'leri Claude Code'a ekleyebilirsin:
+
+### 1. Scientific Skills (Bilimsel Araştırma)
+**K-Dense-AI/claude-scientific-skills** - 140+ bilimsel skill
+
+```bash
+# Claude Code'da çalıştır:
+/plugin marketplace add K-Dense-AI/claude-scientific-skills
+/plugin install scientific-skills@claude-scientific-skills
+```
+
+Kapsam: Bioinformatics, Drug Discovery, Clinical Research, ML/AI, Data Analysis
+
+---
+
+### 2. ASO Skills (App Store Optimizasyonu)
+**alirezarezvani/claude-code-aso-skill** - ASO agent sistemi
+
+```bash
+git clone https://github.com/alirezarezvani/claude-code-aso-skill.git
+cp .claude/agents/aso/*.md ~/.claude/agents/
+```
+
+Kapsam: Keyword research, metadata optimization, pre-launch checklist
+
+---
+
+### 3. App Store Connect CLI Skills
+**rudrankriyam/app-store-connect-cli-skills** - iOS deployment otomasyonu
+
+```bash
+npx skills add rudrankriyam/app-store-connect-cli-skills
+```
+
+Kapsam: Build, TestFlight, metadata upload, submission, signing
+
+---
+
+## 🔄 Auto-Refactor Bot (PR Otomatik İnceleme)
+
+MiniMax M2.5 kullanarak PR'ları otomatik inceleyen bot kurulumu:
+
+### Kurulum
+
+1. **OpenRouter'da MiniMax endpoint al**
+2. **GitHub Action oluştur** (.github/workflows/auto-refactor.yml):
+
+```yaml
+name: Auto-Refactor Bot
+on: [pull_request]
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          
+      - name: Run Auto-Refactor
+        run: |
+          # PR diff'ini al
+          git diff main...HEAD --name-only > changed_files.txt
+          
+          # MiniMax'e gönder (refactor önerileri)
+          curl -X POST https://openrouter.ai/api/v1/chat/completions \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "minimax/MiniMax-M2.5",
+              "messages": [{"role": "user", "content": "Bu kodları incele ve refactor/optimizasyon önerilerini listele."}]
+            }'
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+```
+
+3. **Secret ekle**: OpenRouter API key'i GitHub secrets'a ekle
+
+### Nasıl Çalışır?
+
+1. PR açılır → GitHub Action tetiklenir
+2. Bot değişiklikleri analiz eder
+3. MiniMax M2.5'e gönderir
+4. Refactor önerisi varsa commit atar
+5. Değişiklik yoksa herhangi bir şey yapmaz
+
+**Maliyet**: ~$0.001/analiz (çok ucuz!)
+
+---
+
 ## ⭐ Support
 
 If you find this useful, please give it a ⭐ on [GitHub](https://github.com/halilertekin/CC-RouterMultiProvider)!

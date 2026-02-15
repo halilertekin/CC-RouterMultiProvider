@@ -60,5 +60,6 @@ homebrew-tap/
 # Development roadmap (keep private)
 ROADMAP_v*.md.claude/
 
-# Claude Code local settings (keep private)
+# Claude Code local config (keep private)
+.claude.json
 .claude/
