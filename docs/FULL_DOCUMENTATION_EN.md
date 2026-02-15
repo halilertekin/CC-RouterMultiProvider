@@ -108,7 +108,7 @@ Claude Code Router acts as a proxy that intercepts Claude Code CLI requests and 
 | Feature | Value |
 |---------|-------|
 | **API URL** | `https://api.z.ai/api/coding/paas/v4/chat/completions` |
-| **Models** | glm-4.7, glm-4.6, glm-4.5, glm-4-plus |
+| **Models** | glm-5 (recommended), glm-4.7, glm-4.6, glm-4.5, glm-4-plus |
 | **Use Case** | Multilingual, Chinese, translation |
 | **Cost** | Low |
 | **Env Var** | `GLM_API_KEY` |
@@ -144,7 +144,7 @@ Claude Code Router acts as a proxy that intercepts Claude Code CLI requests and 
 | **REASONING** | architect, design, analyze, plan, why, explain, compare, evaluate, best practice | Anthropic | claude-sonnet-4 |
 | **FAST** | fast, quick, brief, summary, tldr, overview, scan, check | Gemini | gemini-2.5-flash |
 | **SIMPLE** | list, show, what is, simple, basic, help, format, rename, mkdir | Qwen | qwen-plus |
-| **MULTILINGUAL** | translate, translate, multilingual, Chinese characters | GLM | glm-4.7 |
+| **MULTILINGUAL** | translate, translate, multilingual, Chinese characters | GLM | glm-5 |
 | **HEAVY_REASONING** | complex algorithm, optimization, performance critical, prove, mathematical | OpenAI | o1 |
 | **CODING_ASSIST** | help me code, fix this error, suggest improvement, refactor | GitHub Copilot | copilot |
 
@@ -345,7 +345,7 @@ Inside Claude Code using `/model` command:
 /model gemini,gemini-2.5-pro
 /model qwen,qwen-plus
 /model qwen,qwen3-coder-plus
-/model glm,glm-4.7
+/model glm,glm-5
 /model openrouter,deepseek/deepseek-chat
 /model copilot,copilot
 ```

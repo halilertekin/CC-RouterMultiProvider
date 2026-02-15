@@ -17,7 +17,7 @@ Use Claude Code as a single interface to access multiple AI providers with inten
 | Deep analysis, architecture | Anthropic | claude-sonnet-4 |
 | Quick responses, summaries | Gemini | gemini-2.5-flash |
 | Simple tasks | Qwen | qwen-plus |
-| Translation, multilingual | GLM | glm-4.7 |
+| Translation, multilingual | GLM | glm-5 |
 | Complex algorithms | OpenAI | o1 |
 | Coding assistance | GitHub Copilot | copilot |
 
@@ -111,7 +111,7 @@ Inside Claude Code:
 /model anthropic,claude-sonnet-4-latest
 /model gemini,gemini-2.5-flash
 /model qwen,qwen-plus
-/model glm,glm-4.7
+/model glm,glm-5
 /model copilot,copilot
 ```
 

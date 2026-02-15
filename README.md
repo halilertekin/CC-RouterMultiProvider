@@ -115,11 +115,12 @@ claude-pro --dangerous-skip-install
 ### z.ai (GLM)
 
 - **Website**: https://z.ai
-- **Models**: GLM-5, GLM-4.7, GLM-4.5
+- **Models**: GLM-5 (recommended for max users), GLM-4.7, GLM-4.5
 - **Endpoints**:
   - Coding Plan: `https://api.z.ai/api/coding/paas/v4`
   - API Credits: `https://api.z.ai/api/paas/v4`
 - **Pricing**: Very competitive, 3x usage with Coding Plan
+- **Note**: For maximum users/capacity, use GLM-5 as documented in official z.ai docs
 
 ### Claude Pro
 

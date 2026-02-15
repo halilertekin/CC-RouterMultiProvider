@@ -170,7 +170,7 @@ User Request: "Help me refactor this code"
      ↓
 Intent Router: CODING intent detected
      ↓
-Provider Selection: glm,glm-4.7 (primary)
+Provider Selection: glm,glm-5 (primary)
      ↓
 Try GLM → Success ✅
      OR
@@ -186,7 +186,7 @@ Try GLM → Failure ❌ → Fallback to Qwen ✅
 ```json
 {
   "Router": {
-    "default": "glm,glm-4.7",
+    "default": "glm,glm-5",
     "fallbacks": ["qwen,qwen-plus", "gemini,gemini-2.5-flash"]
   }
 }
@@ -203,7 +203,7 @@ export GLM_API_KEY="your_key"
 ```json
 {
   "Router": {
-    "default": "glm,glm-4.7",
+    "default": "glm,glm-5",
     "fallbacks": ["qwen,qwen-plus", "gemini,gemini-2.5-flash", "openai,gpt-4o"]
   }
 }
@@ -223,7 +223,7 @@ export OPENAI_API_KEY="your_openai_key"
 {
   "Router": {
     "default": "anthropic,claude-sonnet-4-latest",
-    "fallbacks": ["openai,gpt-4o", "glm,glm-4.7"]
+    "fallbacks": ["openai,gpt-4o", "glm,glm-5"]
   }
 }
 ```
@@ -245,7 +245,7 @@ Edit `~/.claude-code-router/smart-intent-router.js`:
 // Custom routing based on your needs
 CODING: {
   patterns: [/\b(coding|debug|refactor)\b/i],
-  route: "glm,glm-4.7",           // Primary
+  route: "glm,glm-5",           // Primary
   fallbacks: [
     "qwen,qwen3-coder-plus",      // Fallback 1
     "openai,gpt-4o"               // Fallback 2 (premium)
@@ -468,7 +468,7 @@ Kullanıcı İsteği: "Bu kodu refactor etmemeye yardımcı olur musun?"
      ↓
 Intent Router: KODlama intent'i algılandı
      ↓
-Sağlayıcı Seçimi: glm,glm-4.7 (birincil)
+Sağlayıcı Seçimi: glm,glm-5 (birincil)
      ↓
 GLM Dene → Başarılı ✅
      VEYA
@@ -484,7 +484,7 @@ GLM Dene → Başarısız ❌ → Qwen Yedeği ✅
 ```json
 {
   "Router": {
-    "default": "glm,glm-4.7",
+    "default": "glm,glm-5",
     "fallbacks": ["qwen,qwen-plus", "gemini,gemini-2.5-flash"]
   }
 }
@@ -501,7 +501,7 @@ export GLM_API_KEY="senin_key"
 ```json
 {
   "Router": {
-    "default": "glm,glm-4.7",
+    "default": "glm,glm-5",
     "fallbacks": ["qwen,qwen-plus", "gemini,gemini-2.5-flash", "openai,gpt-4o"]
   }
 }
@@ -521,7 +521,7 @@ export OPENAI_API_KEY="openai_key"
 {
   "Router": {
     "default": "anthropic,claude-sonnet-4-latest",
-    "fallbacks": ["openai,gpt-4o", "glm,glm-4.7"]
+    "fallbacks": ["openai,gpt-4o", "glm,glm-5"]
   }
 }
 ```
@@ -543,7 +543,7 @@ export GLM_API_KEY="glm_key"
 // İhtiyaçlarına göre özel yönlendirme
 CODING: {
   patterns: [/\b(coding|debug|refactor|kodlama)\b/i],
-  route: "glm,glm-4.7",              // Birincil
+  route: "glm,glm-5",              // Birincil
   fallbacks: [
     "qwen,qwen3-coder-plus",         // Yedek 1
     "openai,gpt-4o"                  // Yedek 2 (premium)
