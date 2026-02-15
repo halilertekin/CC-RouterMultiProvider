@@ -1,6 +1,6 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.3.0** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
+🚀 **v2.4.2** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 

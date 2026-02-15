@@ -5,7 +5,7 @@
 
 Multi-provider configuration for Claude Code Router with intelligent intent-based routing.
 
-## v2.2.0 - GLM-5 Support
+## v2.4.2 - GitHub Packages
 
 Now supports **GLM-5** with two endpoint options:
 
