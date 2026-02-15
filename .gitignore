@@ -29,7 +29,8 @@ node_modules/
 .npm
 .yarn-integrity
 
-# NPM packaging
+# NPM
+.npmrc
 *.tgz
 
 # Test coverage
