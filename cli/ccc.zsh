@@ -98,8 +98,8 @@ ccc() {
       ;;
       
     glmapi)
-      # z.ai / GLM Standard API (kredi ile kullanım)
-      export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+      # z.ai / GLM API Credits (30$ bakiye - pay-per-use)
+      export ANTHROPIC_BASE_URL="https://api.z.ai/api/paas/v4"
       export ANTHROPIC_API_KEY="${GLM_API_KEY:-${PPINFRA_API_KEY:-$GLM_KEY}}"
       export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_API_KEY"
       export API_TIMEOUT_MS=3000000
@@ -116,7 +116,7 @@ ccc() {
         return 1
       fi
       
-      echo "🔄 Provider: z.ai (GLM-5 API - Kredi)"
+      echo "🔄 Provider: z.ai (GLM-5 API Credits)"
       ;;
       
     ds|deepseek)
