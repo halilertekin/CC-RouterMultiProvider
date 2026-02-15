@@ -45,13 +45,6 @@
       "transformer": { "use": [] }
     },
     {
-      "name": "glm-api",
-      "api_base_url": "https://api.z.ai/api/paas/v4",
-      "api_key": "$GLM_API_KEY",
-      "models": ["glm-5", "glm-4-plus"],
-      "transformer": { "use": [] }
-    },
-    {
       "name": "openrouter",
       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
       "api_key": "$OPENROUTER_API_KEY",
@@ -70,7 +63,6 @@
     "background": "qwen,qwen-turbo",
     "think": "anthropic,claude-sonnet-4-latest",
     "longContext": "gemini,gemini-2.5-flash",
-    "longContextThreshold": 60000,
-    "glmApi": "glm-api,glm-5"
+    "longContextThreshold": 60000
   }
 }

@@ -1,6 +1,6 @@
 # Claude Code Router Config - Advanced Multi-Provider Setup
 
-🚀 **v2.4.3** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
+🚀 **v2.4.4** - Multi-provider Claude Code routing with GLM-5, Claude Pro, DeepSeek & more!
 
 Use Claude Code as a single interface to access multiple AI providers with intelligent routing for optimal performance, cost, and quality.
 
@@ -200,6 +200,35 @@ ccr ui  # Web dashboard
 ### Model not working
 - Verify API key is valid
 - Check quotas/balance
+
+---
+
+## 🔒 Security
+
+This package follows security best practices:
+
+### Vulnerability Management
+- **Automated scanning**: Dependabot monitors dependencies
+- **Zero vulnerabilities**: All reported issues are patched promptly
+- **Version 2.4.4**: All security advisories resolved
+
+### Security Updates
+```bash
+# Check for updates
+npm outdated -g @halilertekin/claude-code-router-config
+
+# Update to latest
+npm update -g @halilertekin/claude-code-router-config
+```
+
+### API Key Safety
+- API keys stored in `~/.env` (never in code)
+- `.env` is gitignored by default
+- Keys are loaded securely with shell source
+
+### Reported Vulnerabilities
+- ✅ All vulnerabilities fixed in v2.4.4
+- See [Security Advisories](https://github.com/halilertekin/CC-RouterMultiProvider/security/advisories)
 
 ---
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.4.4 (2026-02-15)
+- **SECURITY**: Fix all reported vulnerabilities (undici, qs, semver)
+- **UPDATE**: Bump dependencies:
+  - undici 6.21.1 → 7.22.0 (fixes moderate vulnerability)
+  - inquirer 8.2.6 → 9.3.8
+  - eventsource-parser 1.1.1 → 3.0.6
+  - express 4.18.2 → 4.21.2
+  - fs-extra 11.1.1 → 11.3.0
+- **NEW**: Add Claude Code Optimization Guide with token savings tips
+- **NEW**: CLAUDE_OPTIMIZED.md for efficient token usage (90% reduction)
+- **NEW**: pnpm-lock.yaml for Dependabot security analysis
+- **DOCS**: Add security best practices and model selection guide
+- **FIX**: Remove GitHub registry from publishConfig (use npmjs.org)
+
 ## 2.4.3
 - **FIX**: glmapi now uses correct endpoint (`api/paas/v4`) for API Credits
 - **NEW**: Added `glm5` alias for GLM-5 via Coding Plan

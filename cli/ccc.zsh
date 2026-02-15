@@ -98,29 +98,26 @@ ccc() {
       ;;
       
     glmapi)
-      # z.ai / GLM API Credits - via CCR router (OpenAI protocol)
-      # Requires CCR to be running: ccr start
-      if ! nc -z 127.0.0.1 3456 2>/dev/null; then
-        echo "⚠️  CCR not running. Starting..." >&2
-        if command -v ccr >/dev/null 2>&1; then
-          ccr start >/dev/null 2>&1 &
-          sleep 3
-        else
-          echo "❌ CCR not found. Install: npm i -g @halilertekin/claude-code-router-config" >&2
-          return 1
-        fi
-      fi
+      # z.ai / GLM API Credits - direct to z.ai API (no CCR needed)
+      # Uses Anthropic-compatible endpoint with GLM-5
+      export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+      export ANTHROPIC_API_KEY="${GLM_API_KEY:-${PPINFRA_API_KEY:-$GLM_KEY}}"
+      export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_API_KEY"
+      export API_TIMEOUT_MS=3000000
       
-      export CCR_ENV_PATH="$HOME/.claude-code-router/keys.env"
-      export ANTHROPIC_BASE_URL="http://127.0.0.1:3456"
-      export ANTHROPIC_MODEL="glm-api,glm-5"
       export ANTHROPIC_DEFAULT_SONNET_MODEL="glm-5"
       export ANTHROPIC_DEFAULT_OPUS_MODEL="glm-5"
       export ANTHROPIC_DEFAULT_HAIKU_MODEL="glm-4.5-air"
       export ANTHROPIC_SMALL_FAST_MODEL="glm-4.5-air"
       export CLAUDE_CODE_SUBAGENT_MODEL="glm-5"
+      export ANTHROPIC_MODEL="glm-5"
 
-      echo "🔄 Provider: z.ai (GLM-5 API Credits via CCR)"
+      if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+        echo "GLM_API_KEY not set. Add it to ~/.env or ~/.claude-code-router/keys.env" >&2
+        return 1
+      fi
+      
+      echo "🔄 Provider: z.ai (GLM-5 API Credits)"
       ;;
       
     ds|deepseek)
