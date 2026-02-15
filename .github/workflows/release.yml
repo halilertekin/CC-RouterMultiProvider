@@ -56,24 +56,10 @@ jobs:
         id: pkg
         run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
-      - name: Check npm version
-        id: npm
-        run: |
-          if npm view @halilertekin/claude-code-router-config@${{ steps.pkg.outputs.version }} version >/dev/null 2>&1; then
-            echo "published=true" >> $GITHUB_OUTPUT
-          else
-            echo "published=false" >> $GITHUB_OUTPUT
-          fi
-        
       - name: Publish to npm
-        if: steps.npm.outputs.published != 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Skip publish (already on npm)
-        if: steps.npm.outputs.published == 'true'
-        run: echo "Version already published, skipping npm publish."
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
