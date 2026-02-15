@@ -177,9 +177,17 @@ ccr ui  # Web dashboard
 
 ## 📖 Documentation
 
+### User Guides
 - [Setup Guide (TR/EN)](SETUP.md)
 - [Provider Setup Guide](docs/PROVIDER_SETUP.md)
 - [Full Documentation](docs/FULL_DOCUMENTATION_EN.md)
+
+### Optimization & Best Practices
+- [📚 Claude Code Optimization Guide](docs/claude-code-optimization/CLAUDE_OPTIMIZATION_GUIDE.md) **NEW!**
+  - Token optimization tips (25-35% savings)
+  - Best practices for CLAUDE.md
+  - Model selection strategies
+  - Applied optimizations for v2.4.3
 
 ---
 
