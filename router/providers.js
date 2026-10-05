@@ -5,7 +5,7 @@ function inferProviderFormat(provider) {
   const baseUrl = provider?.api_base_url || '';
   const transformers = provider?.transformer?.use || [];
 
-  if (name === 'anthropic' || name === 'glm') return 'anthropic';
+  if (name === 'anthropic' || name === 'glm' || name === 'minimax') return 'anthropic';
   if (baseUrl.includes('/v1/messages') || baseUrl.includes('/anthropic')) return 'anthropic';
   if (transformers.some((t) => t.toLowerCase() === 'anthropic')) return 'anthropic';
 

@@ -55,6 +55,21 @@
         "meta-llama/llama-3.3-70b-instruct"
       ],
       "transformer": { "use": ["openrouter"] }
+    },
+    {
+      "name": "minimax",
+      "api_base_url": "https://api.minimax.io/anthropic/v1/messages",
+      "api_key": "$MINIMAX_API_KEY",
+      "models": [
+        "MiniMax-M2.7",
+        "MiniMax-M2.7-highspeed",
+        "MiniMax-M2.5",
+        "MiniMax-M2.5-highspeed",
+        "MiniMax-M2.1",
+        "MiniMax-M2.1-highspeed",
+        "MiniMax-M2"
+      ],
+      "transformer": { "use": ["Anthropic"] }
     }
   ],
 
