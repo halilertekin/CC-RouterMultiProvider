@@ -3,11 +3,13 @@ name: Release & Publish
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   test:
@@ -48,7 +50,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
           
@@ -59,10 +61,9 @@ jobs:
         id: pkg
         run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
+      # Trusted Publishing (OIDC): no NPM_TOKEN; npm >= 11.5 ships with Node 24
       - name: Publish to npm
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
