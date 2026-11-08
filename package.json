@@ -101,12 +101,12 @@
     "@types/jest": "^29.5.14"
   },
   "overrides": {
-    "qs": "6.14.2",
+    "qs": "^6.16.1",
     "semver": "^7.6.3"
   },
   "pnpm": {
     "overrides": {
-      "qs": "6.14.2"
+      "qs": "^6.16.1"
     }
   },
   "publishConfig": {
